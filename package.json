@@ -1,0 +1,31 @@
+{
+  "name": "atom-ts-transpiler",
+  "version": "0.1.0",
+  "description": "A transpiler for Atom packages that processes code with TypeScript",
+  "author": "smhxx <captaintrek@gmail.com>",
+  "main": "lib/index.js",
+  "keywords": [
+    "atom",
+    "typescript",
+    "ts",
+    "transpile",
+    "transpiler"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/smhxx/atom-ts-transpiler.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "typescript": "^1.6.0 || ^2.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.7.2",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-plugin-import": "^2.7.0"
+  },
+  "license": "MIT"
+}
