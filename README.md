@@ -1,5 +1,6 @@
-[![Version](https://img.shields.io/apm/v/atom-ts-transpiler.svg)](https://atom.io/packages/atom-ts-transpiler)
-[![Downloads](https://img.shields.io/apm/dm/atom-ts-transpiler.svg)](https://atom.io/packages/atom-ts-transpiler)
+[![Travis](https://img.shields.io/travis/smhxx/atom-ts-transpiler.svg)](https://travis-ci.org/smhxx/atom-ts-transpiler)
+[![Version](https://img.shields.io/npm/v/atom-ts-transpiler.svg)](https://www.npmjs.com/package/atom-ts-transpiler)
+[![Downloads](https://img.shields.io/npm/dt/atom-ts-transpiler.svg)](https://www.npmjs.com/package/atom-ts-transpiler)
 # atom-ts-transpiler
 
 This package serves as a simple shim between Atom and the TypeScript transpiler,
