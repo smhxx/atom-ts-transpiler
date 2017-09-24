@@ -1,0 +1,20 @@
+dist: trusty
+language: node_js
+node_js:
+  - node
+
+cache:
+  directories:
+    - node_modules
+
+branches:
+  except:
+    - gh-pages
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+
+script:
+  - npm run lint
