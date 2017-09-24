@@ -3,11 +3,12 @@
 [![Downloads](https://img.shields.io/npm/dt/atom-ts-transpiler.svg)](https://www.npmjs.com/package/atom-ts-transpiler)
 # atom-ts-transpiler
 
-This package serves as a simple shim between Atom and the TypeScript transpiler,
-allowing Atom to run packages that are written and distributed in TypeScript,
-using the package's own `tsconfig.json` file. Special thanks go to the
-maintainers of the `atom-babel6-transpiler` package, which inspired this attempt
-to bring TypeScript to a larger portion of the Atom modding community.
+This package serves as a simple shim between [Atom](https://atom.io/) and the
+[TypeScript](https://www.typescriptlang.org/) transpiler, allowing Atom to run
+packages that are written and distributed in TypeScript, using the package's own
+`tsconfig.json` file. Special thanks go to the maintainers of the
+`atom-babel6-transpiler` package, which inspired this attempt to bring
+TypeScript to a larger portion of the Atom modding community.
 
 ## Usage
 
@@ -16,10 +17,12 @@ TypeScript, then follow these steps to get it running in Atom:
 
 1. Add `atom-ts-transpiler` to your package.json file as a dependency (Note:
    **not** a devDependency) or do `npm install --save atom-ts-transpiler`.
-2. Make sure that your package has a tsconfig.json file, and that it builds
+2. Make sure that your package has a
+   [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
+   file, and that it builds
    properly with `tsc` on the command-line. This is technically optional, but
    it makes it much easier to typecheck your code and make sure that it compiles
-   correctly.
+   sensibly.
 3. Add an `atomTranspilers` entry to your package.json file, like so:
 
 ```js
