@@ -43,9 +43,9 @@ TypeScript, then follow these steps to get it running in Atom:
 }
 ```
 
-4. And that's it! Atom will now run any .ts files in your package through
-   TypeScript as they are `require`d at runtime, converting them into compatible
-   JavaScript.
+And that's it! Atom will now run any .ts files in your package through
+TypeScript as they are `require`d at runtime, converting them into compatible
+JavaScript.
 
 ## License
 
