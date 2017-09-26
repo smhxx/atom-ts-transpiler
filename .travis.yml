@@ -17,4 +17,5 @@ notifications:
     on_failure: always
 
 script:
+  - npm test
   - npm run lint
