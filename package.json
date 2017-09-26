@@ -1,6 +1,6 @@
 {
   "name": "atom-ts-transpiler",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A transpiler for Atom packages that processes code with TypeScript",
   "author": "smhxx <captaintrek@gmail.com>",
   "main": "lib/index.js",
