@@ -1,0 +1,13 @@
+{
+  "name": "my-super-duper-package",
+  "version": "2.1.4",
+  "atomTranspilers": [
+    {
+      "glob": "**/*.ts",
+      "transpiler": "atom-ts-transpiler",
+      "compilerOptions": {
+
+      }
+    }
+  ]
+}
