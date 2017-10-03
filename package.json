@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A transpiler for Atom packages that processes code with TypeScript",
   "author": "smhxx <captaintrek@gmail.com>",
-  "main": "dist/atom-ts-transpiler.js",
+  "main": "dist/index.js",
   "keywords": [
     "atom",
     "typescript",
