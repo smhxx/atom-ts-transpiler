@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "description": "A transpiler for Atom packages that processes code with TypeScript",
   "author": "smhxx <captaintrek@gmail.com>",
-  "main": "lib/index.js",
+  "main": "dist/atom-ts-transpiler.js",
   "keywords": [
     "atom",
     "typescript",
@@ -16,22 +16,25 @@
     "url": "https://github.com/smhxx/atom-ts-transpiler.git"
   },
   "scripts": {
-    "test": "mocha spec -R dot -r should --compilers coffee:coffeescript/register",
-    "lint": "eslint ."
+    "build": "tsc -p src/tsconfig.json",
+    "lint": "tslint .",
+    "prepublishOnly": "npm run build",
+    "pretest": "npm run build",
+    "test": "mocha spec -R dot -r should -r sinon -r should-sinon --compilers coffee:coffeescript/register"
   },
-  "dependencies": {
+  "peerDependencies": {
     "typescript": "^1.6.0 || ^2.0.0"
   },
   "devDependencies": {
+    "@types/node": "^8.0.31",
     "coffeescript": "^2.0.0",
-    "eslint": "^4.7.2",
-    "eslint-config-airbnb-base": "^12.0.0",
-    "eslint-plugin-import": "^2.7.0",
     "mocha": "^3.5.3",
-    "mocha-sinon": "^2.0.0",
     "should": "^13.1.0",
     "should-sinon": "^0.0.6",
-    "sinon": "^4.0.0"
+    "sinon": "^4.0.0",
+    "tslint": "^5.7.0",
+    "tslint-config-airbnb": "^5.3.0",
+    "typescript": "^2.5.3"
   },
   "license": "MIT"
 }

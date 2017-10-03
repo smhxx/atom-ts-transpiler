@@ -1,2 +1,5 @@
-/spec/
-/.travis.yml
+/.git
+/node_modules
+/spec
+/src
+.travis.yml
