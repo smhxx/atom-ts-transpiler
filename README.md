@@ -23,9 +23,9 @@ TypeScript, then follow these steps to get it running in Atom:
 
 1. Add `atom-ts-transpiler` and `typescript` to your package.json file as
    dependencies (Note: **not** devDependencies) or do
-   `npm install --save typescript atom-ts-transpiler`. Specify whichever version
-   of TypeScript your project needs in order to work properly; anything >1.6
-   should be fine, but older versions *will not* work.
+   `npm install --save typescript atom-ts-transpiler`. You can specify whichever
+   version of TypeScript your project needs in order to work properly; anything
+   \>1.6 should be fine, but older versions *will not* work.
 2. Make sure that your package has a
    [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)
    file, and that it builds properly with `tsc` on the command-line. This is
@@ -67,19 +67,19 @@ The source code of this project is released under the
 reuse and redistribution. Feel free to use and/or modify it in any way, provided
 that you include this copyright notice with any copies that you make.
 
-*Copyright © 2016 "smhxx" (https://github.com/smhxx)
+*Copyright © 2016 "smhxx" (https://github.com/smhxx)*
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
+*Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
 the Software without restriction, including without limitation the rights to
 use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
 the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+subject to the following conditions:*
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+*The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.*
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+*THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
 FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
