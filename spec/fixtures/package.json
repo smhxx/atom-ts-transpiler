@@ -6,7 +6,7 @@
       "glob": "**/*.ts",
       "transpiler": "atom-ts-transpiler",
       "compilerOptions": {
-
+        "removeComments": false
       }
     }
   ]

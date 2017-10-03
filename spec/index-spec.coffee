@@ -1,18 +1,25 @@
+# coffeelint: disable=max_line_length
+fs = require 'fs'
 path = require 'path'
-should = require 'should'
-sinon = require 'sinon'
-require 'should-sinon'
-require 'mocha-sinon'
+sinon = (require 'sinon').sandbox.create
 
-transpiler = require '../lib/index'
+transpiler = require '../dist/index'
+mock = require './fixtures/node_modules/typescript/mock'
 
 it 'does not load the transpiler until needed', ->
-  typescript = require.cache[require.resolve 'typescript']
+  modulePath = path.resolve 'spec/fixtures/node_modules/typescript'
+  typescript = require.cache[modulePath]
   should(typescript).be.undefined()
 
 describe 'atom-ts-transpiler', ->
 
-  describe '.getConfigCache()', ->
+  beforeEach ->
+    if (this.sinon == undefined)
+      this.sinon = sinon()
+    else
+      this.sinon.restore()
+
+  describe '.getCacheKeyData()', ->
 
     pkg = { path: path.resolve 'spec/fixtures' }
     opts = { cacheKeyFiles: [
@@ -31,17 +38,32 @@ describe 'atom-ts-transpiler', ->
 
   describe '.transpile()', ->
 
+    it 'calls the appropriate transpiler with the contents of the source file', ->
+      filePath = path.resolve 'spec/fixtures/index.ts'
+      expected = (fs.readFileSync filePath).toString()
+      this.sinon.spy mock, 'transpileModule'
+      transpiler.transpile '', filePath
+      mock.transpileModule.should.be.calledOnce()
+      actual = mock.transpileModule.getCall(0).args[0]
+      should(actual).not.be.undefined()
+      actual.should.equal expected
+
     it 'writes any encountered errors to console.error() and does not return any code', ->
-      sinon.stub console, 'error'
+      this.sinon.stub console, 'error'
       ret = transpiler.transpile '', (path.resolve 'spec/fixtures/not-a-real-file.ts')
       console.error.should.be.calledOnce()
       ret.should.be.an.Object()
       should(ret.code).be.undefined()
 
     it 'uses the compiler options specified in tsconfig.json', ->
-      { code } = transpiler.transpile '', (path.resolve 'spec/fixtures/index.ts')
-      code.should.not.match /\/\/ This is a comment/
+      this.sinon.spy mock, 'transpileModule'
+      transpiler.transpile '', (path.resolve 'spec/fixtures/index.ts')
+      mock.transpileModule.should.be.calledOnce()
+      options = mock.transpileModule.getCall(0).args[1].compilerOptions
+      should(options.removeComments).equal true
 
     it 'overrides the tsconfig options with any specified in the package.json', ->
-      { code } = transpiler.transpile '', (path.resolve 'spec/fixtures/index.ts'), { removeComments: false }
-      code.should.match /\/\/ This is a comment/
+      this.sinon.spy mock, 'transpileModule'
+      transpiler.transpile '', (path.resolve 'spec/fixtures/index.ts'), { removeComments: false }
+      options = mock.transpileModule.getCall(0).args[1].compilerOptions
+      should(options.removeComments).equal false
