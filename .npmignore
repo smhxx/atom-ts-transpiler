@@ -1,6 +1,9 @@
 /.git
+/.github
+/coverage
 /node_modules
 /spec
 /src
-/LICENSE
+/.editorconfig
+/.gitattributes
 /.travis.yml

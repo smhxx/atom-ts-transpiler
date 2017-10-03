@@ -1,0 +1,10 @@
+engines:
+  tslint:
+    enabled: true
+    channel: 'beta'
+    config: 'src/tsconfig.json'
+ratings:
+  paths:
+    - src/**/*.ts
+exclude_paths:
+  - spec/**
