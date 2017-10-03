@@ -3,6 +3,8 @@
 [![Downloads](https://img.shields.io/npm/dt/atom-ts-transpiler.svg)](https://www.npmjs.com/package/atom-ts-transpiler)
 # atom-ts-transpiler
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/smhxx/atom-ts-transpiler.svg)](https://greenkeeper.io/)
+
 This package serves as a simple shim between [Atom](https://atom.io/) and the
 [TypeScript](https://www.typescriptlang.org/) transpiler, allowing Atom to run
 packages that are written and distributed in TypeScript, using the package's own
