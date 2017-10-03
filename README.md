@@ -1,9 +1,8 @@
 [![Travis](https://img.shields.io/travis/smhxx/atom-ts-transpiler.svg)](https://travis-ci.org/smhxx/atom-ts-transpiler)
 [![Version](https://img.shields.io/npm/v/atom-ts-transpiler.svg)](https://www.npmjs.com/package/atom-ts-transpiler)
 [![Downloads](https://img.shields.io/npm/dt/atom-ts-transpiler.svg)](https://www.npmjs.com/package/atom-ts-transpiler)
+[![Greenkeeper](https://badges.greenkeeper.io/smhxx/atom-ts-transpiler.svg)](https://greenkeeper.io/)
 # atom-ts-transpiler
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/smhxx/atom-ts-transpiler.svg)](https://greenkeeper.io/)
 
 This package serves as a simple shim between [Atom](https://atom.io/) and the
 [TypeScript](https://www.typescriptlang.org/) transpiler, allowing Atom to run
