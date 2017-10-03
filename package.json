@@ -17,7 +17,7 @@
   },
   "scripts": {
     "build": "tsc -p src/tsconfig.json",
-    "lint": "tslint .",
+    "lint": "tslint -p src/tsconfig.json --type-check",
     "prepublishOnly": "npm run build",
     "pretest": "npm run build",
     "test": "mocha spec -R dot -r should -r sinon -r should-sinon --compilers coffee:coffeescript/register"
