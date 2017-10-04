@@ -17,24 +17,44 @@
   },
   "scripts": {
     "build": "tsc -p src/tsconfig.json",
+    "coverage": "jest --coverage --colors",
     "lint": "tslint -p src/tsconfig.json --type-check",
+    "testlint": "tslint -p spec/tsconfig.json --type-check",
     "prepublishOnly": "npm run build",
-    "pretest": "npm run build",
-    "test": "mocha spec -R dot -r should -r sinon -r should-sinon --compilers coffee:coffeescript/register"
+    "test": "jest --colors"
   },
   "peerDependencies": {
     "typescript": "^1.6.0 || ^2.0.0"
   },
   "devDependencies": {
+    "@types/jest": "^21.1.2",
     "@types/node": "^8.0.31",
-    "coffeescript": "^2.0.0",
-    "mocha": "^4.0.0",
-    "should": "^13.1.0",
-    "should-sinon": "^0.0.6",
-    "sinon": "^4.0.0",
+    "jest": "^21.2.1",
+    "ts-jest": "^21.0.1",
     "tslint": "^5.7.0",
     "tslint-config-airbnb": "^5.3.0",
     "typescript": "^2.5.3"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "src/tsconfig.json",
+        "skipBabel": true
+      }
+    },
+    "transform": {
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "mapCoverage": true,
+    "collectCoverageFrom": [ "src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.{ts,tsx}" ],
+    "testRegex": "(/(?:spec|test)/(?!fixtures?/)(?:.*/)*.*[.-](?:spec|test))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ]
+  }
 }
