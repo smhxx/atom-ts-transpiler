@@ -43,11 +43,11 @@
         "skipBabel": true
       }
     },
-    "mapCoverage": true,
     "transform": {
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "collectCoverageFrom": [ "src/**/*.{js,jsx,ts,tsx}", "!**/*.d.{ts,tsx}" ],
+    "mapCoverage": true,
+    "collectCoverageFrom": [ "src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.{ts,tsx}" ],
     "testRegex": "(/(?:spec|test)/(?!fixtures?/)(?:.*/)*.*[.-](?:spec|test))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",

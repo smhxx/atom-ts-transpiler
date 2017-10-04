@@ -7,7 +7,6 @@
     ],
     "module": "commonjs",
     "moduleResolution": "node",
-    "baseUrl": "./",
     "strict": true,
     "newLine": "lf",
     "removeComments": true,

@@ -2,7 +2,7 @@ engines:
   tslint:
     enabled: true
     channel: beta
-    config: src/tsconfig.json
+    config: tslint.json
 ratings:
   paths:
     - src/**/*.ts
