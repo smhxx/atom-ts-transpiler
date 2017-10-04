@@ -173,7 +173,8 @@ export interface PackageConfig extends PackageConfig.CoreProperties {
 export interface AtomTranspilerConfig {
   readonly glob: string;
   readonly transpiler: string;
-  readonly cacheKeyFiles: ReadonlyArray<string>;
+  readonly compilerOptions?: TsConfig.CompilerOptions;
+  readonly cacheKeyFiles?: ReadonlyArray<string>;
 }
 
 export interface AtomTsTranspilerConfig extends AtomTranspilerConfig {

@@ -1,6 +1,7 @@
 {
   "extends": "tslint-config-airbnb",
   "rules": {
+    "indent": [ true, "spaces", 2 ],
     "no-unnecessary-qualifier": true
   }
 }

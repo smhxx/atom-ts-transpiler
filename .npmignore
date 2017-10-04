@@ -4,6 +4,9 @@
 /node_modules
 /spec
 /src
+/.codeclimate.yml
 /.editorconfig
 /.gitattributes
+/.gitignore
 /.travis.yml
+/tslint.json
