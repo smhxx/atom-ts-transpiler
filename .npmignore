@@ -1,6 +1,12 @@
 /.git
+/.github
+/coverage
 /node_modules
 /spec
 /src
-/LICENSE
+/.codeclimate.yml
+/.editorconfig
+/.gitattributes
+/.gitignore
 /.travis.yml
+/tslint.json

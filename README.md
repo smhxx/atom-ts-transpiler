@@ -1,6 +1,8 @@
 [![Travis](https://img.shields.io/travis/smhxx/atom-ts-transpiler.svg)](https://travis-ci.org/smhxx/atom-ts-transpiler)
 [![Version](https://img.shields.io/npm/v/atom-ts-transpiler.svg)](https://www.npmjs.com/package/atom-ts-transpiler)
 [![Downloads](https://img.shields.io/npm/dt/atom-ts-transpiler.svg)](https://www.npmjs.com/package/atom-ts-transpiler)
+[![CodeClimate](https://img.shields.io/codeclimate/github/smhxx/atom-ts-transpiler.svg)](https://codeclimate.com/github/smhxx/atom-ts-transpiler)
+[![Coverage](https://img.shields.io/codeclimate/coverage/github/smhxx/atom-ts-transpiler.svg)](https://codeclimate.com/github/smhxx/atom-ts-transpiler/code)
 [![Greenkeeper](https://badges.greenkeeper.io/smhxx/atom-ts-transpiler.svg)](https://greenkeeper.io/)
 # atom-ts-transpiler
 
