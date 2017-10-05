@@ -43,8 +43,8 @@ TypeScript, then follow these steps to get it running in Atom:
   // ...
   "atomTranspilers": [
     {
-      "glob": "**/*.ts",
       "transpiler": "atom-ts-transpiler",
+      "glob": "{!(node_modules)/**/,}*.ts?(x)",
       "compilerOptions": {
         // Optional. Anything put here will override the
         // settings specified in your tsconfig.json file.
@@ -62,6 +62,10 @@ And that's it! Now, any time a file matching `glob` is loaded or required at
 runtime, Atom will pass it through the TypeScript transpiler, caching the result
 until your package is updated or one of the `cacheKeyFiles` changes. It's that
 easy!
+
+*(Note: The glob shown above matches all .ts and .tsx files **not** within the
+package's node_modules directory. This should be appropriate for 99% of
+packages, but can be modified if necessary.)*
 
 ## License
 
