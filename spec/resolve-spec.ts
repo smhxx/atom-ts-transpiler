@@ -2,12 +2,14 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { resolveConfig, resolveTranspiler } from '../src/resolve';
 
+const projectBase = path.resolve('spec/fixtures/node_modules/good-package');
+
 describe('resolve.ts', () => {
-  const filePath1 = path.resolve('spec/fixtures/index.ts');
-  const filePath2 = path.resolve('spec/fixtures/some/deep/directory/structure/index.ts');
+  const filePath1 = path.resolve(projectBase, 'index.ts');
+  const filePath2 = path.resolve(projectBase, 'some/deep/directory/structure/index.ts');
 
   describe('resolveConfig()', () => {
-    const configBuffer = fs.readFileSync(path.resolve('spec/fixtures/tsconfig.json'));
+    const configBuffer = fs.readFileSync(path.resolve(projectBase, 'tsconfig.json'));
     const configData = JSON.parse(configBuffer.toString());
 
     it('returns the contents of the project\'s tsconfig file', () => {
@@ -22,7 +24,7 @@ describe('resolve.ts', () => {
   });
 
   describe('resolveTranspiler()', () => {
-    const moduleDir = path.resolve('spec/fixtures/node_modules/typescript');
+    const moduleDir = path.resolve(projectBase, 'node_modules/typescript');
     const moduleData = require(moduleDir);
 
     it('returns the project\'s local TypeScript transpiler module', () => {

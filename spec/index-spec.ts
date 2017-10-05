@@ -2,18 +2,20 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { getCacheKeyData, transpile } from '../src/index';
 
+const projectBase = path.resolve('spec/fixtures/node_modules/good-package');
+
 describe('atom-ts-transpiler', () => {
-  const filePath1 = path.resolve('spec/fixtures/index.ts');
-  const filePath2 = path.resolve('spec/fixtures/some/deep/directory/structure/index.ts');
+  const filePath1 = path.resolve(projectBase, 'index.ts');
+  const filePath2 = path.resolve(projectBase, 'some/deep/directory/structure/index.ts');
   const fileContents1 = fs.readFileSync(filePath1).toString();
   const fileContents2 = fs.readFileSync(filePath2).toString();
 
   describe('getCacheKeyData()', () => {
-    const pkgData = fs.readFileSync(path.resolve('spec/fixtures/package.json'));
+    const pkgData = fs.readFileSync(path.resolve(projectBase, 'package.json'));
     const pkg = {
       meta: JSON.parse(pkgData.toString()),
       name: 'mock-typescript',
-      path: path.resolve('spec/fixtures'),
+      path: projectBase,
     };
     const config = {
       glob: '**/*.{ts,tsx}',
@@ -39,7 +41,7 @@ describe('atom-ts-transpiler', () => {
   });
 
   describe('transpile()', () => {
-    const mock = require('./fixtures/node_modules/typescript/mock.ts');
+    const mock = require(path.resolve(projectBase, 'node_modules/typescript/mock.ts'));
     const transpileModule = jest.spyOn(mock, 'transpileModule');
 
     afterEach(() => {
