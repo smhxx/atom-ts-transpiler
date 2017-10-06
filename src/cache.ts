@@ -1,9 +1,9 @@
 import * as path from 'path';
-import { Transpiler } from './defs';
+import { Transpiler, TsConfig } from './defs';
 import { resolveConfig, resolveTranspiler } from './resolve';
 
 interface CacheEntry {
-  options: Transpiler.Options;
+  options: TsConfig.CompilerOptions;
   transpiler?: Transpiler;
 }
 

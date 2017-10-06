@@ -19,7 +19,7 @@ class FixtureFile {
     if (stat.isFile()) {
       this.directory = fullDir;
       this.contents = fs.readFileSync(this.path).toString();
-      if (fileName.match(/\.json$/)) {
+      if (/\.json$/.test(fileName)) {
         this.json = JSON.parse(this.contents);
         assert(typeof this.json !== 'undefined');
       }

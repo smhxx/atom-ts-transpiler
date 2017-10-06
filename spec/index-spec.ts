@@ -1,6 +1,6 @@
 import { getCacheKeyData, transpile } from '../src/index';
 import { Fixtures } from './fixtures/fixtures';
-import { PackageMeta } from '../src/defs';
+import { Options, PackageMeta, TsConfig } from '../src/defs';
 
 describe('atom-ts-transpiler', () => {
 
@@ -76,16 +76,17 @@ describe('atom-ts-transpiler', () => {
     it('uses the compiler options specified in tsconfig.json', () => {
       transpile('', fixture.index.path);
       expect(spy).toHaveBeenCalledTimes(1);
-      const compilerOptions = spy.mock.calls[0][1].compilerOptions;
-      expect(compilerOptions.removeComments).toBe(true);
+      const usedOptions = spy.mock.calls[0][1].compilerOptions;
+      expect(usedOptions.removeComments).toBe(true);
     });
 
     it('overrides the tsconfig options with any specified in the package.json', () => {
-      const overrideOptions = { removeComments: false };
-      transpile('', fixture.index.path, overrideOptions);
+      const compilerOptions: TsConfig.CompilerOptions = { removeComments: false };
+      const options: Options = { compilerOptions };
+      transpile('', fixture.index.path, options);
       expect(spy).toHaveBeenCalledTimes(1);
-      const compilerOptions = spy.mock.calls[0][1].compilerOptions;
-      expect(compilerOptions.removeComments).toBe(false);
+      const usedOptions = spy.mock.calls[0][1].compilerOptions;
+      expect(usedOptions.removeComments).toBe(false);
     });
   });
 });

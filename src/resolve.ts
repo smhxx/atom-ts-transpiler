@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { Transpiler } from './defs';
+import { Transpiler, TsConfig } from './defs';
 
 function* searchLocations(baseDir: string, resource: string): IterableIterator<string> {
   let next = baseDir;
@@ -21,14 +21,14 @@ function resolveResource(baseDir: string, fileName: string): string | undefined 
   return undefined;
 }
 
-export function resolveConfig(baseDir: string): Transpiler.Options {
+export function resolveConfig(baseDir: string): TsConfig.CompilerOptions {
   const location = resolveResource(baseDir, 'tsconfig.json');
   if (location !== undefined) {
     try {
       const contents = fs.readFileSync(location).toString();
       const json = JSON.parse(contents);
       if (typeof json.compilerOptions === 'object') {
-        return json.compilerOptions as Transpiler.Options;
+        return json.compilerOptions;
       }
     } catch (err) {
       // tslint:disable-next-line no-console
@@ -37,13 +37,13 @@ Is your configuration file properly formatted JSON?. Error message was:
 \n${err.message}`);
     }
   }
-  return {} as Transpiler.Options;
+  return {};
 }
 
 export function resolveTranspiler(baseDir: string): Transpiler | undefined {
   const location = resolveResource(baseDir, 'node_modules');
   try {
-    const transpiler = require(`${location}/typescript`) as Transpiler;
+    const transpiler:Transpiler = require(`${location}/typescript`);
     return transpiler;
   } catch (err) {
     console.error(`Failed to load transpiler for directory ${baseDir}.\n

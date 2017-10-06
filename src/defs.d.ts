@@ -179,23 +179,21 @@ export interface AtomPackageConfig extends PackageConfig {
 /*
  *  Definitions for the TypeScript transpiler mock
  */
-export namespace Transpiler {
-  interface Options {
-    compilerOptions?: TsConfig.CompilerOptions;
-    fileName?: string;
-    reportDiagnostics?: boolean;
-    moduleName?: string;
-  }
+export interface TranspileOptions {
+  compilerOptions?: TsConfig.CompilerOptions;
+  fileName?: string;
+  reportDiagnostics?: boolean;
+  moduleName?: string;
+}
 
-  interface Output {
-    outputText: string;
-    diagnostics?: any[];
-    sourceMapText?: string;
-  }
+export interface TranspileOutput {
+  outputText: string;
+  diagnostics?: any[];
+  sourceMapText?: string;
 }
 
 export interface Transpiler {
-  transpileModule(input: string, options: Transpiler.Options): Transpiler.Output;
+  transpileModule(input: string, options: TranspileOptions): TranspileOutput;
 }
 
 /*
@@ -216,4 +214,5 @@ export interface TranspiledModule {
  */
 export interface Options {
   readonly cacheKeyFiles?: ReadonlyArray<string>;
+  readonly compilerOptions?: TsConfig.CompilerOptions;
 }
