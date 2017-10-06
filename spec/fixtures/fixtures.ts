@@ -20,8 +20,10 @@ class FixtureFile {
       this.directory = fullDir;
       this.contents = fs.readFileSync(this.path).toString();
       if (/\.json$/.test(fileName)) {
-        this.json = JSON.parse(this.contents);
-        assert(typeof this.json !== 'undefined');
+        try {
+          this.json = JSON.parse(this.contents);
+          assert(typeof this.json !== 'undefined');
+        } catch (err) { }
       }
     } else {
       this.directory = this.path;
@@ -41,6 +43,10 @@ function getFixtureFiles(dir: string, files: Readonly<Record<string,string>>) {
 }
 
 export namespace Fixtures {
+  export const badConfigPackage = getFixtureFiles('bad-config-package', {
+    config: 'tsconfig.json',
+    index: 'index.ts',
+  });
   export const goodPackage = getFixtureFiles('good-package', {
     config: 'tsconfig.json',
     deep: 'some/deep/directory/structure/index.ts',

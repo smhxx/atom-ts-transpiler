@@ -6,7 +6,7 @@ function* searchLocations(baseDir: string, resource: string): IterableIterator<s
   let next = baseDir;
   let prev = '';
   while (prev !== next && path.basename(next) !== 'node_modules') {
-    yield `${next}/${resource}`;
+    yield path.join(next, resource);
     prev = next;
     next = path.join(next, '../');
   }
