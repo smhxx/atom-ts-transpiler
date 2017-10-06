@@ -1,9 +1,9 @@
 import * as path from 'path';
-import { TsConfig, Transpiler } from './defs';
+import { Transpiler } from './defs';
 import { resolveConfig, resolveTranspiler } from './resolve';
 
 interface CacheEntry {
-  config: TsConfig;
+  options: Transpiler.Options;
   transpiler?: Transpiler;
 }
 
@@ -11,7 +11,7 @@ const cache = new Map<string, CacheEntry>();
 
 function initCache(dir: string): CacheEntry {
   const entry = {
-    config: resolveConfig(dir),
+    options: resolveConfig(dir),
     transpiler: resolveTranspiler(dir),
   };
   cache.set(dir, entry);

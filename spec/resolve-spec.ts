@@ -1,40 +1,39 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import { resolveConfig, resolveTranspiler } from '../src/resolve';
-
-const projectBase = path.resolve('spec/fixtures/node_modules/good-package');
+import { Fixtures } from './fixtures/fixtures';
 
 describe('resolve.ts', () => {
-  const filePath1 = path.resolve(projectBase, 'index.ts');
-  const filePath2 = path.resolve(projectBase, 'some/deep/directory/structure/index.ts');
 
-  describe('resolveConfig()', () => {
-    const configBuffer = fs.readFileSync(path.resolve(projectBase, 'tsconfig.json'));
-    const configData = JSON.parse(configBuffer.toString());
+  describe('resolveOptions()', () => {
 
     it('returns the contents of the project\'s tsconfig file', () => {
-      const resolved = resolveConfig(filePath1);
-      expect(resolved).toEqual(configData);
+      const fixture = Fixtures.goodPackage;
+      const resolved = resolveConfig(fixture.index.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toEqual(fixture.config.json.compilerOptions);
     });
 
     it('traverses the directory structure to search in parent directories', () => {
-      const resolved = resolveConfig(filePath2);
-      expect(resolved).toEqual(configData);
+      const fixture = Fixtures.goodPackage;
+      const resolved = resolveConfig(fixture.deep.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toEqual(fixture.config.json.compilerOptions);
     });
   });
 
   describe('resolveTranspiler()', () => {
-    const moduleDir = path.resolve(projectBase, 'node_modules/typescript');
-    const moduleData = require(moduleDir);
 
     it('returns the project\'s local TypeScript transpiler module', () => {
-      const resolved = resolveTranspiler(filePath1);
-      expect(resolved).toBe(moduleData);
+      const fixture = Fixtures.goodPackage;
+      const resolved = resolveTranspiler(fixture.index.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toBe(fixture.typescript.module);
     });
 
     it('traverses the directory structure to search in parent directories', () => {
-      const resolved = resolveTranspiler(filePath2);
-      expect(resolved).toBe(moduleData);
+      const fixture = Fixtures.goodPackage;
+      const resolved = resolveTranspiler(fixture.deep.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toBe(fixture.typescript.module);
     });
   });
 });

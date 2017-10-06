@@ -1,33 +1,53 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { getCache } from './cache';
-import { AtomTranspilerConfig as TsConfig, AtomPackageMeta, TranspiledModule } from './defs';
+import { PackageMeta, TranspiledModule, Transpiler, Options } from './defs';
 
-const concatFiles = (pkg: AtomPackageMeta) => (data: string, relPath: string) =>
+type TOpts = Transpiler.Options;
+
+const concatFiles = (pkg: PackageMeta) => (data: string, relPath: string) =>
   `${data}${fs.readFileSync(path.join(pkg.path, relPath))}`;
 
-export function getCacheKeyData(_: any, __: any, opts: TsConfig, pkg: AtomPackageMeta) {
+function tryToReadFile(fileName: string): string | undefined {
+  try {
+    return fs.readFileSync(fileName).toString();
+  } catch (err) {
+    // tslint:disable-next-line no-console max-line-length
+    console.error(`Encountered an error while attempting to read module from path ${fileName}:\n\n${err.message}`);
+  }
+  return undefined;
+}
+
+function tryToTranspile(transpiler: Transpiler, fileSrc: string, opts: TOpts): string | undefined {
+  try {
+    return transpiler.transpileModule(fileSrc, opts).outputText;
+  } catch (err) {
+    // tslint:disable-next-line no-console max-line-length
+    console.error(`Encountered an error while attempting to transpile module ${opts.moduleName} from path ${opts.fileName}:\n\n${err.message}`);
+  }
+  return undefined;
+}
+
+export function getCacheKeyData(_: any, __: any, opts: Options, pkg: PackageMeta) {
   return (opts.cacheKeyFiles instanceof Array) ?
     opts.cacheKeyFiles.reduce(concatFiles(pkg), '') : '';
 }
 
-export function transpile(_: any, fileName: string, opts = {}): TranspiledModule {
-  const cache = getCache(fileName);
+export function transpile(_: any, fileName: string, opts?: Options): TranspiledModule {
   const moduleName = path.basename(fileName).replace(/\.[^.]*$/, '');
-  const compilerOptions = Object.assign({}, cache.config.compilerOptions, opts);
-  const output: TranspiledModule = {};
-  try {
-    const ts = cache.transpiler;
-    const fileSrc = fs.readFileSync(fileName, 'utf8');
-    if (ts !== undefined) {
-      const result = ts.transpileModule(fileSrc, { compilerOptions, fileName, moduleName });
-      output.code = result.outputText;
-    } else {
-      output.code = fileSrc;
+  const fileSrc = tryToReadFile(fileName);
+  const output = {} as TranspiledModule;
+  if (fileSrc !== undefined) {
+    const cache = getCache(fileName);
+    if (cache.transpiler !== undefined) {
+      const compilerOptions = Object.assign({}, cache.options, opts);
+      const finalOpts = {
+        fileName,
+        moduleName,
+        compilerOptions,
+      } as TOpts;
+      output.code = tryToTranspile(cache.transpiler, fileSrc, finalOpts);
     }
-  } catch (err) {
-    // tslint:disable-next-line no-console max-line-length
-    console.error(`Encountered an error while attempting to transpile module '${moduleName}' from path ${fileName}:\n\n${err.message}`);
   }
   return output;
 }

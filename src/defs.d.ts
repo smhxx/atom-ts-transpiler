@@ -1,3 +1,6 @@
+/*
+ *  Definitions for tsconfig.json
+ */
 export namespace TsConfig {
   interface CompilerOptions {
     readonly allowJs?: boolean;
@@ -77,6 +80,19 @@ export namespace TsConfig {
   }
 }
 
+export interface TsConfig {
+  readonly extends?: string;
+  readonly compileOnSave?: boolean;
+  readonly compilerOptions?: TsConfig.CompilerOptions;
+  readonly typeAcquisition?: TsConfig.TypeAcquisition;
+  readonly files?: ReadonlyArray<string>;
+  readonly exclude?: ReadonlyArray<string>;
+  readonly include?: ReadonlyArray<string>;
+}
+
+/*
+ *  Definitions for package.json
+ */
 export namespace PackageConfig {
   type ModulesRecord = { readonly [moduleName: string]: string };
 
@@ -141,6 +157,28 @@ export namespace PackageConfig {
   }
 }
 
+export interface PackageConfig extends PackageConfig.CoreProperties {
+  readonly jpsm?: PackageConfig.CoreProperties;
+}
+
+/*
+ *  Definitions for Atom-specific package.json
+ */
+export namespace AtomPackageConfig {
+  interface TranspilerListing {
+    readonly glob: string;
+    readonly transpiler: string;
+    readonly options?: object;
+  }
+}
+
+export interface AtomPackageConfig extends PackageConfig {
+  readonly atomTranspilers?: ReadonlyArray<AtomPackageConfig.TranspilerListing>;
+}
+
+/*
+ *  Definitions for the TypeScript transpiler mock
+ */
 export namespace Transpiler {
   interface Options {
     compilerOptions?: TsConfig.CompilerOptions;
@@ -156,45 +194,26 @@ export namespace Transpiler {
   }
 }
 
-export interface TsConfig {
-  readonly extends?: string;
-  readonly compileOnSave?: boolean;
-  readonly compilerOptions?: TsConfig.CompilerOptions;
-  readonly typeAcquisition?: TsConfig.TypeAcquisition;
-  readonly files?: ReadonlyArray<string>;
-  readonly exclude?: ReadonlyArray<string>;
-  readonly include?: ReadonlyArray<string>;
+export interface Transpiler {
+  transpileModule(input: string, options: Transpiler.Options): Transpiler.Output;
 }
 
-export interface PackageConfig extends PackageConfig.CoreProperties {
-  readonly jpsm?: PackageConfig.CoreProperties;
-}
-
-export interface AtomTranspilerConfig {
-  readonly glob: string;
-  readonly transpiler: string;
-  readonly compilerOptions?: TsConfig.CompilerOptions;
-  readonly cacheKeyFiles?: ReadonlyArray<string>;
-}
-
-export interface AtomTsTranspilerConfig extends AtomTranspilerConfig {
-  readonly compilerOptions?: TsConfig.CompilerOptions;
-}
-
-export interface AtomPackageConfig extends PackageConfig {
-  readonly atomTranspilers?: ReadonlyArray<AtomTranspilerConfig>;
-}
-
-export interface AtomPackageMeta {
+/*
+ *  Definitions related to the Atom transpiler system
+ */
+export interface PackageMeta {
   name: string;
   path: string;
   meta: AtomPackageConfig;
 }
 
-export interface Transpiler {
-  transpileModule(input: string, options: Transpiler.Options): Transpiler.Output;
-}
-
 export interface TranspiledModule {
   code?: string;
+}
+
+/*
+ *  Definitions used directly by atom-ts-transpiler
+ */
+export interface Options {
+  readonly cacheKeyFiles?: ReadonlyArray<string>;
 }

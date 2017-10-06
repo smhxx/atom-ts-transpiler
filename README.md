@@ -45,14 +45,16 @@ TypeScript, then follow these steps to get it running in Atom:
     {
       "transpiler": "atom-ts-transpiler",
       "glob": "{!(node_modules)/**/,}*.ts?(x)",
-      "compilerOptions": {
-        // Optional. Anything put here will override the
-        // settings specified in your tsconfig.json file.
-      },
-      "cacheKeyFiles": [
-        // Optional. File paths put here will cause the entire
-        // compile cache to be invalidated when those files change.
-      ]
+      "options": {
+        "compilerOptions": {
+          // Optional. Anything put here will override the
+          // compilerOptions specified in your tsconfig.json.
+        },
+        "cacheKeyFiles": [
+          // Optional. File paths put here will cause the entire
+          // compile cache to be invalidated when those files change.
+        ]
+      }
     }
   ]
 }
