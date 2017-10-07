@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": [
+        "es6",
+        "dom"
+    ],
+    "target": "es6",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "baseUrl": "./index.ts",
+    "types": [],
+    "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true
+  },
+  "files": [
+    "index.ts",
+    "other.ts",
+    "some/deep/directory/structure/index.ts"
+  ]
+}
