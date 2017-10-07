@@ -1,38 +1,73 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import { resolveConfig, resolveTranspiler } from '../src/resolve';
+import { Fixtures } from './fixtures/fixtures';
 
 describe('resolve.ts', () => {
-  const filePath1 = path.resolve('spec/fixtures/index.ts');
-  const filePath2 = path.resolve('spec/fixtures/some/deep/directory/structure/index.ts');
 
-  describe('resolveConfig()', () => {
-    const configBuffer = fs.readFileSync(path.resolve('spec/fixtures/tsconfig.json'));
-    const configData = JSON.parse(configBuffer.toString());
+  describe('resolveOptions()', () => {
 
     it('returns the contents of the project\'s tsconfig file', () => {
-      const resolved = resolveConfig(filePath1);
-      expect(resolved).toEqual(configData);
+      const fixture = Fixtures.goodPackage;
+      const resolved = resolveConfig(fixture.index.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toEqual(fixture.config.json.compilerOptions);
     });
 
     it('traverses the directory structure to search in parent directories', () => {
-      const resolved = resolveConfig(filePath2);
-      expect(resolved).toEqual(configData);
+      const fixture = Fixtures.goodPackage;
+      const resolved = resolveConfig(fixture.deep.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toEqual(fixture.config.json.compilerOptions);
+    });
+
+    it('returns {} if the config file cannot be resolved', () => {
+      const fixture = Fixtures.noConfigPackage;
+      const resolved = resolveConfig(fixture.index.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toEqual({});
+    });
+
+    it('writes an error to console and returns {} if the resolved config file is invalid', () => {
+      const error = jest.spyOn(console, 'error');
+      error.mockImplementation(() => void 0);
+      const fixture = Fixtures.badConfigPackage;
+      const resolved = resolveConfig(fixture.index.directory);
+      expect(error).toHaveBeenCalledTimes(1);
+      expect(resolved).toBeDefined();
+      expect(resolved).toEqual({});
+      error.mockRestore();
+    });
+
+    it('returns {} if the config\'s compilerOptions do not exist or are not an object', () => {
+      const fixture = Fixtures.noOptionsPackage;
+      const resolved = resolveConfig(fixture.index.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toEqual({});
     });
   });
 
   describe('resolveTranspiler()', () => {
-    const moduleDir = path.resolve('spec/fixtures/node_modules/typescript');
-    const moduleData = require(moduleDir);
 
     it('returns the project\'s local TypeScript transpiler module', () => {
-      const resolved = resolveTranspiler(filePath1);
-      expect(resolved).toBe(moduleData);
+      const fixture = Fixtures.goodPackage;
+      const resolved = resolveTranspiler(fixture.index.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toBe(fixture.typescript.module);
     });
 
     it('traverses the directory structure to search in parent directories', () => {
-      const resolved = resolveTranspiler(filePath2);
-      expect(resolved).toBe(moduleData);
+      const fixture = Fixtures.goodPackage;
+      const resolved = resolveTranspiler(fixture.deep.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toBe(fixture.typescript.module);
+    });
+
+    it('writes an error to console and returns undefined if there is no typescript package', () => {
+      const error = jest.spyOn(console, 'error');
+      error.mockImplementation(() => void 0);
+      const fixture = Fixtures.noTranspilerPackage;
+      const resolved = resolveTranspiler(fixture.index.directory);
+      expect(resolved).toBeUndefined();
+      error.mockRestore();
     });
   });
 });
