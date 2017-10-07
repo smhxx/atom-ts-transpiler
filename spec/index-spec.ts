@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { getCacheKeyData, transpile } from '../src/index';
 import { Fixtures } from './fixtures/fixtures';
 import { Options, PackageMeta, TsConfig } from '../src/defs';
@@ -12,12 +13,6 @@ describe('atom-ts-transpiler', () => {
       meta: Fixtures.goodPackage.package.json,
     };
 
-    it('returns empty string if no cacheKeyFiles are specified', () => {
-      const fixture = Fixtures.goodPackage;
-      const data: string = getCacheKeyData('', '', fixture.config.json, meta);
-      expect(data).toEqual('');
-    });
-
     it('returns the concatenated contents of the listed cacheKeyFiles', () => {
       const fixture = Fixtures.goodPackage;
       const cacheKeyFiles = [
@@ -29,6 +24,12 @@ describe('atom-ts-transpiler', () => {
       expect(data).not.toEqual('');
       expect(data).toMatch(fixture.index.contents);
       expect(data).toMatch(fixture.other.contents);
+    });
+
+    it('returns empty string if no cacheKeyFiles are specified', () => {
+      const fixture = Fixtures.goodPackage;
+      const data: string = getCacheKeyData('', '', fixture.config.json, meta);
+      expect(data).toEqual('');
     });
   });
 
@@ -50,7 +51,7 @@ describe('atom-ts-transpiler', () => {
     });
 
     it('calls the appropriate transpiler with the contents of the source file', () => {
-      transpile('', fixture.index.path);
+      transpile('', fixture.index.path, {});
       expect(spy).toHaveBeenCalledTimes(1);
       const source = spy.mock.calls[0][0];
       expect(source).toEqual(fixture.index.contents);
@@ -63,7 +64,7 @@ describe('atom-ts-transpiler', () => {
         throw new Error('the message attached to the thrown error');
       });
 
-      const output = transpile('', fixture.index.path);
+      const output = transpile('', fixture.index.path, {});
       expect(error).toHaveBeenCalledTimes(1);
       expect(typeof error.mock.calls[0][0]).toBe('string');
       expect(error.mock.calls[0][0]).toMatch(/the message attached to the thrown error/);
@@ -74,7 +75,7 @@ describe('atom-ts-transpiler', () => {
     });
 
     it('uses the compiler options specified in tsconfig.json', () => {
-      transpile('', fixture.index.path);
+      transpile('', fixture.index.path, {});
       expect(spy).toHaveBeenCalledTimes(1);
       const usedOptions = spy.mock.calls[0][1].compilerOptions;
       expect(usedOptions.removeComments).toBe(true);
@@ -87,6 +88,16 @@ describe('atom-ts-transpiler', () => {
       expect(spy).toHaveBeenCalledTimes(1);
       const usedOptions = spy.mock.calls[0][1].compilerOptions;
       expect(usedOptions.removeComments).toBe(false);
+    });
+
+    it('writes an error to console and returns no code if the file does not exist', () => {
+      const error = jest.spyOn(console, 'error');
+      error.mockImplementation(() => void 0);
+      const filePath = path.resolve(fixture.index.directory, 'not-a-real-file.ts');
+      const output = transpile('', filePath, {});
+      expect(error).toHaveBeenCalledTimes(1);
+      expect(error.mock.calls[0][0]).toMatch(/ENOENT/);
+      expect(output).toEqual({});
     });
   });
 });

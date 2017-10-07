@@ -26,12 +26,12 @@ function tryTranspile(ts: Transpiler, fileSrc: string, opts: TranspileOptions): 
   return undefined;
 }
 
-export function getCacheKeyData(_: any, __: any, opts: Options = {}, pkg: PackageMeta) {
+export function getCacheKeyData(_: any, __: any, opts: Options, pkg: PackageMeta) {
   return (opts.cacheKeyFiles instanceof Array) ?
     opts.cacheKeyFiles.reduce(concatFiles(pkg), '') : '';
 }
 
-export function transpile(_: any, fileName: string, opts: Options = {}): TranspiledModule {
+export function transpile(_: any, fileName: string, opts: Options): TranspiledModule {
   const moduleName = path.basename(fileName).replace(/\.[^.]*$/, '');
   const fileSrc = tryReadFile(fileName);
   const output = {} as TranspiledModule;
