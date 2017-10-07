@@ -98,6 +98,16 @@ describe('atom-ts-transpiler', () => {
       expect(error).toHaveBeenCalledTimes(1);
       expect(error.mock.calls[0][0]).toMatch(/ENOENT/);
       expect(output).toEqual({});
+      error.mockRestore();
+    });
+
+    it('returns no code if the typescript package could not be resolved', () => {
+      const error = jest.spyOn(console, 'error');
+      error.mockImplementation(() => void 0);
+      const output = transpile('', Fixtures.noTranspilerPackage.index.path, {});
+      expect(error).toHaveBeenCalledTimes(1);
+      expect(output).toEqual({});
+      error.mockRestore();
     });
   });
 });
