@@ -60,5 +60,14 @@ describe('resolve.ts', () => {
       expect(resolved).toBeDefined();
       expect(resolved).toBe(fixture.typescript.module);
     });
+
+    it('writes an error to console and returns undefined if there is no typescript package', () => {
+      const error = jest.spyOn(console, 'error');
+      error.mockImplementation(() => void 0);
+      const fixture = Fixtures.noTranspilerPackage;
+      const resolved = resolveTranspiler(fixture.index.directory);
+      expect(resolved).toBeUndefined();
+      error.mockRestore();
+    });
   });
 });
