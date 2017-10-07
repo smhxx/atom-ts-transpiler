@@ -37,15 +37,11 @@ describe('resolve.ts', () => {
       error.mockRestore();
     });
 
-    it('writes an error to console and returns {} if the config file is a primitive', () => {
-      const error = jest.spyOn(console, 'error');
-      error.mockImplementation(() => void 0);
-      const fixture = Fixtures.weirdConfigPackage;
+    it('returns {} if the config\'s compilerOptions do not exist or are not an object', () => {
+      const fixture = Fixtures.noOptionsPackage;
       const resolved = resolveConfig(fixture.index.directory);
-      expect(error).toHaveBeenCalledTimes(1);
       expect(resolved).toBeDefined();
       expect(resolved).toEqual({});
-      error.mockRestore();
     });
   });
 

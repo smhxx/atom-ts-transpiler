@@ -62,7 +62,7 @@ export namespace Fixtures {
     config: 'tsconfig.json',
     index: 'index.ts',
   });
-  export const weirdConfigPackage = getFixtureFiles('weird-config-package', {
+  export const noOptionsPackage = getFixtureFiles('no-options-package', {
     config: 'tsconfig.json',
     index: 'index.ts',
   });
