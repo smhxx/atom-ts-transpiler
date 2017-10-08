@@ -27,11 +27,9 @@ before_install:
 
 before_script:
   - greenkeeper-lockfile-update
-  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-      curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter;
-      chmod +x ./cc-test-reporter;
-      ./cc-test-reporter before-build;
-      fi
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter;
+  - chmod +x ./cc-test-reporter;
+  - ./cc-test-reporter before-build;
 
 script:
   - npm run lint
@@ -40,6 +38,4 @@ script:
 
 after_script:
   - greenkeeper-lockfile-upload
-  - if [ -e "./cc-test-reporter" ]; then
-      ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT;
-      fi
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT;
