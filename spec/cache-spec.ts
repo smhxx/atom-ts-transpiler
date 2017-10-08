@@ -1,12 +1,12 @@
 import { getCache } from '../src/cache';
-import { Fixtures } from './fixtures/fixtures';
+import { fixtures } from './fixtures/fixtures';
 
 describe('cache.ts', () => {
 
   describe('getCache()', () => {
 
     it('returns the resolved config and transpiler module for the given directory', () => {
-      const fixture = Fixtures.goodPackage;
+      const fixture = fixtures.goodPackage;
       const entry = getCache(fixture.index.path);
       expect(entry).toBeDefined();
       expect(entry.options).toEqual(fixture.config.json.compilerOptions);
@@ -14,7 +14,7 @@ describe('cache.ts', () => {
     });
 
     it('returns the previously cached information if it already exists for the directory', () => {
-      const fixture = Fixtures.goodPackage;
+      const fixture = fixtures.goodPackage;
       getCache(fixture.index.path);
       const parseSpy = jest.spyOn(JSON, 'parse');
       const entry = getCache(fixture.other.path);

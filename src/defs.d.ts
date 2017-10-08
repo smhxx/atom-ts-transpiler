@@ -215,4 +215,5 @@ export interface TranspiledModule {
 export interface Options {
   readonly cacheKeyFiles?: ReadonlyArray<string>;
   readonly compilerOptions?: TsConfig.CompilerOptions;
+  readonly verbose?: boolean;
 }

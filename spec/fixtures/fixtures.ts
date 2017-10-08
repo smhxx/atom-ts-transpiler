@@ -32,7 +32,9 @@ class FixtureFile {
   }
 }
 
-function getFixtureFiles(dir: string, files: Readonly<Record<string,string>>) {
+type FixturePackage = Readonly<Record<string, FixtureFile>>;
+
+function getFixtureFiles(dir: string, files: Readonly<Record<string,string>>): FixturePackage {
   const newFiles = {} as Record<string, FixtureFile>;
   const fullDir = path.resolve(baseDir, dir);
   newFiles.package = new FixtureFile(fullDir, 'package.json');
@@ -42,32 +44,28 @@ function getFixtureFiles(dir: string, files: Readonly<Record<string,string>>) {
   return Object.freeze(newFiles);
 }
 
-export namespace Fixtures {
-  export const badConfigPackage = getFixtureFiles('bad-config-package', {
+export const fixtures: Readonly<Record<string, FixturePackage>> = {
+  badConfigPackage: getFixtureFiles('bad-config-package', {
     config: 'tsconfig.json',
     index: 'index.ts',
-  });
-  export const goodPackage = getFixtureFiles('good-package', {
+  }),
+  goodPackage: getFixtureFiles('good-package', {
     config: 'tsconfig.json',
     deep: 'some/deep/directory/structure/index.ts',
     index: 'index.ts',
     other: 'other.ts',
     typescript: 'node_modules/typescript',
-  });
-  export const noConfigPackage = getFixtureFiles('no-config-package', {
+  }),
+  noConfigPackage: getFixtureFiles('no-config-package', {
     index: 'index.ts',
     typescript: 'node_modules/typescript',
-  });
-  export const noTranspilerPackage = getFixtureFiles('no-ts-package', {
+  }),
+  noTranspilerPackage: getFixtureFiles('no-ts-package', {
     config: 'tsconfig.json',
     index: 'index.ts',
-  });
-  export const noOptionsPackage = getFixtureFiles('no-options-package', {
+  }),
+  noOptionsPackage: getFixtureFiles('no-options-package', {
     config: 'tsconfig.json',
     index: 'index.ts',
-  });
-  export const verbosePackage = getFixtureFiles('verbose-package', {
-    config: 'tsconfig.json',
-    index: 'index.ts',
-  });
-}
+  }),
+};
