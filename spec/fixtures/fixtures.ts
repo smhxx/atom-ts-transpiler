@@ -66,4 +66,8 @@ export namespace Fixtures {
     config: 'tsconfig.json',
     index: 'index.ts',
   });
+  export const verbosePackage = getFixtureFiles('verbose-package', {
+    config: 'tsconfig.json',
+    index: 'index.ts',
+  });
 }
