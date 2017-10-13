@@ -57,8 +57,15 @@ And that's it! Now, any time a file matching `glob` is loaded or required at run
 
 #### Optional "Peer Dev Dependencies"
 
+* [atom-transpiler-debug-tool](https://www.npmjs.com/package/atom-mocha-test-runner): *A convenient script for inspecting the state of the Atom compile cache, which can help isolate issues in projects that use custom transpilers.*
 * [atom-mocha-test-runner](https://www.npmjs.com/package/atom-mocha-test-runner): *An alternate test runner for Atom packages, which (with some tinkering) can be configured to run tests written in TypeScript.*
 * [@types/atom-mocha-test-runner](https://www.npmjs.com/package/@types/atom-mocha-test-runner): *Additional type definitions for `atom-mocha-test-runner`.*
+
+### Example Projects
+
+If your package uses `atom-ts-transpiler`, we'd love to hear from you so we can show off your project here! (Just open an issue or PR on GitHub! 😊) If you're hesitant to make the switch, future patch versions will also likely include some minimal example setups to get you started.
+
+<!-- * [your-package-name](https://atom.io/packages/your-package-name): *A brief description of what it does.* -->
 
 ## License
 
