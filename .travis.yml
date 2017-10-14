@@ -29,9 +29,7 @@ notifications:
     on_failure: always
 
 before_install:
-  - if [ "$TYPE" == "unit" ]; then
-      npm install -g greenkeeper-lockfile;
-      fi
+  - if [ "$TYPE" == "unit" ]; then npm install -g greenkeeper-lockfile; fi
 
 before_script:
   - if [ "$TYPE" == "unit" ]; then
