@@ -4,6 +4,12 @@ language: node_js
 node_js:
   - node
 
+matrix:
+  include:
+    - env: TYPE="unit"
+    - env: TYPE="integration" ATOM_CHANNEL="stable"
+    - env: TYPE="integration" ATOM_CHANNEL="beta"
+
 env:
   global:
     - CC_TEST_REPORTER_ID: 188e36149deb1c3baae0590744f35e2ec627c582d47c7466ebe6219c5a9af28a
@@ -23,19 +29,35 @@ notifications:
     on_failure: always
 
 before_install:
-  - npm install -g greenkeeper-lockfile
+  - if [[ "$TYPE" == "unit" ]]; then
+      npm install -g greenkeeper-lockfile;
+      fi
 
 before_script:
-  - greenkeeper-lockfile-update
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter;
-  - chmod +x ./cc-test-reporter;
-  - ./cc-test-reporter before-build;
+  - if [[ "$TYPE" == "unit"]]; then
+      greenkeeper-lockfile-update;
+      curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter;
+      chmod +x ./cc-test-reporter;
+      ./cc-test-reporter before-build;
+      fi
+  - if [[ "$TYPE" == "integration" ]]; then
+      cd spec/integration;
+      curl -s -O https://raw.githubusercontent.com/atom/ci/master/build-package.sh;
+      chmod u+x build-package.sh;
+      fi
 
 script:
-  - npm run lint
-  - npm run testlint
-  - npm run coverage
+  - if [[ "$TYPE" == "unit" ]]; then
+      npm run lint;
+      npm run testlint;
+      npm run coverage;
+      fi
+  - if [[ "$TYPE" == "integration" ]]; then
+      ./build-package.sh;
+      fi
 
 after_script:
-  - greenkeeper-lockfile-upload
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT;
+  - if [[ "$TYPE" == "unit" ]]; then
+      greenkeeper-lockfile-upload;
+      ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT;
+      fi

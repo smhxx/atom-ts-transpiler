@@ -1,0 +1,14 @@
+{
+  "name": "test-package",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A bare-bones package used as a fixture during integration testing",
+  "author": "smhxx <captaintrek@gmail.com>",
+  "main": "index.ts",
+  "dependencies": {
+    "@types/atom": "latest",
+    "atom-ts-transpiler": "../../",
+    "typescript": "latest"
+  },
+  "license": "MIT"
+}
