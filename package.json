@@ -23,6 +23,7 @@
     "prepublishOnly": "npm run build",
     "test": "jest --colors"
   },
+  "dependencies": {},
   "peerDependencies": {
     "typescript": "^1.6.0 || ^2.0.0"
   },
