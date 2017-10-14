@@ -41,6 +41,7 @@ before_script:
       ./cc-test-reporter before-build;
       fi
   - if [ "$TYPE" == "integration" ]; then
+      npm run build;
       cd spec/integration;
       curl -s -O https://raw.githubusercontent.com/atom/ci/master/build-package.sh;
       chmod u+x build-package.sh;
