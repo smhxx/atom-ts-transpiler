@@ -7,8 +7,17 @@
   "main": "index.ts",
   "dependencies": {
     "@types/atom": "latest",
-    "atom-ts-transpiler": "../../",
+    "atom-ts-transpiler": "file:../../",
     "typescript": "latest"
   },
+  "atomTranspilers": [
+    {
+      "transpiler": "atom-ts-transpiler",
+      "glob": "{!(node_modules)/**/,}*.ts?(x)",
+      "options": {
+        "verbose": true
+      }
+    }
+  ],
   "license": "MIT"
 }
