@@ -14,7 +14,9 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
-    "types": [ "node", "jest" ],
-    "exclude": [ "integration/*" ]
-  }
+    "types": [ "node", "jest" ]
+  },
+  "exclude": [
+    "integration"
+  ]
 }
