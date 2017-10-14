@@ -48,14 +48,10 @@ before_script:
       fi
 
 script:
-  - if [ "$TYPE" == "unit" ]; then
-      npm run lint;
-      npm run testlint;
-      npm run coverage;
-      fi
-  - if [ "$TYPE" == "integration" ]; then
-      ./build-package.sh;
-      fi
+  - if [ "$TYPE" == "unit" ]; then npm run lint; fi
+  - if [ "$TYPE" == "unit" ]; then npm run testlint; fi
+  - if [ "$TYPE" == "unit" ]; then npm run coverage; fi
+  - if [ "$TYPE" == "integration" ]; then ./build-package.sh; fi
 
 after_script:
   - if [ "$TYPE" == "unit" ]; then
