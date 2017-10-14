@@ -7,6 +7,8 @@
     ],
     "module": "commonjs",
     "moduleResolution": "node",
+    "baseUrl": "./",
+    "outDir": "./",
     "strict": true,
     "newLine": "lf",
     "removeComments": true,
@@ -14,9 +16,6 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
-    "types": [ "node", "jest" ]
-  },
-  "exclude": [
-    "integration"
-  ]
+    "types": [ "atom", "node" ]
+  }
 }
