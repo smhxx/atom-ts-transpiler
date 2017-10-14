@@ -15,6 +15,6 @@
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
     "types": [ "node", "jest" ],
-    "exclude": [ "integration/**" ]
+    "exclude": [ "integration/*" ]
   }
 }
