@@ -29,35 +29,35 @@ notifications:
     on_failure: always
 
 before_install:
-  - if [[ "$TYPE" == "unit" ]]; then
+  - if [ "$TYPE" == "unit" ]; then
       npm install -g greenkeeper-lockfile;
       fi
 
 before_script:
-  - if [[ "$TYPE" == "unit"]]; then
+  - if [ "$TYPE" == "unit" ]; then
       greenkeeper-lockfile-update;
       curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter;
       chmod +x ./cc-test-reporter;
       ./cc-test-reporter before-build;
       fi
-  - if [[ "$TYPE" == "integration" ]]; then
+  - if [ "$TYPE" == "integration" ]; then
       cd spec/integration;
       curl -s -O https://raw.githubusercontent.com/atom/ci/master/build-package.sh;
       chmod u+x build-package.sh;
       fi
 
 script:
-  - if [[ "$TYPE" == "unit" ]]; then
+  - if [ "$TYPE" == "unit" ]; then
       npm run lint;
       npm run testlint;
       npm run coverage;
       fi
-  - if [[ "$TYPE" == "integration" ]]; then
+  - if [ "$TYPE" == "integration" ]; then
       ./build-package.sh;
       fi
 
 after_script:
-  - if [[ "$TYPE" == "unit" ]]; then
+  - if [ "$TYPE" == "unit" ]; then
       greenkeeper-lockfile-upload;
       ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT;
       fi
