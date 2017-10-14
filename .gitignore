@@ -2,3 +2,4 @@
 /dist
 /node_modules
 /spec/integration/node_modules
+/spec/integration/package-lock.json
