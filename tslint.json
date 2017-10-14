@@ -3,7 +3,7 @@
   "rules": {
     "indent": [ true, "spaces", 2 ]
   },
-  "cliOptions": {
-    "exclude": [ "spec/integration" ]
-  }
+  "exclude": [
+    "spec/integration"
+  ]
 }
