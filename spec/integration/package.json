@@ -7,7 +7,7 @@
   "main": "index.ts",
   "dependencies": {
     "@types/atom": "latest",
-    "atom-ts-transpiler": "file://../../atom-ts-transpiler",
+    "atom-ts-transpiler": "file://~/build/atom-ts-transpiler",
     "typescript": "latest"
   },
   "atomTranspilers": [
