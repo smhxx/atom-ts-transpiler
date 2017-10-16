@@ -108,12 +108,12 @@ If you'd like to see your package listed here to help out newcomers to the Atom/
 
 The source code of this project is released under the [MIT Expat License](https://opensource.org/licenses/MIT), which freely permits reuse and redistribution. Feel free to use and/or modify it in any way, provided that you include the copyright notice and terms of this license with any copies that you make.
 
-><img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Cc-public_domain_mark_white.svg" alt="Public Domain Mark" height="48px" align="left" />The contents of the [examples directory](https://github.com/smhxx/atom-ts-transpiler/tree/master/examples) are not subject to the following license, and are freely released into the public domain by their respective authors. These examples are provided as-is with no warranty of any kind, and under no circumstances shall the author(s) be liable for damages resulting directly or indirectly from their use.
+><img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Cc-public_domain_mark_white.svg" alt="Public Domain Mark" height="48px" align="left" />The contents of the [examples directory](https://github.com/smhxx/atom-ts-transpiler/tree/master/examples) are not subject to the following license, and are freely released into the public domain by their respective authors. These examples are provided as-is with no warranty of any kind, and under no circumstances shall the author(s) be held liable for damages resulting directly or indirectly from their use.
 
-*Copyright © 2017 "smhxx" (https://github.com/smhxx)*
-
-*Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:*
-
-*The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.*
-
-*THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.*
+>*Copyright © 2017 "smhxx" (https://github.com/smhxx)*
+>
+>*Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:*
+>
+>*The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.*
+>
+>*THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.*
