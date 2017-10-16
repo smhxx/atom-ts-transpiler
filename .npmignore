@@ -1,6 +1,7 @@
 /.git
 /.github
 /coverage
+/examples
 /node_modules
 /spec
 /src
