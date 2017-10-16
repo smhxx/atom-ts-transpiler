@@ -6,19 +6,19 @@
 [![Greenkeeper](https://badges.greenkeeper.io/smhxx/atom-ts-transpiler.svg)](https://greenkeeper.io/)
 # atom-ts-transpiler
 
-This package provides a simple, easily-configured compatibility layer that sits between [Atom](https://atom.io/) and the [TypeScript](https://www.typescriptlang.org/) compiler, allowing Atom to run packages written and distributed entirely in TypeScript. It's small (\<15 KB,) supports any version of TypeScript since 1.6, and can be set up within minutes. It even respects the compiler options specified in your package's tsconfig.json file automatically, without the need for any additional configuration.
+This package provides a simple, easily-configured compatibility layer that sits between [Atom](https://atom.io/) and the [TypeScript](https://www.typescriptlang.org/) compiler, giving Atom the ability to run packages written and distributed entirely in TypeScript. It's small (\<15 KB,) supports any version of TypeScript since 1.6, and can be set up within minutes. It even respects the compiler options specified in your tsconfig.json file automatically, without the need for any additional configuration.
 
 This project was inspired by the GitHub team's [atom-babel6-transpiler](https://www.npmjs.com/package/atom-babel6-transpiler), and utilizes the same interface to provide Atom with the ability to transpile TypeScript code on-demand. Special thanks go to them, as well as the other Atom users and community members who helped see this project through to a stable release.
 
 ## About
 <img alt="" src="https://upload.wikimedia.org/wikipedia/commons/8/80/Atom_editor_logo.svg" align="right" />
 <details>
-<summary><b>Why use TypeScript?</b></summary>
+<summary><b>Why use TypeScript with Atom?</b></summary>
 
-Because it's great! TypeScript has all of the benefits of JavaScript, with the addition of a flexible and robust type system far beyond the basic 7-8 types that exist in vanilla JS. Aside from the obvious safety benefits of strong typing, it also empowers your editor/IDE with an understanding of how your code utilizes types, meaning awesome workflow emprovements like better linting and auto-completion! If you haven't tried TypeScript yet, give it a shot... it really is worth it!
+Because TypeScript is great! It has all of the benefits of JavaScript, with the addition of a flexible and robust type system far beyond the basic 7-8 types that exist in vanilla JS. Aside from the obvious safety benefits of strong typing, it also empowers your editor/IDE with an understanding of the types that are used in your code, meaning awesome workflow emprovements like better linting, instant type-checking, and even type-sensitive autocomplete! If you haven't tried TypeScript yet, give it a shot... it really is worth it!
 </details>
 <details>
-<summary><b>What's a "custom package transpiler"?</b></summary>
+<summary><b>What's a "custom package transpiler?"</b></summary>
 
 Essentially, a custom package transpiler serves as a shim between Atom and your package, showing Atom how to deal with files that it doesn't natively understand what to do with. In this case, it takes responsibility for your package's TypeScript files, and converts them to JavaScript on-demand as Atom requires them. Atom then caches the transpiled code for each file, only asking for re-transpilation if the cache becomes invalid (such as when the package is updated.) If Atom already has your entire package cached, the TypeScript compiler is never even loaded, and performance-wise, it functions just as if you had written the entire package in JavaScript to begin with!
 
@@ -26,28 +26,28 @@ Essentially, a custom package transpiler serves as a shim between Atom and your 
 <details>
 <summary><b>Doesn't Atom already support TypeScript?</b></summary>
 
-Sort of? Yes and no. Atom does have a very basic, naïve understanding of TypeScript, but unfortunately it's not sufficient for the vast majority of packages. By default, if Atom encounters a .ts file at runtime, it attempts to transpile it using TypeScript 1.4; however, there's no way to specify that a newer version of TypeScript should be used, or to set compiler options manually, making it impossible to use many modern TypeScript 2.x features. The goal of this project is to enable projects to use *any* version of TypeScript that they require, and to configure the compiler as needed, in a simple and completely painless way. Just add the dependency, enable it in your package.json, and you're good to go.
+Sort of? Yes and no. Atom does have a very basic, naïve understanding of TypeScript, but unfortunately it's not sufficient for the vast majority of packages. By default, if Atom encounters a .ts file at runtime, it attempts to transpile it using TypeScript 1.4; however, there's no way to specify that a newer version of TypeScript should be used, or to set compiler options manually, making it impossible to use many modern TypeScript 2.x features. The goal of this project is to enable projects to use *any* recent version of TypeScript that they require, and to configure the compiler as needed, in a simple and completely painless way. Just add the dependency, enable it in your package.json, and you're good to go.
 </details>
 <details>
-<summary><b>Can't I just transpile the package myself?</b></summary>
+<summary><b>Can't I just transpile my package myself?</b></summary>
 
-Yes, absolutely. That's always an option. In fact, *this* package is written in TypeScript and transpiled prior to publishing. However, it's a bit more complicated for Atom packages, in part because apm doesn't currently support `prepublish` scripts. With a custom transpiler, the interpretation of your TypeScript code is handled automatically by Atom itself, with zero performance penalty after the first time the package is installed and run. Either approach is completely valid, and it's up to you to decide which is right for your project.
+Yes, absolutely. In fact, *this* package is written in TypeScript and transpiled prior to publishing. However, it's a bit more complicated for Atom packages than it is for npm, in part because apm doesn't currently support `prepublish` scripts. With a custom transpiler, the interpretation of your TypeScript code is handled automatically by Atom itself, with zero performance penalty after the first time the package is installed and run. Either approach is completely valid, so it's up to you to decide which is right for your project.
 </details>
 <details>
 <summary><b>How can I contribute to the project?</b></summary>
 
-Right now, the best way to help out with `atom-ts-transpiler` is simply to *use it* and provide feedback if you feel there are any improvements that can be made. Long-term stability is one of our foremost goals; the project has 100% test coverage, and integration tests that are run against each new release of Atom, so there's no need to worry about your package suddenly breaking because of an update. Take it for a spin and let us know what you think! 🙂
+Right now, the best way to help out with `atom-ts-transpiler` is simply to *use it* and provide feedback if you feel there are any improvements that can be made. Long-term stability is one of our foremost goals, and we feel like we've achieved it; the project has 100% unit test coverage, and integration tests that are run against each new release of Atom, so there's no need to worry about your package suddenly breaking because of an update. Take it for a spin and let us know what you think! 🙂
 
-If you'd like to contribute in a more direct way, see our [Contribution Guide](https://github.com/smhxx/atom-ts-transpiler/blob/master/.github/CONTRIBUTING.md) and [Code of Conduct](https://github.com/smhxx/atom-ts-transpiler/blob/master/.github/CODE_OF_CONDUCT.md) on GitHub. We always welcome [issues](https://github.com/smhxx/atom-ts-transpiler/issues) and [pull requests](https://github.com/smhxx/atom-ts-transpiler/pulls) from the community, if you think there are improvements to be made.
+If you'd like to contribute in a more direct way, see our [Contribution Guide](https://github.com/smhxx/atom-ts-transpiler/blob/master/.github/CONTRIBUTING.md) and [Code of Conduct](https://github.com/smhxx/atom-ts-transpiler/blob/master/.github/CODE_OF_CONDUCT.md) on GitHub. We always welcome [issues](https://github.com/smhxx/atom-ts-transpiler/issues) and [pull requests](https://github.com/smhxx/atom-ts-transpiler/pulls) from the community, if you find a bug or if you think there are improvements to be made.
 </details>
 
 ## Setup &amp; Configuration
 
 Setting up your project to use `atom-ts-transpiler` is *extremely* simple. Just write your package in TypeScript, then follow these steps to get it running in Atom:
 
-1. Add `atom-ts-transpiler` and `typescript` to your package.json as dependencies (***not*** *devDependencies*) or do `npm install --save atom-ts-transpiler typescript` from the command line. Any version of TypeScript since 1.6 should be compatible, so feel free to specify whatever version range is appropriate for your package. Note that `atom-ts-transpiler` relies on features introduced in TypeScript 1.6, so older versions *will not* work.
-2. Make sure that your package has a [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file, and that it builds properly with `tsc --project tsconfig.json` on the command-line. Alternatively, you can specify compiler options in your package.json instead (see below,) but having a tsconfig is highly recommended. If you have more than one tsconfig file in your project, each source file will use the configuration located in the closest ancestor directory.
-3. Finally, add an `atomTranspilers` property to your package.json file, like so:
+1. Add `atom-ts-transpiler` and `typescript` to your package.json as dependencies (***not*** *devDependencies*) or do `npm install --save atom-ts-transpiler typescript` from the command line. Any version of TypeScript since 1.6 should be compatible, so feel free to specify whatever version range is appropriate for your package. Note that `atom-ts-transpiler` relies on features introduced in TypeScript 1.6, so older versions will definitely **not** work.
+2. Make sure that your package has a [tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) file, and that it builds properly with `tsc --project` on the command-line. Alternatively, you can specify compiler options in your package.json instead (see below,) but having a tsconfig is highly recommended. If you have more than one tsconfig file, each source file will use the closest one, starting with the directory it's in and considering only direct ancestors.
+3. Finally, tell Atom about the transpiler by adding an `atomTranspilers` property to your package.json file, like so:
 ```js
 {
   "name": "my-super-duper-package",
