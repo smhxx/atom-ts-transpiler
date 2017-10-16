@@ -11,7 +11,7 @@ This package provides a simple, easily-configured compatibility layer that sits 
 This project was inspired by the GitHub team's [atom-babel6-transpiler](https://www.npmjs.com/package/atom-babel6-transpiler), and utilizes the same interface to provide Atom with the ability to transpile TypeScript code on-demand. Special thanks go to them, as well as the other Atom users and community members who helped see this project through to a stable release.
 
 ## About
-<img alt="" src="https://upload.wikimedia.org/wikipedia/commons/8/80/Atom_editor_logo.svg" style="float:right;" />
+<img alt="" src="https://upload.wikimedia.org/wikipedia/commons/8/80/Atom_editor_logo.svg" align="right" />
 <details>
 <summary><b>Why use TypeScript?</b></summary>
 
@@ -108,7 +108,7 @@ If you'd like to see your package listed here to help out newcomers to the Atom/
 
 The source code of this project is released under the [MIT Expat License](https://opensource.org/licenses/MIT), which freely permits reuse and redistribution. Feel free to use and/or modify it in any way, provided that you include the copyright notice and terms of this license with any copies that you make.
 
-><img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Cc-public_domain_mark_white.svg" alt="Public Domain Mark" width="68px" align="left" />The contents of the [examples directory](https://github.com/smhxx/atom-ts-transpiler/tree/master/examples) are not subject to the following license, and are freely released into the public domain by their respective authors. These examples are provided as-is with no warranty of any kind, and under no circumstances shall the author(s) be liable for damages resulting directly or indirectly from their use.
+><img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Cc-public_domain_mark_white.svg" alt="Public Domain Mark" height="48px" align="left" />The contents of the [examples directory](https://github.com/smhxx/atom-ts-transpiler/tree/master/examples) are not subject to the following license, and are freely released into the public domain by their respective authors. These examples are provided as-is with no warranty of any kind, and under no circumstances shall the author(s) be liable for damages resulting directly or indirectly from their use.
 
 *Copyright © 2017 "smhxx" (https://github.com/smhxx)*
 
