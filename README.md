@@ -31,7 +31,7 @@ Sort of? Yes and no. Atom does have a very basic, naïve understanding of TypeSc
 <details>
 <summary><b>Can't I just transpile the package myself?</b></summary>
 
-Yes, absolutely. In fact, *this* package is transpiled from TypeScript prior to publishing. However, manually transpiling your entire project for testing and publication can be a bit of a pain, especially since apm doesn't currently support `prepublish` scripts. With a custom transpiler, the interpretation between Atom and your TypeScript code is handled automatically, with practically zero performance penalty once the package has been installed and activated for the first time.
+Yes, absolutely. In fact, *this* package is transpiled from TypeScript prior to publishing. However, manually transpiling your entire project for testing and publication can be a bit of a pain, especially since apm doesn't currently support `prepublish` scripts. With a custom transpiler, the interpretation between Atom and your TypeScript code is handled automatically, with virtually zero performance penalty once the package has been installed and activated for the first time.
 </details>
 <details>
 <summary><b>How can I contribute to the project?</b></summary>
@@ -71,9 +71,9 @@ Setting up your project to use `atom-ts-transpiler` is *extremely* simple. Just 
 | `transpiler` | `string` | The name of the package which will handle transpilation of files matching `glob`.
 | `glob` | `string` | A minimatch-style [glob](https://github.com/isaacs/node-glob) specifying which files this transpiler should be responsible for transpiling. The glob shown above, `{!(node_modules)/**/,}*.ts?(x)`, should be appropriate for 99% of packages, but can be tweaked as necessary.
 | `options` | `object` or `undefined` | An object containing configuration options to be passed to the transpiler package. The options listed below are the ones available for `atom-ts-transpiler`. |
-| &emsp;&emsp;`.compilerOptions` | `object` or `undefined` | A record of TypeScript compiler options, identical to the `compilerOptions` property available within tsconfig files. Options specified here will apply to all files, overriding those specified in the project's tsconfig.json file.
-| &emsp;&emsp;`.cacheKeyFiles` | `string[]` or `undefined` | A list of file paths relative to the package's root directory which are considered critical to the compile cache's validity. If any of the files listed here are changed or updated, *all* of the cached files generated with this transpiler will be considered stale and re-transpiled the next time they are required. This typically means files that affect transpilation output but aren't required at runtime, such as tsconfig files.
-| &emsp;&emsp;`.verbose` | `boolean` or `undefined` | When set to `true`, will output debugging text to the Developer Console (Ctrl+Shift+I) each time a file is transpiled. This can be useful for debugging your project, but it's not recommended that you distribute a package with this option enabled.
+| »&emsp;`.compilerOptions` | `object` or `undefined` | A record of TypeScript compiler options, identical to the `compilerOptions` property available within tsconfig files. Options specified here will apply to all files, overriding those specified in the project's tsconfig.json file.
+| »&emsp;`.cacheKeyFiles` | `string[]` or `undefined` | A list of file paths relative to the package's root directory which are considered critical to the compile cache's validity. If any of the files listed here are changed or updated, *all* of the cached files generated with this transpiler will be considered stale and re-transpiled the next time they are required. This typically means files that affect transpilation output but aren't required at runtime, such as tsconfig files.
+| »&emsp;`.verbose` | `boolean` or `undefined` | When set to `true`, will output debugging text to the Developer Console (Ctrl+Shift+I) each time a file is transpiled. This can be useful for debugging your project, but it's not recommended that you distribute a package with this option enabled.
 
 And that's it! Now, any time a file matching `glob` is loaded or required at runtime, Atom will first pass it through the TypeScript transpiler, caching the result until your package is updated or one of the `cacheKeyFiles` changes. It's that easy!
 
