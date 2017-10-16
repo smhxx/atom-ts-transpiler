@@ -15,23 +15,23 @@ This project was inspired by the GitHub team's [atom-babel6-transpiler](https://
 <details>
 <summary><b>Why use TypeScript?</b></summary>
 
-Because it's great! TypeScript has all of the benefits of JavaScript, with the addition of a flexible and robust type system far beyond the basic 7-8 types that exist in vanilla JS. Aside from the obvious safety benefits of strong typing, it also empowers your editor/IDE with an understanding of how your code utilizes types, meaning awesome workflow emprovements like better linting and auto-completion! If you haven't tried TypeScript yet, do... it really is worth it!
+Because it's great! TypeScript has all of the benefits of JavaScript, with the addition of a flexible and robust type system far beyond the basic 7-8 types that exist in vanilla JS. Aside from the obvious safety benefits of strong typing, it also empowers your editor/IDE with an understanding of how your code utilizes types, meaning awesome workflow emprovements like better linting and auto-completion! If you haven't tried TypeScript yet, give it a shot... it really is worth it!
 </details>
 <details>
 <summary><b>What's a "custom package transpiler"?</b></summary>
 
-Essentially, a custom package transpiler serves as a shim between Atom and your package, showing Atom how to deal with files that it doesn't natively understand what to do with. In this case, it takes responsibility for your package's TypeScript files, and converts them to JavaScript on-demand as Atom requires them. Atom then caches the transpiled code for each file, only asking for re-transpilation if the cache becomes invalid (such as by the package being updated.) If Atom already has your entire package cached, the TypeScript package is never even loaded, and performance-wise, it functions just as if you had written the entire package in JavaScript to begin with!
+Essentially, a custom package transpiler serves as a shim between Atom and your package, showing Atom how to deal with files that it doesn't natively understand what to do with. In this case, it takes responsibility for your package's TypeScript files, and converts them to JavaScript on-demand as Atom requires them. Atom then caches the transpiled code for each file, only asking for re-transpilation if the cache becomes invalid (such as when the package is updated.) If Atom already has your entire package cached, the TypeScript compiler is never even loaded, and performance-wise, it functions just as if you had written the entire package in JavaScript to begin with!
 
 </details>
 <details>
 <summary><b>Doesn't Atom already support TypeScript?</b></summary>
 
-Sort of? Yes and no. Atom does have a very basic, naïve understanding of TypeScript, but unfortunately it's not sufficient for the vast majority of packages. By default, if Atom encounters a .ts file at runtime, it attempts to transpile it using TypeScript 1.4; however, there's no way to specify what version of TypeScript should be used, or to set compiler options, both of which are crucial to ensuring the stability and performance of a package written in TS. The goal of this project is to enable that form of configuration in a simple and completely painless way. Just add the dependency, enable it in your package.json, and you're good to go.
+Sort of? Yes and no. Atom does have a very basic, naïve understanding of TypeScript, but unfortunately it's not sufficient for the vast majority of packages. By default, if Atom encounters a .ts file at runtime, it attempts to transpile it using TypeScript 1.4; however, there's no way to specify that a newer version of TypeScript should be used, or to set compiler options manually, making it impossible to use many modern TypeScript 2.x features. The goal of this project is to enable projects to use *any* version of TypeScript that they require, and to configure the compiler as needed, in a simple and completely painless way. Just add the dependency, enable it in your package.json, and you're good to go.
 </details>
 <details>
 <summary><b>Can't I just transpile the package myself?</b></summary>
 
-Yes, absolutely. In fact, *this* package is transpiled from TypeScript prior to publishing. However, manually transpiling your entire project for testing and publication can be a bit of a pain, especially since apm doesn't currently support `prepublish` scripts. With a custom transpiler, the interpretation between Atom and your TypeScript code is handled automatically, with virtually zero performance penalty once the package has been installed and activated for the first time.
+Yes, absolutely. That's always an option. In fact, *this* package is written in TypeScript and transpiled prior to publishing. However, it's a bit more complicated for Atom packages, in part because apm doesn't currently support `prepublish` scripts. With a custom transpiler, the interpretation of your TypeScript code is handled automatically by Atom itself, with zero performance penalty after the first time the package is installed and run. Either approach is completely valid, and it's up to you to decide which is right for your project.
 </details>
 <details>
 <summary><b>How can I contribute to the project?</b></summary>
