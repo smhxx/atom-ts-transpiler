@@ -1,0 +1,26 @@
+{
+  "name": "my-atom-package",
+  "main": "./lib/index.ts",
+  "version": "0.0.0",
+  "description": "A short description of your package",
+  "keywords": [],
+  "activationCommands": {
+    "atom-workspace": "my-atom-package:toggle"
+  },
+  "repository": "https://github.com/atom/my-atom-package",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.13.0 <2.0.0"
+  },
+  "scripts": {
+    "lint": "tslint -p lib/tsconfig.json --type-check"
+  },
+  "dependencies": {
+    "@types/atom": "^1.21.4",
+    "atom-ts-transpiler": "^1.2.1",
+    "typescript": "^2.5.3"
+  },
+  "devDependencies": {
+    "tslint": "^5.7.0"
+  }
+}
