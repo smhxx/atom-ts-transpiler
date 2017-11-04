@@ -31,7 +31,7 @@ Sort of? Yes and no. Atom does have a very basic, naïve understanding of TypeSc
 <details>
 <summary><b>Can't I just transpile my package myself?</b></summary>
 
-Yes, absolutely. In fact, *this* package is written in TypeScript and transpiled prior to publishing. However, it's a bit more complicated for Atom packages than it is for npm, in part because apm doesn't currently support `prepublish` scripts. With a custom transpiler, the interpretation of your TypeScript code is handled automatically by Atom itself, with zero performance penalty after the first time the package is installed and run. Either approach is completely valid, so it's up to you to decide which is right for your project.
+Yes, absolutely. In fact, *this* package is written in TypeScript and transpiled prior to publishing. However, it's a bit more complicated for Atom packages, since your package is hosted directly from its GitHub repo, rather than published to an external package repository like npm. Users download your package exactly as it exists on your master branch, so if you want your code to be transpiled *prior to* distribution, you'll have to actually commit the transpiled output to the repo (e.g. by setting up a pre-commit hook to run `tsc`,) and the user will end up downloading both the TypeScript and JavaScript versions, anyway. With a custom transpiler, all that mess can be avoided. The transpilation of your TypeScript code is handled automatically by Atom itself, with zero performance penalty after the first time the package is installed and run.
 </details>
 <details>
 <summary><b>How can I contribute to the project?</b></summary>
