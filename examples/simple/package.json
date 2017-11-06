@@ -17,10 +17,20 @@
   },
   "dependencies": {
     "@types/atom": "^1.21.4",
-    "atom-ts-transpiler": "^1.2.1",
+    "@types/node": "^8.0.41",
+    "atom-ts-transpiler": "^1.2.2",
     "typescript": "^2.5.3"
   },
   "devDependencies": {
     "tslint": "^5.7.0"
-  }
+  },
+  "atomTranspilers": [
+    {
+      "transpiler": "atom-ts-transpiler",
+      "glob": "{!(node_modules)/**/,}*.ts?(x)",
+      "options": {
+        "cacheKeyFiles": [ "lib/tsconfig.json" ]
+      }
+    }
+  ]
 }
