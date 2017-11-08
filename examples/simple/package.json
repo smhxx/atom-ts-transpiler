@@ -16,7 +16,7 @@
     "lint": "tslint -p lib/tsconfig.json --type-check"
   },
   "dependencies": {
-    "@types/atom": "^1.21.4",
+    "@types/atom": "^1.21.8",
     "@types/node": "^8.0.41",
     "atom-ts-transpiler": "^1.2.2",
     "typescript": "^2.5.3"
