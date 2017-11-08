@@ -18,8 +18,7 @@
   "scripts": {
     "build": "tsc -p src/tsconfig.json",
     "coverage": "jest --coverage --colors",
-    "lint": "tslint -p src/tsconfig.json --type-check",
-    "testlint": "tslint -p spec/tsconfig.json --type-check",
+    "lintdir": "tslint -p",
     "prepublishOnly": "npm run build",
     "test": "jest --colors"
   },

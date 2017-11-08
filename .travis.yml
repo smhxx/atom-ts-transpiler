@@ -46,8 +46,9 @@ before_script:
       fi
 
 script:
-  - if [ "$TYPE" == "unit" ]; then npm run lint; fi
-  - if [ "$TYPE" == "unit" ]; then npm run testlint; fi
+  - if [ "$TYPE" == "unit" ]; then npm run lintdir -- src; fi
+  - if [ "$TYPE" == "unit" ]; then npm run lintdir -- spec; fi
+  - if [ "$TYPE" == "unit" ]; then (for dir in examples/*; do if [ -d "${dir}" ]; then cd "${dir}"; npm install; npm run lint; if [ $? -ne 0 ]; then exit 1; fi; cd ..; fi; done); fi
   - if [ "$TYPE" == "unit" ]; then npm run coverage; fi
   - if [ "$TYPE" == "integration" ]; then ./build-package.sh; fi
 
