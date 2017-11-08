@@ -1,7 +1,7 @@
-import { CompositeDisposable } from "atom";
+import { CompositeDisposable, Panel } from "atom";
 import MyAtomPackageView from "./views/MyAtomPackageView";
 
-let modalPanel: AtomCore.Panel;
+let modalPanel: Panel;
 let myAtomPackageView: MyAtomPackageView;
 let subscriptions: CompositeDisposable;
 
