@@ -43,6 +43,28 @@ describe('resolve.ts', () => {
       expect(resolved).toBeDefined();
       expect(resolved).toEqual({});
     });
+
+    it('allows comments in the config', () => {
+      const fixture = fixtures.commentedConfigPackage;
+      const resolved = resolveConfig(fixture.index.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toEqual({
+        module: 'commonjs',
+        target: 'es2017',
+      });
+    });
+
+    it('supports config inheritance', () => {
+      const fixture = fixtures.extendedConfigPackage;
+      const resolved = resolveConfig(fixture.index.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toEqual(
+        Object.assign({}, fixtures.goodPackage.config.json.compilerOptions, {
+          module: 'commonjs',
+          target: 'es2017',
+        }),
+      );
+    });
   });
 
   describe('resolveTranspiler()', () => {
