@@ -76,4 +76,8 @@ export const fixtures: Readonly<Record<string, FixturePackage>> = {
     config: 'tsconfig.json',
     index: 'index.ts',
   }),
+  circularExtensionPackage: getFixtureFiles('circular-extension-package', {
+    config: 'tsconfig.json',
+    index: 'index.ts',
+  }),
 };

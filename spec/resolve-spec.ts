@@ -65,6 +65,16 @@ describe('resolve.ts', () => {
         }),
       );
     });
+
+    it('fails gracefully if there is a circular extension pattern', () => {
+      const error = jest.spyOn(console, 'error');
+      error.mockImplementation(() => void 0);
+      const fixture = fixtures.circularExtensionPackage;
+      const resolved = resolveConfig(fixture.index.directory);
+      expect(error).toHaveBeenCalled();
+      expect(resolved).toEqual(fixture.config.json.compilerOptions);
+      error.mockRestore();
+    });
   });
 
   describe('resolveTranspiler()', () => {
