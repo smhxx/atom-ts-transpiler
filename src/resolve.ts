@@ -44,7 +44,19 @@ Is your configuration file properly formatted JSON?. Error message was:
 \n${err.message}`);
   }
   if (config == null || typeof config !== 'object') return {};
-  return config;
+  if (config.extends == null) return config;
+
+  const parent = path.resolve(path.dirname(location), config.extends);
+  config.extends = null;
+  if (files.has(parent)) {
+    console.error(`Cyclic references detected at ${location}.`);
+    return config;
+  }
+  files.add(parent);
+  const parentConfig = loadConfig(parent, files);
+  return Object.assign(parentConfig, config, {
+    compilerOptions: Object.assign(parentConfig.compilerOptions, config.compilerOptions),
+  });
 }
 
 export function resolveConfig(baseDir: string): TsConfig.CompilerOptions {

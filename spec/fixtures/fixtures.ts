@@ -72,4 +72,8 @@ export const fixtures: Readonly<Record<string, FixturePackage>> = {
     config: 'tsconfig.json',
     index: 'index.ts',
   }),
+  extendedConfigPackage: getFixtureFiles('extended-config-package', {
+    config: 'tsconfig.json',
+    index: 'index.ts',
+  }),
 };
