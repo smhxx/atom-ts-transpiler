@@ -21,23 +21,37 @@ function resolveResource(baseDir: string, fileName: string): string | undefined 
   return undefined;
 }
 
-export function resolveConfig(baseDir: string): TsConfig.CompilerOptions {
-  const location = resolveResource(baseDir, 'tsconfig.json');
-  if (location !== undefined) {
-    try {
-      const contents = fs.readFileSync(location).toString();
-      const json = JSON.parse(contents);
-      if (typeof json.compilerOptions === 'object') {
-        return json.compilerOptions;
-      }
-    } catch (err) {
-      // tslint:disable-next-line no-console
-      console.error(`Failed to parse tsconfig located at ${location}.\n
+function removeComments(source: string) {
+  return source.replace(/\/\/.*|\/\*[^]*?\*\//g, ' ');
+}
+
+function readJSON(location: string) {
+  let file = location;
+  if (!fs.existsSync(file) && !file.endsWith('.json')) file += '.json';
+  const content = fs.readFileSync(file, 'utf8');
+  const json = removeComments(content);
+  return JSON.parse(json);
+}
+
+function loadConfig(location: string, files: Set<string> = new Set): TsConfig {
+  let config;
+  try {
+    config = readJSON(location);
+  } catch (err) {
+    // tslint:disable-next-line no-console
+    console.error(`Failed to parse tsconfig located at ${location}.\n
 Is your configuration file properly formatted JSON?. Error message was:
 \n${err.message}`);
-    }
   }
-  return {};
+  if (config == null || typeof config !== 'object') return {};
+  return config;
+}
+
+export function resolveConfig(baseDir: string): TsConfig.CompilerOptions {
+  const location = resolveResource(baseDir, 'tsconfig.json');
+  if (location === undefined) return {};
+  const { compilerOptions } = loadConfig(location);
+  return compilerOptions === undefined ? {} : compilerOptions;
 }
 
 export function resolveTranspiler(baseDir: string): Transpiler | undefined {

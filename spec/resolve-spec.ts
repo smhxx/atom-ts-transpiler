@@ -43,6 +43,16 @@ describe('resolve.ts', () => {
       expect(resolved).toBeDefined();
       expect(resolved).toEqual({});
     });
+
+    it('allows comments in the config', () => {
+      const fixture = fixtures.commentedConfigPackage;
+      const resolved = resolveConfig(fixture.index.directory);
+      expect(resolved).toBeDefined();
+      expect(resolved).toEqual({
+        module: 'commonjs',
+        target: 'es2017',
+      });
+    });
   });
 
   describe('resolveTranspiler()', () => {
