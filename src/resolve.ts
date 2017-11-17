@@ -62,8 +62,8 @@ Is your configuration file properly formatted JSON?. Error message was:
 export function resolveConfig(baseDir: string): TsConfig.CompilerOptions {
   const location = resolveResource(baseDir, 'tsconfig.json');
   if (location === undefined) return {};
-  const config = loadConfig(location);
-  return config.compilerOptions || {};
+  const { compilerOptions } = loadConfig(location);
+  return compilerOptions === undefined ? {} : compilerOptions;
 }
 
 export function resolveTranspiler(baseDir: string): Transpiler | undefined {
