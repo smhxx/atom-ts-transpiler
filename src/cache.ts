@@ -1,29 +1,40 @@
-import * as path from 'path';
+import { dirname } from 'path';
 import { Transpiler, TsConfig } from './defs';
 import { resolveConfig, resolveTranspiler } from './resolve';
 
-interface CacheEntry {
-  options: TsConfig.CompilerOptions;
-  transpiler?: Transpiler;
-}
+export default class Cache {
+  private static entries = new Map<string, Cache>();
+  private dir: string;
+  private _options: TsConfig.CompilerOptions;
+  private _transpiler?: Transpiler;
 
-const cache = new Map<string, CacheEntry>();
+  private constructor(dir: string) {
+    this.dir = dir;
+    Cache.entries.set(dir, this);
+  }
 
-function initCache(dir: string): CacheEntry {
-  const entry = {
-    options: resolveConfig(dir),
-    transpiler: resolveTranspiler(dir),
-  };
-  cache.set(dir, entry);
-  return entry;
-}
+  public static get(path: string): Cache {
+    const dir = dirname(path);
+    if (Cache.entries.has(dir)) {
+      return Cache.entries.get(dir) as Cache;
+    } else {
+      return new Cache(dir);
+    }
+  }
 
-export function getCache(file: string): CacheEntry {
-  const dir = path.dirname(file);
-  const entry = cache.get(dir);
-  if (entry !== undefined) {
-    return entry;
-  } else {
-    return initCache(dir);
+  get options(): TsConfig.CompilerOptions {
+    if (this._options !== undefined) {
+      return this._options;
+    } else {
+      return resolveConfig(this.dir);
+    }
+  }
+
+  get transpiler(): Transpiler | undefined {
+    if (this._transpiler !== undefined) {
+      return this._transpiler;
+    } else {
+      return resolveTranspiler(this.dir);
+    }
   }
 }
