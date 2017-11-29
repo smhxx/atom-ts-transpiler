@@ -3,20 +3,20 @@ import { fixtures } from './fixtures/fixtures';
 
 describe('resolve.ts', () => {
 
-  describe('resolveOptions()', () => {
+  describe('resolveConfig()', () => {
 
     it('returns the contents of the project\'s tsconfig file', () => {
       const fixture = fixtures.goodPackage;
       const resolved = resolveConfig(fixture.index.directory);
       expect(resolved).toBeDefined();
-      expect(resolved).toEqual(fixture.config.json.compilerOptions);
+      expect(resolved).toEqual(fixture.config.json);
     });
 
     it('traverses the directory structure to search in parent directories', () => {
       const fixture = fixtures.goodPackage;
       const resolved = resolveConfig(fixture.deep.directory);
       expect(resolved).toBeDefined();
-      expect(resolved).toEqual(fixture.config.json.compilerOptions);
+      expect(resolved).toEqual(fixture.config.json);
     });
 
     it('returns {} if the config file cannot be resolved', () => {
@@ -37,20 +37,15 @@ describe('resolve.ts', () => {
       error.mockRestore();
     });
 
-    it('returns {} if the config\'s compilerOptions do not exist or are not an object', () => {
-      const fixture = fixtures.noOptionsPackage;
-      const resolved = resolveConfig(fixture.index.directory);
-      expect(resolved).toBeDefined();
-      expect(resolved).toEqual({});
-    });
-
     it('allows comments in the config', () => {
       const fixture = fixtures.commentedConfigPackage;
       const resolved = resolveConfig(fixture.index.directory);
       expect(resolved).toBeDefined();
       expect(resolved).toEqual({
-        module: 'commonjs',
-        target: 'es2017',
+        "compilerOptions": {
+          module: 'commonjs',
+          target: 'es2017',
+        }
       });
     });
 
@@ -59,21 +54,23 @@ describe('resolve.ts', () => {
       const resolved = resolveConfig(fixture.index.directory);
       expect(resolved).toBeDefined();
       expect(resolved).toEqual(
-        Object.assign({}, fixtures.goodPackage.config.json.compilerOptions, {
-          module: 'commonjs',
-          target: 'es2017',
+        Object.assign({}, fixtures.goodPackage.config.json, {
+          compilerOptions: Object.assign({}, fixtures.goodPackage.config.json.compilerOptions, {
+            module: 'commonjs',
+            target: 'es2017',
+          })
         }),
       );
     });
 
     it('fails gracefully if there is a circular extension pattern', () => {
-      const error = jest.spyOn(console, 'error');
-      error.mockImplementation(() => void 0);
+      const warn = jest.spyOn(console, 'warn');
+      warn.mockImplementation(() => void 0);
       const fixture = fixtures.circularExtensionPackage;
       const resolved = resolveConfig(fixture.index.directory);
-      expect(error).toHaveBeenCalled();
-      expect(resolved).toEqual(fixture.config.json.compilerOptions);
-      error.mockRestore();
+      expect(warn).toHaveBeenCalled();
+      expect(resolved).toEqual(Object.assign({}, fixture.config.json, { extends: undefined }));
+      warn.mockRestore();
     });
   });
 

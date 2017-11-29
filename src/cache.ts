@@ -5,7 +5,7 @@ import { resolveConfig, resolveTranspiler } from './resolve';
 export default class Cache {
   private static entries = new Map<string, Cache>();
   private dir: string;
-  private _options: TsConfig.CompilerOptions;
+  private _config: TsConfig;
   private _transpiler?: Transpiler;
 
   private constructor(dir: string) {
@@ -22,9 +22,9 @@ export default class Cache {
     }
   }
 
-  get options(): TsConfig.CompilerOptions {
-    if (this._options !== undefined) {
-      return this._options;
+  get config(): TsConfig {
+    if (this._config !== undefined) {
+      return this._config;
     } else {
       return resolveConfig(this.dir);
     }

@@ -45,7 +45,7 @@ export function transpile(_: any, fileName: string, opts: Options): TranspiledMo
   if (fileSrc !== undefined) {
     const cache = Cache.get(fileName);
     if (cache.transpiler !== undefined) {
-      const compilerOptions = Object.assign({}, cache.options, opts.compilerOptions);
+      const compilerOptions = Object.assign({}, cache.config.compilerOptions, opts.compilerOptions);
       const finalOpts = {
         fileName,
         moduleName,

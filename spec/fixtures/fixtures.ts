@@ -64,10 +64,6 @@ export const fixtures: Readonly<Record<string, FixturePackage>> = {
     config: 'tsconfig.json',
     index: 'index.ts',
   }),
-  noOptionsPackage: getFixtureFiles('no-options-package', {
-    config: 'tsconfig.json',
-    index: 'index.ts',
-  }),
   commentedConfigPackage: getFixtureFiles('commented-config-package', {
     config: 'tsconfig.json',
     index: 'index.ts',

@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import { loadConfig } from './config';
 import { Transpiler, TsConfig } from './defs';
 
 function* searchLocations(baseDir: string, resource: string): IterableIterator<string> {
@@ -21,56 +22,19 @@ function resolveResource(baseDir: string, fileName: string): string | undefined 
   return undefined;
 }
 
-function removeComments(source: string) {
-  return source.replace(/\/\/.*|\/\*[^]*?\*\//g, ' ');
-}
-
-function readJSON(location: string) {
-  let file = location;
-  if (!fs.existsSync(file) && !file.endsWith('.json')) file += '.json';
-  const content = fs.readFileSync(file, 'utf8');
-  const json = removeComments(content);
-  return JSON.parse(json);
-}
-
-function loadConfig(location: string, files: Set<string> = new Set): TsConfig {
-  let config;
-  try {
-    config = readJSON(location);
-  } catch (err) {
-    // tslint:disable-next-line no-console
-    console.error(`Failed to parse tsconfig located at ${location}.\n
-Is your configuration file properly formatted JSON?. Error message was:
-\n${err.message}`);
-  }
-  if (config == null || typeof config !== 'object') return {};
-  if (config.extends == null) return config;
-
-  const parent = path.resolve(path.dirname(location), config.extends);
-  config.extends = null;
-  if (files.has(parent)) {
-    console.error(`Cyclic references detected at ${location}.`);
-    return config;
-  }
-  files.add(parent);
-  const parentConfig = loadConfig(parent, files);
-  return Object.assign(parentConfig, config, {
-    compilerOptions: Object.assign(parentConfig.compilerOptions, config.compilerOptions),
-  });
-}
-
-export function resolveConfig(baseDir: string): TsConfig.CompilerOptions {
+export function resolveConfig(baseDir: string): TsConfig {
   const location = resolveResource(baseDir, 'tsconfig.json');
-  if (location === undefined) return {};
-  const { compilerOptions } = loadConfig(location);
-  return compilerOptions === undefined ? {} : compilerOptions;
+  if (location !== undefined) {
+    return loadConfig(location);
+  } else {
+    return {};
+  }
 }
 
 export function resolveTranspiler(baseDir: string): Transpiler | undefined {
   const location = resolveResource(baseDir, 'node_modules');
   try {
-    const transpiler:Transpiler = require(`${location}/typescript`);
-    return transpiler;
+    return require(`${location}/typescript`);
   } catch (err) {
     console.error(`Failed to load transpiler for directory ${baseDir}.\n
 Do you have TypeScript installed as a peerDependency? Error message was:
