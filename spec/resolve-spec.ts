@@ -93,7 +93,7 @@ describe('resolve.ts', () => {
       error.mockImplementation(() => void 0);
       const fixture = fixtures.noTranspilerPackage;
       const resolved = resolveTranspiler(fixture.index.directory);
-      expect(resolved).toBeUndefined();
+      expect(resolved).toBeNull();
       error.mockRestore();
     });
   });

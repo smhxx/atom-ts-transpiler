@@ -31,7 +31,7 @@ export function resolveConfig(baseDir: string): TsConfig {
   }
 }
 
-export function resolveTranspiler(baseDir: string): Transpiler | undefined {
+export function resolveTranspiler(baseDir: string): Transpiler | null {
   const location = resolveResource(baseDir, 'node_modules');
   try {
     return require(`${location}/typescript`);
@@ -39,6 +39,6 @@ export function resolveTranspiler(baseDir: string): Transpiler | undefined {
     console.error(`Failed to load transpiler for directory ${baseDir}.\n
 Do you have TypeScript installed as a peerDependency? Error message was:
 \n${err.message}`);
-    return undefined;
+    return null;
   }
 }
