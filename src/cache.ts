@@ -5,8 +5,8 @@ import { resolveConfig, resolveTranspiler } from './resolve';
 export default class Cache {
   private static entries = new Map<string, Cache>();
   private dir: string;
-  private _config: TsConfig;
-  private _transpiler?: Transpiler;
+  private pConfig: TsConfig;
+  private pTranspiler?: Transpiler;
 
   private constructor(dir: string) {
     this.dir = dir;
@@ -23,16 +23,16 @@ export default class Cache {
   }
 
   get config(): TsConfig {
-    if (this._config !== undefined) {
-      return this._config;
+    if (this.pConfig !== undefined) {
+      return this.pConfig;
     } else {
       return resolveConfig(this.dir);
     }
   }
 
   get transpiler(): Transpiler | undefined {
-    if (this._transpiler !== undefined) {
-      return this._transpiler;
+    if (this.pTranspiler !== undefined) {
+      return this.pTranspiler;
     } else {
       return resolveTranspiler(this.dir);
     }

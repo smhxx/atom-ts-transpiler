@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import Cache from './cache';
+import Cache from './Cache';
 import { Options, PackageMeta, TranspiledModule, TranspileOptions, Transpiler } from './defs';
 
 const concatFiles = (pkg: PackageMeta) => (data: string, relPath: string) =>

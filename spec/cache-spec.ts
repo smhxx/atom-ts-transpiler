@@ -1,4 +1,4 @@
-import Cache from '../src/cache';
+import Cache from '../src/Cache';
 import { fixtures } from './fixtures/fixtures';
 
 describe('cache.ts', () => {

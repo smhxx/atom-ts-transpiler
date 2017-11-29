@@ -42,10 +42,10 @@ describe('resolve.ts', () => {
       const resolved = resolveConfig(fixture.index.directory);
       expect(resolved).toBeDefined();
       expect(resolved).toEqual({
-        "compilerOptions": {
+        compilerOptions: {
           module: 'commonjs',
           target: 'es2017',
-        }
+        },
       });
     });
 
@@ -53,14 +53,12 @@ describe('resolve.ts', () => {
       const fixture = fixtures.extendedConfigPackage;
       const resolved = resolveConfig(fixture.index.directory);
       expect(resolved).toBeDefined();
-      expect(resolved).toEqual(
-        Object.assign({}, fixtures.goodPackage.config.json, {
-          compilerOptions: Object.assign({}, fixtures.goodPackage.config.json.compilerOptions, {
-            module: 'commonjs',
-            target: 'es2017',
-          })
+      expect(resolved).toEqual(Object.assign({}, fixtures.goodPackage.config.json, {
+        compilerOptions: Object.assign({}, fixtures.goodPackage.config.json.compilerOptions, {
+          module: 'commonjs',
+          target: 'es2017',
         }),
-      );
+      }));
     });
 
     it('fails gracefully if there is a circular extension pattern', () => {
