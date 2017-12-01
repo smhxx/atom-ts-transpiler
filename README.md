@@ -58,7 +58,7 @@ Setting up your project to use `atom-ts-transpiler` is *extremely* simple. Just 
       "glob": "{!(node_modules)/**/,}*.ts?(x)",
       "options": {
         "compilerOptions": { },
-        "cacheKeyFiles": [ "lib/tsconfig.json" ],
+        "cacheKeyFiles": [],
         "verbose": false
       }
     }

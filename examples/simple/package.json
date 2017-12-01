@@ -27,10 +27,7 @@
   "atomTranspilers": [
     {
       "transpiler": "atom-ts-transpiler",
-      "glob": "{!(node_modules)/**/,}*.ts?(x)",
-      "options": {
-        "cacheKeyFiles": [ "lib/tsconfig.json" ]
-      }
+      "glob": "{!(node_modules)/**/,}*.ts?(x)"
     }
   ]
 }
