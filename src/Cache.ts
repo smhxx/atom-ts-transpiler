@@ -1,12 +1,13 @@
 import { dirname } from 'path';
-import { Transpiler, TsConfig } from './defs';
-import { resolveConfig, resolveTranspiler } from './resolve';
+import Config from './Config';
+import Transpiler from './Transpiler';
+import { Transpiler as TsTranspiler, TsConfig } from './defs';
 
 export default class Cache {
   private static entries = new Map<string, Cache>();
   private dir: string;
-  private myConfig: TsConfig;
-  private myTranspiler: Transpiler | null;
+  private myConfig?: TsConfig;
+  private myTranspiler?: TsTranspiler | null;
 
   private constructor(dir: string) {
     this.dir = dir;
@@ -24,14 +25,14 @@ export default class Cache {
 
   get config(): TsConfig {
     if (this.myConfig === undefined) {
-      this.myConfig = resolveConfig(this.dir);
+      this.myConfig = Config.resolve(this.dir);
     }
     return this.myConfig;
   }
 
-  get transpiler(): Transpiler | null {
+  get transpiler(): TsTranspiler | null {
     if (this.myTranspiler === undefined) {
-      this.myTranspiler = resolveTranspiler(this.dir);
+      this.myTranspiler = Transpiler.resolve(this.dir);
     }
     return this.myTranspiler;
   }
