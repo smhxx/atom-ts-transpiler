@@ -13,23 +13,25 @@ describe('atom-ts-transpiler', () => {
       meta: fixtures.goodPackage.package.json,
     };
 
-    it('returns the concatenated contents of the listed cacheKeyFiles', () => {
+    // tslint:disable-next-line max-line-length
+    it('returns the associated tsconfig options, concatenated with the contents of any listed cacheKeyFiles', () => {
       const fixture = fixtures.goodPackage;
       const cacheKeyFiles = [
         'index.ts',
         'other.ts',
       ];
       const config = Object.assign({}, fixture.config.json, { cacheKeyFiles });
-      const data: string = getCacheKeyData('', '', config, meta);
+      const data: string = getCacheKeyData('', fixture.index.path, config, meta);
       expect(data).not.toEqual('');
+      expect(data).toMatch(JSON.stringify(fixture.config.json));
       expect(data).toMatch(fixture.index.contents);
       expect(data).toMatch(fixture.other.contents);
     });
 
-    it('returns empty string if no cacheKeyFiles are specified', () => {
+    it('returns only the associated tsconfig options if no cacheKeyFiles are specified', () => {
       const fixture = fixtures.goodPackage;
-      const data: string = getCacheKeyData('', '', fixture.config.json, meta);
-      expect(data).toEqual('');
+      const data: string = getCacheKeyData('', fixture.index.path, fixture.config.json, meta);
+      expect(data).toEqual(JSON.stringify(fixture.config.json));
     });
   });
 
