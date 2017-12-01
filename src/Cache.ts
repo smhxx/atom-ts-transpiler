@@ -23,14 +23,14 @@ export default class Cache {
     }
   }
 
-  get config(): TsConfig {
+  public get config(): TsConfig {
     if (this.myConfig === undefined) {
       this.myConfig = Config.resolve(this.dir);
     }
     return this.myConfig;
   }
 
-  get transpiler(): TsTranspiler | null {
+  public get transpiler(): TsTranspiler | null {
     if (this.myTranspiler === undefined) {
       this.myTranspiler = Transpiler.resolve(this.dir);
     }

@@ -26,8 +26,8 @@ function tryTranspile(ts: Transpiler, fileSrc: string, opts: TranspileOptions): 
   return undefined;
 }
 
-export function getCacheKeyData(_: any, __: string, opts: Options, pkg: PackageMeta): string {
-  let data = '';
+export function getCacheKeyData(_: any, fileName: string, opts: Options, pkg: PackageMeta): string {
+  let data = JSON.stringify(Cache.get(fileName).config);
   if (opts.cacheKeyFiles instanceof Array) {
     data += opts.cacheKeyFiles.reduce(concatFiles(pkg), '');
   }
