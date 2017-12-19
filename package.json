@@ -30,7 +30,7 @@
     "@types/jest": "^21.1.2",
     "@types/node": "^8.0.31",
     "jest": "^22.0.1",
-    "ts-jest": "^21.0.1",
+    "ts-jest": "^22.0.0",
     "tslint": "^5.7.0",
     "tslint-config-airbnb": "^5.3.0",
     "typescript": "^2.5.3"
