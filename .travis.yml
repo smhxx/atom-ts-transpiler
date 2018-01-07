@@ -10,10 +10,6 @@ matrix:
     - env: TYPE="integration" ATOM_CHANNEL="stable"
     - env: TYPE="integration" ATOM_CHANNEL="beta"
 
-env:
-  global:
-    - secure: Z/KjmAIHUvgqI+/vfeHcFiWgFRI9PsqFUGNrTU6kRkuaRwDu8lRnV4QyB7MY9ogvXsWzh3vG2aqN8+ByrdCUzbbS1qorEMMkC5bKzQyo2xzgZgM7CgAuym2zpxz4k+g5gH4eBZKkSrIJEItFt03hBVp1o7muSb22bO6miPztbjhNj5CNtSstNdwx0C36ZprLksV0G/0uzAsACRR2BwAMC8ZN+FCubWGB4xjGWuj09RcPnog3XiHUksDjGorplSvjtx9QBCirP9ff3bZplTbQaAlBlibTGIE9uFA0g0bfaK0DIjH1U2G9mJhllFppQ69bHbTjZJtINQhVUs6yRiUSLoOkoDRPOD0NC7VXIV5CH82oPS3oWKSpEjmJ0pnuBhnomVvaY2ZpaOKXwR/NUWXaK6lYsIacF2BMXOcmAgtlY94wdH1zG46cjkBhNbWD9ltBkD92nIuJ+oqKsfWJwV6w86geN1KGqr/4fuK9uIsZnC07rOuA85zhHT1nYwvg2/yhYR7MdIU0+0KdvM3Uy5Tb7NiyiSmQn5t2nYiOUDUv4XZZ+Svkon1vWYWVm4kXz+x327I1H1wpXelDrW9lbp8y5TUs7ql/8TsXwQQROMo65nw/qMToz5KA/mhrHgVRJPEoRX+tyRF8EkMlX00pksVVeD9wDbbm4m6Z79+bLsfqUF4=
-
 cache:
   directories:
     - node_modules
