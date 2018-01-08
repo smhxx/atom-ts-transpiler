@@ -98,6 +98,7 @@ None of these are strictly necessary, but you may find some or all of them usefu
 
 The [examples directory](https://github.com/smhxx/atom-ts-transpiler/tree/master/examples) of the GitHub repo contains a bare-bones example of what a new package setup might look like, if you're looking for somewhere to get started. If you want to see how people are using `atom-ts-transpiler` in their own packages, check out one of these!
 
+* [path-of-exile-item-filter](https://atom.io/packages/path-of-exile-item-filter): *An Atom package designed to make editing Path of Exile item filters easier.*
 * [title-bar-replacer](https://atom.io/packages/title-bar-replacer): *Replaces the native OS titlebar with a "frameless" titlebar that can be styled using CSS/LESS.*
 
 If you'd like to see your package listed here to help out newcomers to the Atom/TypeScript modding community, we'd love to hear from you! Just [open an issue](https://github.com/smhxx/atom-ts-transpiler/issues) on GitHub with a link to its [Atom package directory](https://atom.io/packages) page and a brief description of what it does, and we'll add you here in the next patch version. 😊
