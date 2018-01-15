@@ -4,11 +4,13 @@ language: node_js
 node_js:
   - node
 
-matrix:
-  include:
-    - env: TYPE="unit"
-    - env: TYPE="integration" ATOM_CHANNEL="stable"
-    - env: TYPE="integration" ATOM_CHANNEL="beta"
+env:
+  global:
+    - secure: TsbZbKSgMVnz4lZYWG5WMbC1qHiI7jeTKg3HOxunzWdMNSbB5uWb+HGfPbt0co41dy8AIgBuK7IZ9PYA8E9P6oivD5h8HvVZOyKHIAXKnyqdRAcAtXTstEecDdKQ2OGAYRlpZ3Wj901xc8hkbPx5DdSGYN3Totmz/fx7PHoVgbtD/YHaxIXOZFAH6l3w7qiV5S/5C1Y+Lb5AzDKak3WaDlJLt+RjXe6lpDOKGvrmQFwpyYpxQrz/Fh9pDw54vVqhn57RByoVmhCM4rq0/Czf5BnK4sJDu0YuYmgRjqndkaO8XO/xOOsguK3G33gouW7IJMSp7++q5jMjnvVXTBzaiKEp7Qw9oE26NplaY9Nwxuj9o0gNMJJaFAfZn9/ZkXDKaYV0jezOf5zI5sLAPEStIotf8w+L8n13zqr469CYjoHI9WxpKOoy+MbJPOCC7N+5NXHRVW1LCWD/Yt9urlDD2S2JxblbC6xZd/FWhl3iMURoTxj6SK5J1dWBMOFwNCIM8ZjTBQtmzP49tRHoH0EDpgoaPpjrz4MPVPIuVuXbEMu0xB3oK5oCN3X+nie03z0BmsjYIm0XfAzCOB8VEk3SqMfzDoPfHI+5fW+rSaGjiK3A5g2naJTPJvWeQMCC3j32Sg4n/XSdfAwLb+vrJFZ3RhiEiCi0xsCjns0VEQCVm3E=
+  matrix:
+    - TYPE="unit"
+    - TYPE="integration" ATOM_CHANNEL="stable"
+    - TYPE="integration" ATOM_CHANNEL="beta"
 
 cache:
   directories:
