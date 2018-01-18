@@ -34,7 +34,14 @@ function readJSON(location: string): TsConfig {
   }
 }
 
-function getParentConfig(config: TsConfig, location: string, descendants: Set<string>): TsConfig {
+type ChildConfig = TsConfig & { extends: string };
+
+function isChildConfig(config: TsConfig): config is ChildConfig {
+  return typeof config.extends === 'string';
+}
+
+// tslint:disable-next-line max-line-length
+function getParentConfig(config: ChildConfig, location: string, descendants: Set<string>): TsConfig {
   const parent = path.resolve(path.dirname(location), config.extends);
   if (descendants.has(parent)) {
     // tslint:disable-next-line max-line-length
@@ -45,9 +52,9 @@ function getParentConfig(config: TsConfig, location: string, descendants: Set<st
   }
 }
 
-function loadConfig(location: string, descendants: Set<string> = new Set): TsConfig {
+function loadConfig(location: string, descendants: Set<string> = new Set()): TsConfig {
   const config = readJSON(location);
-  if (config.extends !== undefined) {
+  if (isChildConfig(config)) {
     const parent = getParentConfig(config, location, descendants);
     return Object.assign(compose(parent, config), { extends: undefined });
   } else {
