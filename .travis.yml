@@ -38,7 +38,8 @@ jobs:
       script:
         - npm run lint
         - npm run lintspec
-        - for dir in examples/*; do if [ -d "${dir}" ]; then cd "${dir}"; npm install; npm run lint; if [ $? -ne 0 ]; then exit 1; fi; cd ..; fi; done
+        - for dir in examples/*; do if [ -d "${dir}" ]; then cd "${dir}"; echo "Linting ${dir}..."; npm install; npm run lint; if [ $? -ne 0 ]; then exit 1; fi; cd ..; fi; done
+        - npm run build
         - npm run coverage
       after_script:
         - codecov
