@@ -22,14 +22,15 @@ notifications:
     on_failure: always
 
 stages:
-  - stage: test
-  - name: deploy
+  - Unit Tests
+  - Integration Tests
+  - name: Deployment
     if: branch = master
 
 jobs:
   include:
-      # Unit tests
-    - stage: test
+
+    - stage: Unit Tests
       before_install:
         - npm install -g codecov greenkeeper-lockfile
       before_script:
@@ -43,8 +44,7 @@ jobs:
         - codecov
         - greenkeeper-lockfile-upload
 
-      # Integration test (stable channel)
-    - stage: test
+    - stage: Integration Tests
       env:
         - ATOM_CHANNEL=stable
       before_script:
@@ -55,8 +55,7 @@ jobs:
       script:
         - ./build-package.sh
 
-      # Integration test (beta channel)
-    - stage: test
+    - stage: Integration Tests
       env:
         - ATOM_CHANNEL=beta
       before_script:
@@ -67,8 +66,7 @@ jobs:
       script:
         - ./build-package.sh
 
-      # Deployment
-    - stage: deploy
+    - stage: Deployment
       env:
         - secure: ralS+ckBffHLnqBqgWSR4mc5K8ICtDQGZ45zTRJ4BJkNg1wjdfq9OQlwSkdFHRVssRiXD8ZIcCS6CguNXtAIHPVXCvL38sintMG6wjsI6vPVsBQFP+fJn8rbFASEO6Gr6lNwtR5nHBouB+Z9HuFm8vNM2Ck+wEKsyCxjYPYiZODFSbsnbxDTtuake1SDtnXM62w0GEhq3VtJD7RYN3JcyJi4YIORT0yB2hOxhHvrPcCcG8a3sprVu5vM1zgLS9pLIhWwKHZscVQBZ48gqwrDYd17oLfP1yKP3NubBL6OdZ74rsZapJYwK7/j0oHcGkOiGEZtk3Y/LpnAgHVqMFSMfP5wxX/wcr2sb+NssxSrWf7tP5JaXrXgSNhipb5CWfBrryt7vIyxJLrRxFRvdRJuqpmhY32RcP8WZq01zBEsEjnktcE4ZPo8onzxt32ipfSpcXpoSlANSVfSCoNVNOA8Jd7Fv2m1SmnzbZf33+b4dy6o5rHfEfvF8s3vmD2g28yy+ir4BHv9/CjAzpzEtzd6L5cHg7vry/QTWXCDfND1CZPaSWI6bDKZC4HdCYkW2HK0BPl5qePGS5gI8XkRLHx2oqkkLcOfUDT+QGeG96FiIDaerhetmaHDd6kWD5bDog6ewUUlT5Q1ohYPBy+qlRxDfn0RJKtFsR9a/WT7ek5BViQ=
       script:
