@@ -1,11 +1,12 @@
+import '../helper';
+import fixtures from '../fixtures';
 import * as path from 'path';
-import { fixtures } from './fixtures/fixtures';
-import { getCacheKeyData, transpile } from '../src/index';
-import { Options, PackageMeta, TsConfig } from '../src/defs';
+import { getCacheKeyData, transpile } from '../../src/index';
+import { Options, PackageMeta, TsConfig } from '../../src/defs';
 
 describe('atom-ts-transpiler', () => {
 
-  describe('getCacheKeyData()', () => {
+  describe('.getCacheKeyData()', () => {
 
     const meta:PackageMeta = {
       name: 'good-package',
@@ -22,107 +23,106 @@ describe('atom-ts-transpiler', () => {
       ];
       const config = Object.assign({}, fixture.config.json, { cacheKeyFiles });
       const data: string = getCacheKeyData('', fixture.index.path, config, meta);
-      expect(data).not.toEqual('');
-      expect(data).toMatch(JSON.stringify(fixture.config.json));
-      expect(data).toMatch(fixture.index.contents);
-      expect(data).toMatch(fixture.other.contents);
+
+      expect(data).not.to.equal('');
+      expect(data).to.contain(JSON.stringify(fixture.config.json));
+      expect(data).to.contain(fixture.index.contents);
+      expect(data).to.contain(fixture.other.contents);
     });
 
     it('returns only the associated tsconfig options if no cacheKeyFiles are specified', () => {
       const fixture = fixtures.goodPackage;
       const data: string = getCacheKeyData('', fixture.index.path, fixture.config.json, meta);
-      expect(data).toEqual(JSON.stringify(fixture.config.json));
+      expect(data).to.equal(JSON.stringify(fixture.config.json));
     });
   });
 
-  describe('transpile()', () => {
+  describe('.transpile()', () => {
 
-    let spy: jest.Mock<{}>;
+    let transpileModule: Stub;
 
     beforeEach(() => {
-      spy = fixtures.goodPackage.typescript.module.transpileModule = jest.fn();
-      spy.mockImplementation(() => ({
+      transpileModule = stub(fixtures.goodPackage.typescript.module, 'transpileModule').returns({
         diagnostics: [],
         outputText: 'output',
-      }));
+      });
     });
 
     afterEach(() => {
-      jest.restoreAllMocks();
+      transpileModule.restore();
     });
 
     it('calls the appropriate transpiler with the contents of the source file', () => {
       transpile('', fixtures.goodPackage.index.path, {});
-      expect(spy).toHaveBeenCalledTimes(1);
-      const source = spy.mock.calls[0][0];
-      expect(source).toEqual(fixtures.goodPackage.index.contents);
+      expect(transpileModule).to.have.been.calledOnce;
+      expect(transpileModule).to.have.been.calledWith(fixtures.goodPackage.index.contents);
     });
 
     it('writes any encountered errors to console.error() and does not return any code', () => {
-      const error = jest.spyOn(console, 'error');
-      error.mockImplementation(() => void 0);
-      spy.mockImplementationOnce(() => {
-        throw new Error('the message attached to the thrown error');
-      });
+      const error = stub(console, 'error');
+      transpileModule.throws(new Error('the message attached to the thrown error'));
 
       const output = transpile('', fixtures.goodPackage.index.path, {});
-      expect(error).toHaveBeenCalledTimes(1);
-      expect(typeof error.mock.calls[0][0]).toBe('string');
-      expect(error.mock.calls[0][0]).toMatch(/the message attached to the thrown error/);
-      expect(typeof output).toBe('object');
-      expect(output.code).toBeUndefined();
+      expect(error).to.have.been.calledOnce;
+      expect(error.getCall(0).args[0]).to.contain('the message attached to the thrown error');
+      expect(output).to.be.an('object');
+      expect(output.code).to.be.undefined;
+
+      error.restore();
     });
 
     it('uses the compiler options specified in tsconfig.json', () => {
       transpile('', fixtures.goodPackage.index.path, {});
-      expect(spy).toHaveBeenCalledTimes(1);
-      const usedOptions = spy.mock.calls[0][1].compilerOptions;
-      expect(usedOptions.removeComments).toBe(true);
+      expect(transpileModule).to.have.been.calledOnce;
+      expect(transpileModule.getCall(0).args[1].compilerOptions.removeComments).to.be.true;
     });
 
     it('overrides the tsconfig options with any specified in the package.json', () => {
       const compilerOptions: TsConfig.CompilerOptions = { removeComments: false };
       const options: Options = { compilerOptions };
       transpile('', fixtures.goodPackage.index.path, options);
-      expect(spy).toHaveBeenCalledTimes(1);
-      const usedOptions = spy.mock.calls[0][1].compilerOptions;
-      expect(usedOptions.removeComments).toBe(false);
+      expect(transpileModule).to.have.been.calledOnce;
+      expect(transpileModule.getCall(0).args[1].compilerOptions.removeComments).to.be.false;
     });
 
     it('writes an error to console and returns no code if the file does not exist', () => {
-      const error = jest.spyOn(console, 'error');
-      error.mockImplementation(() => void 0);
+      const error = stub(console, 'error');
+
       const filePath = path.resolve(fixtures.goodPackage.index.directory, 'not-a-real-file.ts');
       const output = transpile('', filePath, {});
-      expect(error).toHaveBeenCalledTimes(1);
-      expect(error.mock.calls[0][0]).toMatch(/ENOENT/);
-      expect(output).toEqual({});
-      error.mockRestore();
+      expect(error).to.have.been.calledOnce;
+      expect(error.getCall(0).args[0]).to.match(/ENOENT/);
+      expect(output).to.deep.equal({});
+
+      error.restore();
     });
 
     it('returns no code if the typescript package could not be resolved', () => {
-      const error = jest.spyOn(console, 'error');
-      error.mockImplementation(() => void 0);
+      const error = stub(console, 'error');
+
       const output = transpile('', fixtures.noTranspilerPackage.index.path, {});
-      expect(error).toHaveBeenCalledTimes(1);
-      expect(output).toEqual({});
-      error.mockRestore();
+      expect(error).to.have.been.calledOnce;
+      expect(output).to.deep.equal({});
+
+      error.restore();
     });
 
     it('writes debugging text to console if the verbose option is set to true', () => {
-      const log = jest.spyOn(console, 'log');
-      log.mockImplementation(() => void 0);
+      const log = stub(console, 'log');
+
       transpile('', fixtures.goodPackage.index.path, { verbose: true });
-      expect(log).toHaveBeenCalledTimes(2);
-      log.mockRestore();
+      expect(log).to.have.been.calledTwice;
+
+      log.restore();
     });
 
     it('does not write to the console if the verbose option is not set', () => {
-      const log = jest.spyOn(console, 'log');
-      log.mockImplementation(() => void 0);
+      const log = stub(console, 'log');
+
       transpile('', fixtures.goodPackage.index.path, {});
-      expect(log).not.toHaveBeenCalled();
-      log.mockRestore();
+      expect(log).not.to.have.been.called;
+
+      log.restore();
     });
   });
 });

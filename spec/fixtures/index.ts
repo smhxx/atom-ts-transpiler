@@ -44,7 +44,7 @@ function getFixtureFiles(dir: string, files: Readonly<Record<string,string>>): F
   return Object.freeze(newFiles);
 }
 
-export const fixtures: Readonly<Record<string, FixturePackage>> = {
+export default <Readonly<Record<string, FixturePackage>>> {
   badConfigPackage: getFixtureFiles('bad-config-package', {
     config: 'tsconfig.json',
     index: 'index.ts',

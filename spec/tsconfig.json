@@ -7,16 +7,16 @@
     ],
     "module": "commonjs",
     "moduleResolution": "node",
-    "strict": true,
-    "newLine": "lf",
-    "removeComments": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noImplicitUseStrict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true,
+    "strictNullChecks": true,
+    "newLine": "lf",
+    "removeComments": true,
     "forceConsistentCasingInFileNames": true,
-    "types": [ "node", "jest" ]
-  },
-  "exclude": [
-    "integration"
-  ]
+    "types": [ "mocha", "node" ]
+  }
 }
