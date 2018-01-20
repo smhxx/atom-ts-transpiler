@@ -13,7 +13,8 @@
     "atom": ">=1.13.0 <2.0.0"
   },
   "scripts": {
-    "lint": "tslint -p lib"
+    "lint": "tslint -p lib",
+    "lintspec": "tslint -p spec"
   },
   "dependencies": {
     "@types/atom": "^1.21.8",

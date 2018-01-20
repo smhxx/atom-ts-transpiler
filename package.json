@@ -19,6 +19,7 @@
     "build": "tsc -p src/tsconfig.json",
     "coverage": "nyc mocha --opts spec/mocha.opts",
     "deploy": "semantic-release",
+    "examples": "node examples/verify.js",
     "lint": "tslint -p src",
     "lintspec": "tslint -p spec",
     "prepublishOnly": "npm run build",
