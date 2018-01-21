@@ -2,7 +2,8 @@
 [![Version](https://img.shields.io/npm/v/atom-ts-transpiler.svg)](https://www.npmjs.com/package/atom-ts-transpiler)
 [![Downloads](https://img.shields.io/npm/dt/atom-ts-transpiler.svg)](https://www.npmjs.com/package/atom-ts-transpiler)
 [![CodeCov](https://codecov.io/gh/smhxx/atom-ts-transpiler/branch/master/graph/badge.svg)](https://codecov.io/gh/smhxx/atom-ts-transpiler)
-[![Greenkeeper](https://badges.greenkeeper.io/smhxx/atom-ts-transpiler.svg)](https://greenkeeper.io/)
+[![Dependencies](https://david-dm.org/smhxx/atom-ts-transpiler/status.svg)](https://david-dm.org/smhxx/atom-ts-transpiler)
+[![DevDependencies](https://david-dm.org/smhxx/atom-ts-transpiler/dev-status.svg)](https://david-dm.org/smhxx/atom-ts-transpiler?type=dev)
 # atom-ts-transpiler
 
 This package provides a simple, easily-configured compatibility layer that sits between [Atom](https://atom.io/) and the [TypeScript](https://www.typescriptlang.org/) compiler, giving Atom the ability to run packages written and distributed entirely in TypeScript. It's small (\<15 KB,) supports any version of TypeScript since 1.6, and can be set up within minutes. It even respects the compiler options specified in your tsconfig.json file automatically, without the need for any additional configuration.

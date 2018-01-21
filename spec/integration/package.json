@@ -6,9 +6,9 @@
   "author": "smhxx <captaintrek@gmail.com>",
   "main": "index.ts",
   "dependencies": {
-    "@types/atom": "latest",
+    "@types/atom": "^1.21.8",
     "atom-ts-transpiler": "file:../..",
-    "typescript": "latest"
+    "typescript": "^2.5.3"
   },
   "atomTranspilers": [
     {
