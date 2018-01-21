@@ -2,13 +2,13 @@
   "extends": [
     "config:base",
     ":preserveSemverRanges",
-    ":prNotPending"
+    ":semanticCommitTypeAll(chore)",
+    ":semanticCommitScope(package)"
   ],
   "assignees": [
     "smhxx"
   ],
   "labels": [
     "dependencies"
-  ],
-  "semanticCommitScope": "package"
+  ]
 }
