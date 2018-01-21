@@ -4,10 +4,6 @@ language: node_js
 node_js:
   - node
 
-env:
-  global:
-    - secure: TsbZbKSgMVnz4lZYWG5WMbC1qHiI7jeTKg3HOxunzWdMNSbB5uWb+HGfPbt0co41dy8AIgBuK7IZ9PYA8E9P6oivD5h8HvVZOyKHIAXKnyqdRAcAtXTstEecDdKQ2OGAYRlpZ3Wj901xc8hkbPx5DdSGYN3Totmz/fx7PHoVgbtD/YHaxIXOZFAH6l3w7qiV5S/5C1Y+Lb5AzDKak3WaDlJLt+RjXe6lpDOKGvrmQFwpyYpxQrz/Fh9pDw54vVqhn57RByoVmhCM4rq0/Czf5BnK4sJDu0YuYmgRjqndkaO8XO/xOOsguK3G33gouW7IJMSp7++q5jMjnvVXTBzaiKEp7Qw9oE26NplaY9Nwxuj9o0gNMJJaFAfZn9/ZkXDKaYV0jezOf5zI5sLAPEStIotf8w+L8n13zqr469CYjoHI9WxpKOoy+MbJPOCC7N+5NXHRVW1LCWD/Yt9urlDD2S2JxblbC6xZd/FWhl3iMURoTxj6SK5J1dWBMOFwNCIM8ZjTBQtmzP49tRHoH0EDpgoaPpjrz4MPVPIuVuXbEMu0xB3oK5oCN3X+nie03z0BmsjYIm0XfAzCOB8VEk3SqMfzDoPfHI+5fW+rSaGjiK3A5g2naJTPJvWeQMCC3j32Sg4n/XSdfAwLb+vrJFZ3RhiEiCi0xsCjns0VEQCVm3E=
-
 cache:
   directories:
     - node_modules
@@ -32,9 +28,7 @@ jobs:
 
     - stage: Unit Tests
       before_install:
-        - npm install -g codecov greenkeeper-lockfile
-      before_script:
-        - greenkeeper-lockfile-update
+        - npm install -g codecov
       script:
         - npm run lint
         - npm run lintspec
@@ -42,7 +36,6 @@ jobs:
         - npm run examples
       after_script:
         - codecov
-        - greenkeeper-lockfile-upload
 
     - stage: Integration Tests
       env:
@@ -68,6 +61,7 @@ jobs:
 
     - stage: Deployment
       env:
+        - secure: TsbZbKSgMVnz4lZYWG5WMbC1qHiI7jeTKg3HOxunzWdMNSbB5uWb+HGfPbt0co41dy8AIgBuK7IZ9PYA8E9P6oivD5h8HvVZOyKHIAXKnyqdRAcAtXTstEecDdKQ2OGAYRlpZ3Wj901xc8hkbPx5DdSGYN3Totmz/fx7PHoVgbtD/YHaxIXOZFAH6l3w7qiV5S/5C1Y+Lb5AzDKak3WaDlJLt+RjXe6lpDOKGvrmQFwpyYpxQrz/Fh9pDw54vVqhn57RByoVmhCM4rq0/Czf5BnK4sJDu0YuYmgRjqndkaO8XO/xOOsguK3G33gouW7IJMSp7++q5jMjnvVXTBzaiKEp7Qw9oE26NplaY9Nwxuj9o0gNMJJaFAfZn9/ZkXDKaYV0jezOf5zI5sLAPEStIotf8w+L8n13zqr469CYjoHI9WxpKOoy+MbJPOCC7N+5NXHRVW1LCWD/Yt9urlDD2S2JxblbC6xZd/FWhl3iMURoTxj6SK5J1dWBMOFwNCIM8ZjTBQtmzP49tRHoH0EDpgoaPpjrz4MPVPIuVuXbEMu0xB3oK5oCN3X+nie03z0BmsjYIm0XfAzCOB8VEk3SqMfzDoPfHI+5fW+rSaGjiK3A5g2naJTPJvWeQMCC3j32Sg4n/XSdfAwLb+vrJFZ3RhiEiCi0xsCjns0VEQCVm3E=
         - secure: ralS+ckBffHLnqBqgWSR4mc5K8ICtDQGZ45zTRJ4BJkNg1wjdfq9OQlwSkdFHRVssRiXD8ZIcCS6CguNXtAIHPVXCvL38sintMG6wjsI6vPVsBQFP+fJn8rbFASEO6Gr6lNwtR5nHBouB+Z9HuFm8vNM2Ck+wEKsyCxjYPYiZODFSbsnbxDTtuake1SDtnXM62w0GEhq3VtJD7RYN3JcyJi4YIORT0yB2hOxhHvrPcCcG8a3sprVu5vM1zgLS9pLIhWwKHZscVQBZ48gqwrDYd17oLfP1yKP3NubBL6OdZ74rsZapJYwK7/j0oHcGkOiGEZtk3Y/LpnAgHVqMFSMfP5wxX/wcr2sb+NssxSrWf7tP5JaXrXgSNhipb5CWfBrryt7vIyxJLrRxFRvdRJuqpmhY32RcP8WZq01zBEsEjnktcE4ZPo8onzxt32ipfSpcXpoSlANSVfSCoNVNOA8Jd7Fv2m1SmnzbZf33+b4dy6o5rHfEfvF8s3vmD2g28yy+ir4BHv9/CjAzpzEtzd6L5cHg7vry/QTWXCDfND1CZPaSWI6bDKZC4HdCYkW2HK0BPl5qePGS5gI8XkRLHx2oqkkLcOfUDT+QGeG96FiIDaerhetmaHDd6kWD5bDog6ewUUlT5Q1ohYPBy+qlRxDfn0RJKtFsR9a/WT7ek5BViQ=
       script:
         - npm run deploy
