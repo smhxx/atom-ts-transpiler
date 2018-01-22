@@ -29,6 +29,7 @@
     "typescript": "^1.6.0 || ^2.0.0"
   },
   "devDependencies": {
+    "@semantic-release/git": "^2.0.2",
     "@types/chai": "^4.1.1",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^2.2.46",
