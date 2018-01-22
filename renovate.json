@@ -1,6 +1,7 @@
 {
   "extends": [
     "config:base",
+    ":automergeBranchPush",
     ":preserveSemverRanges",
     ":semanticCommitTypeAll(chore)",
     ":semanticCommitScope(package)"
@@ -12,6 +13,7 @@
     "dependencies"
   ],
   "bazel": {
+    "commitMessage": "chore(package): verify integration test status for Atom {{newVersion}}",
     "packageRules": [
       {
         "packageNames": [ "atom-stable" ],
