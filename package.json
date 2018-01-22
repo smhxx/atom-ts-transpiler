@@ -1,6 +1,6 @@
 {
   "name": "atom-ts-transpiler",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A transpiler for Atom packages that processes code with TypeScript",
   "author": "smhxx <captaintrek@gmail.com>",
   "main": "dist/index.js",
@@ -65,5 +65,12 @@
     ],
     "sourceMap": true,
     "instrument": true
+  },
+  "release": {
+    "publish": [
+      "@semantic-release/npm",
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ]
   }
 }
