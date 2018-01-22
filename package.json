@@ -1,6 +1,6 @@
 {
   "name": "atom-ts-transpiler",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "A transpiler for Atom packages that processes code with TypeScript",
   "author": "smhxx <captaintrek@gmail.com>",
   "main": "dist/index.js",
@@ -71,12 +71,31 @@
     "analyzeCommits": {
       "preset": "angular",
       "releaseRules": [
-        { "breaking": true, "release": "major" },
-        { "type": "feat", "release": "minor" },
-        { "type": "fix", "release": "patch" },
-        { "type": "perf", "release": "patch" },
-        { "type": "refactor", "release": "patch" },
-        { "type": "docs", "scope": "README", "release": "patch" }
+        {
+          "breaking": true,
+          "release": "major"
+        },
+        {
+          "type": "feat",
+          "release": "minor"
+        },
+        {
+          "type": "fix",
+          "release": "patch"
+        },
+        {
+          "type": "perf",
+          "release": "patch"
+        },
+        {
+          "type": "refactor",
+          "release": "patch"
+        },
+        {
+          "type": "docs",
+          "scope": "README",
+          "release": "patch"
+        }
       ]
     },
     "publish": [
