@@ -1,0 +1,15 @@
+// This is a "fake" Bazel workspace file used to force Renovate to run the integration tests against
+// each new release of Atom on GitHub. The versions listed below are the most recent ones that the
+// integration tests have passed against. This file should not be edited manually.
+
+workspace(name="integration_tests")
+
+http_archive(
+    name = "atom-stable",
+    url = "https://github.com/atom/atom/releases/download/v1.23.3/atom-amd64.tar.gz",
+)
+
+http_archive(
+    name = "atom-beta",
+    url = "https://github.com/atom/atom/releases/download/v1.24.0-beta3/atom-amd64.tar.gz",
+)

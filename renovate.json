@@ -10,5 +10,17 @@
   ],
   "labels": [
     "dependencies"
-  ]
+  ],
+  "bazel": {
+    "packageRules": [
+      {
+        "packageNames": [ "atom-stable" ],
+        "ignoreUnstable": true
+      },
+      {
+        "packageNames": [ "atom-beta" ],
+        "ignoreUnstable": false
+      }
+    ]
+  }
 }
