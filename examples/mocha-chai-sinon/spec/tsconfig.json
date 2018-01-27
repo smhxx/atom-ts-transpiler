@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "lib": [
+      "es2016",
+      "dom"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noImplicitUseStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "newLine": "lf",
+    "removeComments": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": [ "atom", "mocha", "node" ]
+  }
+}

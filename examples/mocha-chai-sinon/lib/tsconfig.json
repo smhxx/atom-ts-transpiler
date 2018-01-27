@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "lib": [
+      "es2016",
+      "dom"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "baseUrl": "../",
+    "removeComments": true,
+    "types": [ "atom", "node" ]
+  }
+}

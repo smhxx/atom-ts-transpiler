@@ -5,3 +5,4 @@
 The following example packages are provided to give you an idea of where to start if you're considering writing a new package in TypeScript:
 
 * **simple:** *A tiny, unopinionated setup with just the bare-minimum requirements, plus tslint. Based on Atom's built-in "Package Generator."*
+* **mocha-chai-sinon:** *A more complete (but also more opinionated) setup, which includes testing using mocha/chai/sinon and `atom-mocha-test-runner`.*
