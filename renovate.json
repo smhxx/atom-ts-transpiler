@@ -1,7 +1,10 @@
 {
   "extends": [
     "config:base",
+    ":automergeMajor",
+    ":automergeMinor",
     ":automergeBranchPush",
+    ":automergeRequireAllStatusChecks",
     ":preserveSemverRanges",
     ":semanticCommitTypeAll(chore)",
     ":semanticCommitScope(package)"
