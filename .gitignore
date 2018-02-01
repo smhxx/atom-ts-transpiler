@@ -2,4 +2,5 @@
 /coverage
 /dist
 /node_modules
-**/package-lock.json
+examples/*/package-lock.json
+spec/integration/package-lock.json
