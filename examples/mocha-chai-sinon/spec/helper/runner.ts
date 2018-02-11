@@ -2,7 +2,7 @@ import { createRunner } from 'atom-mocha-test-runner';
 import * as fs from 'fs';
 import * as path from 'path';
 
-let packageName: string = require('../../package.json').name;
+const packageName: string = require('../../package.json').name;
 
 const runner = createRunner(
   {
@@ -13,32 +13,34 @@ const runner = createRunner(
   },
   (mocha) => {
     // Create symlink between package and temp packages directory
-    let packagesDir = atom.packages.getPackageDirPaths()
-      .find(p => p.match(/[\\\/]dev[\\\/]packages$/));
-    const packagesDirTokens = packagesDir.split(path.sep);
-    try {
-      let partialPath = path.resolve(packagesDirTokens.shift() + path.sep);
-      while (packagesDirTokens.length > 0) {
-        partialPath = path.join(partialPath, packagesDirTokens.shift() as string);
-        if (!fs.existsSync(partialPath)) {
-          fs.mkdirSync(partialPath);
+    const packagesDir = atom.packages.getPackageDirPaths()
+      .find(p => p.match(/[\\\/]dev[\\\/]packages$/) !== null);
+    if (packagesDir !== undefined) {
+      const packagesDirTokens = packagesDir.split(path.sep);
+      try {
+        let partialPath = path.resolve(packagesDirTokens.shift() + path.sep);
+        while (packagesDirTokens.length > 0) {
+          partialPath = path.join(partialPath, packagesDirTokens.shift() as string);
+          if (!fs.existsSync(partialPath)) {
+            fs.mkdirSync(partialPath);
+          }
         }
+        const srcPath = path.resolve(__dirname, '../../');
+        const destPath = path.join(packagesDir, packageName);
+        fs.symlinkSync(
+          srcPath,
+          destPath,
+          'junction',
+        );
+      } catch (err) {
+        const newErr = new Error(
+          `Unable to link package to temp directory. The error thrown was:\n\n${err.message}`,
+        );
+        newErr.stack = err.stack;
+        throw newErr;
       }
-      const srcPath = path.resolve(__dirname, '../../');
-      const destPath = path.join(packagesDir, packageName);
-      fs.symlinkSync(
-        srcPath,
-        destPath,
-        'junction',
-      );
-    } catch (err) {
-      const newErr = new Error(
-        `Unable to link package to temp directory. The error thrown was:\n\n${err.message}`
-      );
-      newErr.stack = err.stack;
-      throw newErr;
     }
-
+    
     // Assign timeout option
     mocha.timeout(parseInt(process.env.MOCHA_TIMEOUT || '1000', 10));
 
