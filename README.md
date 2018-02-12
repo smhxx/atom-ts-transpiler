@@ -6,7 +6,7 @@
 [![DevDependencies](https://david-dm.org/smhxx/atom-ts-transpiler/dev-status.svg)](https://david-dm.org/smhxx/atom-ts-transpiler?type=dev)
 # atom-ts-transpiler
 
-This package provides a simple, easily-configured compatibility layer that sits between [Atom](https://atom.io/) and the [TypeScript](https://www.typescriptlang.org/) compiler, giving Atom the ability to run packages written and distributed entirely in TypeScript. It's small (\<15 KB,) supports any version of TypeScript since 1.6, and can be set up within minutes. It even respects the compiler options specified in your tsconfig.json file automatically, without the need for any additional configuration.
+This package provides a simple, easily-configured compatibility layer that sits between [Atom](https://atom.io/) and the [TypeScript](https://www.typescriptlang.org/) compiler, giving Atom the ability to run packages written and distributed entirely in TypeScript. It's small (\<25 KB including documentation,) supports any version of TypeScript since 1.6, and can be set up within minutes. It even respects the compiler options specified in your tsconfig.json file automatically, without the need for any additional configuration.
 
 This project was inspired by the GitHub team's [atom-babel6-transpiler](https://www.npmjs.com/package/atom-babel6-transpiler), and utilizes the same interface to provide Atom with the ability to transpile TypeScript code on-demand. Special thanks go to them, as well as the other Atom users and community members who helped see this project through to a stable release.
 
@@ -27,6 +27,11 @@ Essentially, a custom package transpiler serves as a shim between Atom and your 
 <summary><b>Doesn't Atom already support TypeScript?</b></summary>
 
 Sort of? Yes and no. Atom does have a very basic, naïve understanding of TypeScript, but unfortunately it's not sufficient for the vast majority of packages. By default, if Atom encounters a .ts file at runtime, it attempts to transpile it using TypeScript 1.4; however, there's no way to specify that a newer version of TypeScript should be used, or to set compiler options manually, making it impossible to use many modern TypeScript 2.x features. The goal of this project is to enable projects to use *any* recent version of TypeScript that they require, and to configure the compiler as needed, in a simple and completely painless way. Just add the dependency, enable it in your package.json, and you're good to go.
+</details>
+<details>
+<summary><b>What sort of performance do transpiled packages get?</b></summary>
+
+The first time a user activates your package after installing it, there may be a brief delay (sometimes about a second) as Atom converts the downloaded TypeScript source files to JavaScript. On subsequent activations, however, Atom will use the cached build output generated on the previous activation, meaning that the long-term increase in activation time is near-zero (well under 10ms even for reasonably large packages.) This small difference is mainly due to Atom confirming that the cached version of each file it requires is still valid; other than that, there is no long-term performance penalty at all vs. native JavaScript packages.
 </details>
 <details>
 <summary><b>Can't I just transpile my package myself?</b></summary>
@@ -99,8 +104,8 @@ None of these are strictly necessary, but you may find some or all of them usefu
 
 The [examples directory](https://github.com/smhxx/atom-ts-transpiler/tree/master/examples) of the GitHub repo contains a bare-bones example of what a new package setup might look like, if you're looking for somewhere to get started. If you want to see how people are using `atom-ts-transpiler` in their own packages, check out one of these!
 
+* [ide-powershell](https://atom.io/packages/ide-powershell): *A package for Atom providing rich PowerShell language features via Atom IDE!*
 * [path-of-exile-item-filter](https://atom.io/packages/path-of-exile-item-filter): *An Atom package designed to make editing Path of Exile item filters easier.*
-* [title-bar-replacer](https://atom.io/packages/title-bar-replacer): *Replaces the native OS titlebar with a "frameless" titlebar that can be styled using CSS/LESS.*
 
 If you'd like to see your package listed here to help out newcomers to the Atom/TypeScript modding community, we'd love to hear from you! Just [open an issue](https://github.com/smhxx/atom-ts-transpiler/issues) on GitHub with a link to its [Atom package directory](https://atom.io/packages) page and a brief description of what it does, and we'll add you here in the next patch version. 😊
 
