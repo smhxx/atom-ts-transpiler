@@ -18,9 +18,8 @@ export default class Cache {
     const dir = dirname(path);
     if (Cache.entries.has(dir)) {
       return Cache.entries.get(dir) as Cache;
-    } else {
-      return new Cache(dir);
     }
+    return new Cache(dir);
   }
 
   public get config(): TsConfig {

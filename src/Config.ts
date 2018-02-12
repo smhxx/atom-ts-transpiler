@@ -47,9 +47,8 @@ function getParentConfig(config: ChildConfig, location: string, descendants: Set
     // tslint:disable-next-line max-line-length
     console.warn(`The tsconfig file at ${location} attempts to extend ${parent}, but this file already inherits from it. This circular reference will be ignored.`);
     return {};
-  } else {
-    return loadConfig(parent, descendants.add(location));
   }
+  return loadConfig(parent, descendants.add(location));
 }
 
 function loadConfig(location: string, descendants: Set<string> = new Set()): TsConfig {
@@ -57,9 +56,8 @@ function loadConfig(location: string, descendants: Set<string> = new Set()): TsC
   if (isChildConfig(config)) {
     const parent = getParentConfig(config, location, descendants);
     return Object.assign(compose(parent, config), { extends: undefined });
-  } else {
-    return config;
   }
+  return config;
 }
 
 export default {
@@ -67,8 +65,7 @@ export default {
     const location = resolve(baseDir, 'tsconfig.json');
     if (location !== undefined) {
       return loadConfig(location);
-    } else {
-      return {};
     }
+    return {};
   },
 };
