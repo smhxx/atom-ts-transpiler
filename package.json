@@ -44,7 +44,7 @@
     "semantic-release": "^15.0.0",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.0.0",
-    "ts-node": "^4.0.0",
+    "ts-node": "^5.0.0",
     "tslint": "^5.0.0",
     "tslint-config-airbnb": "^5.0.0",
     "typescript": "^2.0.0"
