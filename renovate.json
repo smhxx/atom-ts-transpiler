@@ -15,6 +15,7 @@
     "dependencies"
   ],
   "bazel": {
+    "enable": true,
     "commitMessage": "chore(package): verify integration test status for Atom {{newVersion}}",
     "prTitle": "fix(package): fix integration test failure for {{depName}} version {{#if isRange}}{{newVersion}}{{else}}{{#if isMajor}}{{newVersionMajor}}.x{{else}}{{newVersion}}{{/if}}{{/if}}",
     "packageRules": [
