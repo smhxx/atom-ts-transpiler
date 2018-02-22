@@ -6,12 +6,12 @@ workspace(name="integration_tests")
 
 git_repository(
   name = "atom-stable",
-  url = "https://github.com/atom/atom.git",
-  tag = "v1.23.3"
+  remote = "https://github.com/atom/atom.git",
+  tag = "v1.23.3",
 )
 
 git_repository(
   name = "atom-beta",
-  url = "https://github.com/atom/atom.git",
-  tag = "v1.24.0-beta3"
+  remote = "https://github.com/atom/atom.git",
+  tag = "v1.24.0-beta3",
 )
