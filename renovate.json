@@ -4,9 +4,7 @@
     ":automergeMajor",
     ":automergeMinor",
     ":automergeBranchPush",
-    ":automergeRequireAllStatusChecks",
-    ":semanticCommitTypeAll(chore)",
-    ":semanticCommitScope(package)"
+    ":automergeRequireAllStatusChecks"
   ],
   "assignees": [
     "smhxx"
@@ -15,6 +13,8 @@
     "dependencies"
   ],
   "semanticCommits": false,
+  "commitMessage": "chore(package): update dependency {{depName}} to version {{newVersion}}",
+  "prTitle": "fix(package): {{#if isPin}}pin{{else}}update{{/if}} dependency {{depName}} to version {{#if isRange}}{{newVersion}}{{else}}{{#if isMajor}}{{newVersionMajor}}.x{{else}}{{newVersion}}{{/if}}{{/if}}",
   "bazel": {
     "commitMessage": "chore(package): verify integration test status for Atom {{newVersion}}",
     "prTitle": "fix(package): fix integration test failure for {{depName}} version {{#if isRange}}{{newVersion}}{{else}}{{#if isMajor}}{{newVersionMajor}}.x{{else}}{{newVersion}}{{/if}}{{/if}}",
