@@ -102,13 +102,8 @@ describe('atom-ts-transpiler', () => {
     });
 
     it('returns no code if the typescript package could not be resolved', () => {
-      const error = stub(console, 'error');
-
       const output = transpile('', fixtures.noTranspilerPackage.index.path, {});
-      expect(error).to.have.been.calledOnce;
       expect(output).to.deep.equal({});
-
-      error.restore();
     });
 
     it('writes debugging text to console if the verbose option is set to true', () => {
