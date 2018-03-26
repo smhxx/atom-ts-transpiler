@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import Cache from './Cache';
-import { Options, PackageMeta, TranspiledModule, TranspileOptions, Transpiler } from './defs';
+import { Options, PackageMeta, TranspiledModule, TranspileOptions, TranspilerModule } from './defs';
 
 const concatFiles = (pkg: PackageMeta) => (data: string, relPath: string) =>
   `${data}${fs.readFileSync(path.join(pkg.path, relPath))}`;
@@ -16,7 +16,11 @@ function tryReadFile(fileName: string): string | undefined {
   return undefined;
 }
 
-function tryTranspile(ts: Transpiler, fileSrc: string, opts: TranspileOptions): string | undefined {
+function tryTranspile(
+  ts: TranspilerModule,
+  fileSrc: string,
+  opts: TranspileOptions,
+): string | undefined {
   try {
     return ts.transpileModule(fileSrc, opts).outputText;
   } catch (err) {
@@ -27,7 +31,8 @@ function tryTranspile(ts: Transpiler, fileSrc: string, opts: TranspileOptions): 
 }
 
 export function getCacheKeyData(_: any, fileName: string, opts: Options, pkg: PackageMeta): string {
-  let data = JSON.stringify(Cache.get(fileName).config);
+  const cache = Cache.get(fileName);
+  let data = JSON.stringify(cache.config) + cache.transpilerVersion;
   if (opts.cacheKeyFiles instanceof Array) {
     data += opts.cacheKeyFiles.reduce(concatFiles(pkg), '');
   }
@@ -46,7 +51,7 @@ export function transpile(_: any, fileName: string, opts: Options): TranspiledMo
   const output = {} as TranspiledModule;
   if (fileSrc !== undefined) {
     const cache = Cache.get(fileName);
-    if (cache.transpiler !== null) {
+    if (cache.transpilerModule !== null) {
       const compilerOptions = Object.assign({}, cache.config.compilerOptions, opts.compilerOptions);
       const finalOpts = {
         fileName,
@@ -59,7 +64,7 @@ export function transpile(_: any, fileName: string, opts: Options): TranspiledMo
         console.log(`Transpiling module '${moduleName}' using options:\n${JSON.stringify(finalOpts, null, 2)}`);
       }
 
-      output.code = tryTranspile(cache.transpiler, fileSrc, finalOpts);
+      output.code = tryTranspile(cache.transpilerModule, fileSrc, finalOpts);
     }
   }
   return output;

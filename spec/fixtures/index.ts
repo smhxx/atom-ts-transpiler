@@ -55,6 +55,7 @@ export default <Readonly<Record<string, FixturePackage>>> {
     index: 'index.ts',
     other: 'other.ts',
     typescript: 'node_modules/typescript',
+    typescriptPackageJson: 'node_modules/typescript/package.json',
   }),
   noConfigPackage: getFixtureFiles('no-config-package', {
     index: 'index.ts',

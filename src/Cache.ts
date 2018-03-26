@@ -1,13 +1,13 @@
-import { dirname } from 'path';
+import { dirname, resolve } from 'path';
 import Config from './Config';
-import Transpiler from './Transpiler';
-import { Transpiler as TsTranspiler, TsConfig } from './defs';
+import { PackageConfig, TranspilerModule, TsConfig } from './defs';
 
 export default class Cache {
   private static entries = new Map<string, Cache>();
   private dir: string;
   private myConfig?: TsConfig;
-  private myTranspiler?: TsTranspiler | null;
+  private myTranspilerModule?: TranspilerModule | null;
+  private myTranspilerVersion?: string | null;
 
   private constructor(dir: string) {
     this.dir = dir;
@@ -29,10 +29,32 @@ export default class Cache {
     return this.myConfig;
   }
 
-  public get transpiler(): TsTranspiler | null {
-    if (this.myTranspiler === undefined) {
-      this.myTranspiler = Transpiler.resolve(this.dir);
+  public get transpilerModule(): TranspilerModule | null {
+    if (this.myTranspilerModule === undefined) {
+      try {
+        const location = resolve(this.dir, 'node_modules', 'typescript');
+        this.myTranspilerModule = require(location) as TranspilerModule;
+      } catch (err) {
+        // tslint:disable-next-line max-line-length
+        console.error(`Failed to load transpiler module for directory ${this.dir}.\nDo you have TypeScript installed as a peerDependency? Error message was:\n${err.message}`);
+        this.myTranspilerModule = null;
+      }
     }
-    return this.myTranspiler;
+    return this.myTranspilerModule;
+  }
+
+  public get transpilerVersion(): string | null {
+    if (this.myTranspilerVersion === undefined) {
+      try {
+        const location = resolve(this.dir, 'node_modules', 'typescript', 'package.json');
+        const data = require(location) as PackageConfig;
+        this.myTranspilerVersion = data.version;
+      } catch (err) {
+        // tslint:disable-next-line max-line-length
+        console.error(`Failed to load transpiler package.json for directory ${this.dir}.\nDo you have TypeScript installed as a peerDependency? Error message was:\n${err.message}`);
+        this.myTranspilerVersion = null;
+      }
+    }
+    return this.myTranspilerVersion;
   }
 }

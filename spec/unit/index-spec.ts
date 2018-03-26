@@ -15,7 +15,7 @@ describe('atom-ts-transpiler', () => {
     };
 
     // tslint:disable-next-line max-line-length
-    it('returns the associated tsconfig options, concatenated with the contents of any listed cacheKeyFiles', () => {
+    it('returns the resolved tsconfig options and TS version number, concatenated with the contents of any listed cacheKeyFiles', () => {
       const fixture = fixtures.goodPackage;
       const cacheKeyFiles = [
         'index.ts',
@@ -26,14 +26,18 @@ describe('atom-ts-transpiler', () => {
 
       expect(data).not.to.equal('');
       expect(data).to.contain(JSON.stringify(fixture.config.json));
+      expect(data).to.contain(fixture.typescriptPackageJson.json.version);
       expect(data).to.contain(fixture.index.contents);
       expect(data).to.contain(fixture.other.contents);
     });
 
-    it('returns only the associated tsconfig options if no cacheKeyFiles are specified', () => {
+    // tslint:disable-next-line max-line-length
+    it('returns only the resolved tsconfig options and TS version number if no cacheKeyFiles are specified', () => {
       const fixture = fixtures.goodPackage;
       const data: string = getCacheKeyData('', fixture.index.path, fixture.config.json, meta);
-      expect(data).to.equal(JSON.stringify(fixture.config.json));
+      expect(data).to.equal(
+        JSON.stringify(fixture.config.json) + fixture.typescriptPackageJson.json.version,
+      );
     });
   });
 

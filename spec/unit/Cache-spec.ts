@@ -12,7 +12,8 @@ describe('Cache', () => {
       const entry = Cache.get(fixture.index.path);
       expect(entry).to.be.an('object');
       expect(entry.config).to.deep.equal(fixture.config.json);
-      expect(entry.transpiler).to.equal(fixture.typescript.module);
+      expect(entry.transpilerModule).to.equal(fixture.typescript.module);
+      expect(entry.transpilerVersion).to.equal(fixture.typescriptPackageJson.json.version);
     });
 
     it('returns the previously cached information if it already exists for the directory', () => {
@@ -24,7 +25,8 @@ describe('Cache', () => {
       expect(resolve).not.to.have.been.called;
       expect(entry).to.be.an('object');
       expect(entry.config).to.deep.equal(fixture.config.json);
-      expect(entry.transpiler).to.equal(fixture.typescript.module);
+      expect(entry.transpilerModule).to.equal(fixture.typescript.module);
+      expect(entry.transpilerVersion).to.equal(fixture.typescriptPackageJson.json.version);
 
       resolve.restore();
     });

@@ -192,7 +192,7 @@ export interface TranspileOutput {
   sourceMapText?: string;
 }
 
-export interface Transpiler {
+export interface TranspilerModule {
   transpileModule(input: string, options: TranspileOptions): TranspileOutput;
 }
 
