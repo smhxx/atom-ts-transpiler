@@ -45,11 +45,15 @@ describe('Cache', () => {
     });
 
     it('returns null for module/version if there is no node_modules directory', () => {
+      const error = stub(console, 'error');
+
       const fixture = fixtures.notInstalledPackage;
       const entry = Cache.get(fixture.index.path);
       expect(entry).to.be.an('object');
       expect(entry.transpilerModule).to.be.null;
       expect(entry.transpilerVersion).to.be.null;
+
+      error.restore();
     });
 
   });
