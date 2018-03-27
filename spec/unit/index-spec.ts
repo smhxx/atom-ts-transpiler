@@ -101,9 +101,15 @@ describe('atom-ts-transpiler', () => {
       error.restore();
     });
 
-    it('returns no code if the typescript package could not be resolved', () => {
+    // tslint:disable-next-line max-line-length
+    it('writes an error to console and returns no code if the typescript package could not be resolved', () => {
+      const error = stub(console, 'error');
+
       const output = transpile('', fixtures.noTranspilerPackage.index.path, {});
+      expect(error).to.have.been.calledOnce;
       expect(output).to.deep.equal({});
+
+      error.restore();
     });
 
     it('writes debugging text to console if the verbose option is set to true', () => {

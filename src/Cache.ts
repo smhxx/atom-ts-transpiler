@@ -1,21 +1,22 @@
-import { dirname, resolve } from 'path';
+import * as path from 'path';
 import Config from './Config';
-import { PackageConfig, TranspilerModule, TsConfig } from './defs';
+import resolve from './resolve';
+import Transpiler from './Transpiler';
+import { TranspilerModule, TsConfig } from './defs';
 
 export default class Cache {
   private static entries = new Map<string, Cache>();
   private dir: string;
   private myConfig?: TsConfig;
-  private myTranspilerModule?: TranspilerModule | null;
-  private myTranspilerVersion?: string | null;
+  private myTranspiler?: Transpiler | null;
 
   private constructor(dir: string) {
     this.dir = dir;
     Cache.entries.set(dir, this);
   }
 
-  public static get(path: string): Cache {
-    const dir = dirname(path);
+  public static get(filePath: string): Cache {
+    const dir = path.dirname(filePath);
     if (Cache.entries.has(dir)) {
       return Cache.entries.get(dir) as Cache;
     }
@@ -30,31 +31,27 @@ export default class Cache {
   }
 
   public get transpilerModule(): TranspilerModule | null {
-    if (this.myTranspilerModule === undefined) {
-      try {
-        const location = resolve(this.dir, 'node_modules', 'typescript');
-        this.myTranspilerModule = require(location) as TranspilerModule;
-      } catch (err) {
-        // tslint:disable-next-line max-line-length
-        console.error(`Failed to load transpiler module for directory ${this.dir}.\nDo you have TypeScript installed as a peerDependency? Error message was:\n${err.message}`);
-        this.myTranspilerModule = null;
-      }
-    }
-    return this.myTranspilerModule;
+    const transpiler = this.transpiler;
+    return transpiler ? transpiler.module : null;
   }
 
   public get transpilerVersion(): string | null {
-    if (this.myTranspilerVersion === undefined) {
-      try {
-        const location = resolve(this.dir, 'node_modules', 'typescript', 'package.json');
-        const data = require(location) as PackageConfig;
-        this.myTranspilerVersion = data.version;
-      } catch (err) {
+    const transpiler = this.transpiler;
+    return transpiler ? transpiler.version : null;
+  }
+
+  private get transpiler(): Transpiler | null {
+    if (this.myTranspiler === undefined) {
+      const modulesDir = resolve(this.dir, 'node_modules');
+      if (modulesDir !== undefined) {
+        const typescriptDir = path.join(modulesDir, 'typescript');
+        this.myTranspiler = Transpiler.get(typescriptDir);
+      } else {
         // tslint:disable-next-line max-line-length
-        console.error(`Failed to load transpiler package.json for directory ${this.dir}.\nDo you have TypeScript installed as a peerDependency? Error message was:\n${err.message}`);
-        this.myTranspilerVersion = null;
+        console.error(`Could not resolve node_modules directory associated with ${this.dir}\nIs this package properly installed?`);
+        this.myTranspiler = null;
       }
     }
-    return this.myTranspilerVersion;
+    return this.myTranspiler;
   }
 }
