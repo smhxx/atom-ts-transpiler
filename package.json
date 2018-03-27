@@ -68,6 +68,11 @@
     "instrument": true
   },
   "release": {
+    "verifyConditions": [
+      "@semantic-release/git",
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ],
     "analyzeCommits": {
       "preset": "angular",
       "releaseRules": [
