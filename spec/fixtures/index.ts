@@ -65,6 +65,10 @@ export default <Readonly<Record<string, FixturePackage>>> {
     config: 'tsconfig.json',
     index: 'index.ts',
   }),
+  notInstalledPackage: getFixtureFiles('not-installed-package', {
+    config: 'tsconfig.json',
+    index: 'index.ts',
+  }),
   commentedConfigPackage: getFixtureFiles('commented-config-package', {
     config: 'tsconfig.json',
     index: 'index.ts',
