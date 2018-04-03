@@ -104,8 +104,8 @@
       "@semantic-release/npm"
     ],
     "prepare": [
-      "@semantic-release/git",
-      "@semantic-release/npm"
+      "@semantic-release/npm",
+      "@semantic-release/git"
     ],
     "publish": [
       "@semantic-release/github",
