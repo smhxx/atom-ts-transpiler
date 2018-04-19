@@ -13,5 +13,5 @@ git_repository(
 git_repository(
   name = "atom-beta",
   remote = "https://github.com/atom/atom.git",
-  tag = "v1.26.0-beta2",
+  tag = "v1.27.0-beta0",
 )
