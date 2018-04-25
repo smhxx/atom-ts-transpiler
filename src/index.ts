@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import Cache from './Cache';
-import { Options, PackageMeta, TranspiledModule, TranspileOptions, TranspilerModule } from './defs';
+import { Cache } from './Cache';
+import { Options, PackageMeta, TranspiledModule, TranspileOptions } from './defs';
 
 const concatFiles = (pkg: PackageMeta) => (data: string, relPath: string) =>
   `${data}${fs.readFileSync(path.join(pkg.path, relPath))}`;
@@ -16,23 +16,12 @@ function tryReadFile(fileName: string): string | undefined {
   return undefined;
 }
 
-function tryTranspile(
-  ts: TranspilerModule,
-  fileSrc: string,
-  opts: TranspileOptions,
-): string | undefined {
-  try {
-    return ts.transpileModule(fileSrc, opts).outputText;
-  } catch (err) {
-    // tslint:disable-next-line max-line-length
-    console.error(`Encountered an error while attempting to transpile module ${opts.moduleName} from path ${opts.fileName}:\n\n${err.message}`);
-  }
-  return undefined;
-}
-
 export function getCacheKeyData(_: any, fileName: string, opts: Options, pkg: PackageMeta): string {
   const cache = Cache.get(fileName);
-  let data = JSON.stringify(cache.config) + cache.transpilerVersion;
+  let data = JSON.stringify(cache.config);
+  if (cache.transpiler !== null) {
+    data += cache.transpiler.version;
+  }
   if (opts.cacheKeyFiles instanceof Array) {
     data += opts.cacheKeyFiles.reduce(concatFiles(pkg), '');
   }
@@ -40,7 +29,8 @@ export function getCacheKeyData(_: any, fileName: string, opts: Options, pkg: Pa
 }
 
 export function transpile(_: any, fileName: string, opts: Options): TranspiledModule {
-  const moduleName = path.basename(fileName).replace(/\.[^.]*$/, '');
+  const fileExtension = /\.[^.]*$/;
+  const moduleName = path.basename(fileName).replace(fileExtension, '');
   const verbose = (opts.verbose === true);
 
   if (verbose) {
@@ -48,10 +38,11 @@ export function transpile(_: any, fileName: string, opts: Options): TranspiledMo
   }
 
   const fileSrc = tryReadFile(fileName);
-  const output = {} as TranspiledModule;
+  let code: string | undefined;
   if (fileSrc !== undefined) {
     const cache = Cache.get(fileName);
-    if (cache.transpilerModule !== null) {
+    const transpiler = cache.transpiler;
+    if (transpiler !== null) {
       const compilerOptions = Object.assign({}, cache.config.compilerOptions, opts.compilerOptions);
       const finalOpts = {
         fileName,
@@ -59,13 +50,8 @@ export function transpile(_: any, fileName: string, opts: Options): TranspiledMo
         compilerOptions,
       } as TranspileOptions;
 
-      if (verbose) {
-        // tslint:disable-next-line max-line-length
-        console.log(`Transpiling module '${moduleName}' using options:\n${JSON.stringify(finalOpts, null, 2)}`);
-      }
-
-      output.code = tryTranspile(cache.transpilerModule, fileSrc, finalOpts);
+      code = transpiler.transpile(fileSrc, finalOpts, verbose);
     }
   }
-  return output;
+  return { code };
 }

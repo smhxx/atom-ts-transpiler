@@ -1,6 +1,7 @@
 import '../helper';
 import fixtures from '../fixtures';
-import Transpiler from '../../src/Transpiler';
+import * as path from 'path';
+import { Transpiler } from '../../src/Transpiler';
 
 describe('Transpiler', () => {
 
@@ -12,6 +13,48 @@ describe('Transpiler', () => {
       expect(transpiler).to.be.an('object');
       expect(transpiler.module).to.deep.equal(fixture.typescript.module);
       expect(transpiler.version).to.equal(fixture.typescriptPackageJson.json.version);
+    });
+
+  });
+
+  describe('.module', () => {
+
+    it('returns the typescript module located in the associated directory', () => {
+      const fixture = fixtures.goodPackage;
+      const transpiler = Transpiler.get(fixture.typescript.directory);
+      expect(transpiler.module).to.equal(fixture.typescript.module);
+    });
+
+    it('returns null if the module could not be loaded', () => {
+      const error = stub(console, 'error');
+
+      const fixture = fixtures.badTranspilerPackage;
+      const transpilerDir = path.join(fixture.index.directory, 'node_modules', 'typescript');
+      const transpiler = Transpiler.get(transpilerDir);
+      expect(transpiler.module).to.equal(null);
+
+      error.restore();
+    });
+
+  });
+
+  describe('.version', () => {
+
+    it('returns the version number of the associated typescript package', () => {
+      const fixture = fixtures.goodPackage;
+      const transpiler = Transpiler.get(fixture.typescript.directory);
+      expect(transpiler.version).to.equal(fixture.typescriptPackageJson.json.version);
+    });
+
+    it('returns null if the package.json could not be loaded', () => {
+      const error = stub(console, 'error');
+
+      const fixture = fixtures.badTranspilerPackage;
+      const transpilerDir = path.join(fixture.index.directory, 'node_modules', 'typescript');
+      const transpiler = Transpiler.get(transpilerDir);
+      expect(transpiler.version).to.equal(null);
+
+      error.restore();
     });
 
   });

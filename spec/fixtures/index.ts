@@ -49,6 +49,10 @@ export default <Readonly<Record<string, FixturePackage>>> {
     config: 'tsconfig.json',
     index: 'index.ts',
   }),
+  badTranspilerPackage: getFixtureFiles('bad-transpiler-package', {
+    config: 'tsconfig.json',
+    index: 'index.ts',
+  }),
   goodPackage: getFixtureFiles('good-package', {
     config: 'tsconfig.json',
     deep: 'some/deep/directory/structure/index.ts',
@@ -61,7 +65,7 @@ export default <Readonly<Record<string, FixturePackage>>> {
     index: 'index.ts',
     typescript: 'node_modules/typescript',
   }),
-  noTranspilerPackage: getFixtureFiles('no-ts-package', {
+  noTranspilerPackage: getFixtureFiles('no-transpiler-package', {
     config: 'tsconfig.json',
     index: 'index.ts',
   }),

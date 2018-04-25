@@ -1,59 +1,47 @@
 import '../helper';
 import fixtures from '../fixtures';
-import Cache from '../../src/Cache';
-import Config from '../../src/Config';
+// re-require Cache to reset static class state
+delete require.cache[require.resolve('../../src/Cache')];
+import { Cache } from '../../src/Cache';
+import { Transpiler } from '../../src/Transpiler';
 
 describe('Cache', () => {
 
   describe('.get()', () => {
 
-    it('returns the resolved config and transpiler module for the given directory', () => {
+    it('returns an instance of the Cache class corresponding to the given directory', () => {
       const fixture = fixtures.goodPackage;
       const entry = Cache.get(fixture.index.path);
-      expect(entry).to.be.an('object');
-      expect(entry.config).to.deep.equal(fixture.config.json);
-      expect(entry.transpilerModule).to.deep.equal(fixture.typescript.module);
-      expect(entry.transpilerVersion).to.equal(fixture.typescriptPackageJson.json.version);
+      expect(entry.dir).to.equal(fixture.index.directory);
     });
 
-    it('returns the previously cached information if it already exists for the directory', () => {
+  });
+
+  describe('.config', () => {
+
+    it('returns the contents of the package\'s package.json file', () => {
       const fixture = fixtures.goodPackage;
-      Cache.get(fixture.index.path);
-
-      const resolve = spy(Config, 'resolve');
-      const entry = Cache.get(fixture.other.path);
-      expect(resolve).not.to.have.been.called;
-      expect(entry).to.be.an('object');
+      const entry = Cache.get(fixture.index.path);
       expect(entry.config).to.deep.equal(fixture.config.json);
-      expect(entry.transpilerModule).to.deep.equal(fixture.typescript.module);
-      expect(entry.transpilerVersion).to.equal(fixture.typescriptPackageJson.json.version);
-
-      resolve.restore();
     });
+
+    it('returns an empty object if the package.json could not be found', () => {
+      const fixture = fixtures.noConfigPackage;
+      const entry = Cache.get(fixture.index.path);
+      expect(entry.config).to.deep.equal({});
+    });
+
+  });
+
+  describe('.transpiler', () => {
 
     // tslint:disable-next-line max-line-length
-    it('returns null for transpilerModule and transpilerVersion if the transpiler could not be resolved', () => {
-      const error = stub(console, 'error');
-
-      const fixture = fixtures.noTranspilerPackage;
+    it('returns an instance of the Transpiler class corresponding to the correct TypeScript package', () => {
+      const fixture = fixtures.goodPackage;
       const entry = Cache.get(fixture.index.path);
-      expect(entry).to.be.an('object');
-      expect(entry.transpilerModule).to.be.null;
-      expect(entry.transpilerVersion).to.be.null;
-
-      error.restore();
-    });
-
-    it('returns null for module/version if there is no node_modules directory', () => {
-      const error = stub(console, 'error');
-
-      const fixture = fixtures.notInstalledPackage;
-      const entry = Cache.get(fixture.index.path);
-      expect(entry).to.be.an('object');
-      expect(entry.transpilerModule).to.be.null;
-      expect(entry.transpilerVersion).to.be.null;
-
-      error.restore();
+      const transpiler = entry.transpiler;
+      expect(transpiler).to.be.an('object');
+      expect((transpiler as Transpiler).dir).to.equal(fixture.typescript.directory);
     });
 
   });

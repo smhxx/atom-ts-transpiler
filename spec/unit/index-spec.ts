@@ -22,13 +22,30 @@ describe('atom-ts-transpiler', () => {
         'other.ts',
       ];
       const config = Object.assign({}, fixture.config.json, { cacheKeyFiles });
-      const data: string = getCacheKeyData('', fixture.index.path, config, meta);
+      const data = getCacheKeyData('', fixture.index.path, config, meta);
 
       expect(data).not.to.equal('');
       expect(data).to.contain(JSON.stringify(fixture.config.json));
       expect(data).to.contain(fixture.typescriptPackageJson.json.version);
       expect(data).to.contain(fixture.index.contents);
       expect(data).to.contain(fixture.other.contents);
+    });
+
+    it('omits the TS version number if the typescript package could not be resolved', () => {
+      const error = stub(console, 'error');
+
+      const fixture = fixtures.noTranspilerPackage;
+      const cacheKeyFiles = [
+        'index.ts',
+      ];
+      const config = Object.assign({}, fixture.config.json, { cacheKeyFiles });
+      const data = getCacheKeyData('', fixture.index.path, config, meta);
+
+      expect(data).not.to.equal('');
+      expect(data).to.contain(JSON.stringify(fixture.config.json));
+      expect(data).to.contain(fixture.index.contents);
+
+      error.restore();
     });
 
     // tslint:disable-next-line max-line-length
@@ -67,7 +84,6 @@ describe('atom-ts-transpiler', () => {
       transpileModule.throws(new Error('the message attached to the thrown error'));
 
       const output = transpile('', fixtures.goodPackage.index.path, {});
-      expect(error).to.have.been.calledOnce;
       expect(error.getCall(0).args[0]).to.contain('the message attached to the thrown error');
       expect(output).to.be.an('object');
       expect(output.code).to.be.undefined;
@@ -94,16 +110,28 @@ describe('atom-ts-transpiler', () => {
 
       const filePath = path.resolve(fixtures.goodPackage.index.directory, 'not-a-real-file.ts');
       const output = transpile('', filePath, {});
-      expect(error).to.have.been.calledOnce;
       expect(error.getCall(0).args[0]).to.match(/ENOENT/);
-      expect(output).to.deep.equal({});
+      expect(output).to.deep.equal({ code: undefined });
 
       error.restore();
     });
 
     it('returns no code if the typescript package could not be resolved', () => {
+      const error = stub(console, 'error');
+
       const output = transpile('', fixtures.noTranspilerPackage.index.path, {});
-      expect(output).to.deep.equal({});
+      expect(output).to.deep.equal({ code: undefined });
+
+      error.restore();
+    });
+
+    it('returns no code if the typescript package was resolved but could not be loaded', () => {
+      const error = stub(console, 'error');
+
+      const output = transpile('', fixtures.badTranspilerPackage.index.path, {});
+      expect(output).to.deep.equal({ code: undefined });
+
+      error.restore();
     });
 
     it('writes debugging text to console if the verbose option is set to true', () => {

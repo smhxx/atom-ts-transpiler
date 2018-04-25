@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import resolve from './resolve';
 import { TsConfig } from './defs';
 
 const hasOwnObjectProperty = (o: Record<string, any>, property: string) =>
@@ -48,10 +47,10 @@ function getParentConfig(config: ChildConfig, location: string, descendants: Set
     console.warn(`The tsconfig file at ${location} attempts to extend ${parent}, but this file already inherits from it. This circular reference will be ignored.`);
     return {};
   }
-  return loadConfig(parent, descendants.add(location));
+  return load(parent, descendants.add(location));
 }
 
-function loadConfig(location: string, descendants: Set<string> = new Set()): TsConfig {
+export function load(location: string, descendants: Set<string> = new Set()): TsConfig {
   const config = readJSON(location);
   if (isChildConfig(config)) {
     const parent = getParentConfig(config, location, descendants);
@@ -59,13 +58,3 @@ function loadConfig(location: string, descendants: Set<string> = new Set()): TsC
   }
   return config;
 }
-
-export default {
-  resolve: (baseDir: string): TsConfig => {
-    const location = resolve(baseDir, 'tsconfig.json');
-    if (location !== undefined) {
-      return loadConfig(location);
-    }
-    return {};
-  },
-};

@@ -16,6 +16,6 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "forceConsistentCasingInFileNames": true,
-    "types": [ "node" ]
+    "types": [ "atom", "node" ]
   }
 }

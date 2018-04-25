@@ -1,12 +1,31 @@
+import * as fs from 'fs';
 import * as path from 'path';
-import Config from './Config';
-import resolve from './resolve';
-import Transpiler from './Transpiler';
-import { TranspilerModule, TsConfig } from './defs';
+import * as Config from './Config';
+import { Transpiler } from './Transpiler';
+import { TsConfig } from './defs';
 
-export default class Cache {
-  private static entries = new Map<string, Cache>();
-  private dir: string;
+function* searchLocations(baseDir: string, resourceName: string): IterableIterator<string> {
+  let next = baseDir;
+  let prev = '';
+  while (prev !== next && path.basename(next) !== 'node_modules') {
+    yield path.join(next, resourceName);
+    prev = next;
+    next = path.join(next, '../');
+  }
+}
+
+function findResource(baseDir: string, resourceName: string): string | null {
+  for (const location of searchLocations(baseDir, resourceName)) {
+    if (fs.existsSync(location)) {
+      return location;
+    }
+  }
+  return null;
+}
+
+export class Cache {
+  private static readonly entries = new Map<string, Cache>();
+  public readonly dir: string;
   private myConfig?: TsConfig;
   private myTranspiler?: Transpiler | null;
 
@@ -25,30 +44,24 @@ export default class Cache {
 
   public get config(): TsConfig {
     if (this.myConfig === undefined) {
-      this.myConfig = Config.resolve(this.dir);
+      const configFile = findResource(this.dir, 'tsconfig.json');
+      if (configFile !== null) {
+        this.myConfig = Config.load(configFile);
+      } else {
+        this.myConfig = {};
+      }
     }
     return this.myConfig;
   }
 
-  public get transpilerModule(): TranspilerModule | null {
-    const transpiler = this.transpiler;
-    return transpiler ? transpiler.module : null;
-  }
-
-  public get transpilerVersion(): string | null {
-    const transpiler = this.transpiler;
-    return transpiler ? transpiler.version : null;
-  }
-
-  private get transpiler(): Transpiler | null {
+  public get transpiler(): Transpiler | null {
     if (this.myTranspiler === undefined) {
-      const modulesDir = resolve(this.dir, 'node_modules');
-      if (modulesDir !== undefined) {
-        const typescriptDir = path.join(modulesDir, 'typescript');
+      const typescriptDir = findResource(this.dir, 'node_modules/typescript');
+      if (typescriptDir !== null) {
         this.myTranspiler = Transpiler.get(typescriptDir);
       } else {
         // tslint:disable-next-line max-line-length
-        console.error(`Could not resolve node_modules directory associated with ${this.dir}\nIs this package properly installed?`);
+        console.error(`Could not resolve the TypeScript module associated with ${this.dir}\nIs it listed as a dependency of your package?`);
         this.myTranspiler = null;
       }
     }
