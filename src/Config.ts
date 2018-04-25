@@ -28,7 +28,7 @@ function readJSON(location: string): TsConfig {
     return JSON.parse(json);
   } catch (err) {
     // tslint:disable-next-line max-line-length
-    console.error(`Failed to parse tsconfig located at ${location}.\nIs your configuration file properly formatted JSON?. Error message was:\n${err.message}`);
+    atom.notifications.addError(`Failed to parse tsconfig located at ${location}.\nDoes your tsconfig file contain properly formatted JSON?. Error message was:\n${err.message}`);
     return {};
   }
 }
@@ -44,7 +44,7 @@ function getParentConfig(config: ChildConfig, location: string, descendants: Set
   const parent = path.resolve(path.dirname(location), config.extends);
   if (descendants.has(parent)) {
     // tslint:disable-next-line max-line-length
-    console.warn(`The tsconfig file at ${location} attempts to extend ${parent}, but this file already inherits from it. This circular reference will be ignored.`);
+    atom.notifications.addWarning(`The tsconfig file at ${location} attempts to extend ${parent}, but this file already inherits from it. This circular reference will be ignored.`);
     return {};
   }
   return load(parent, descendants.add(location));

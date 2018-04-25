@@ -8,7 +8,7 @@ describe('atom-ts-transpiler', () => {
 
   describe('.getCacheKeyData()', () => {
 
-    const meta:PackageMeta = {
+    const meta: PackageMeta = {
       name: 'good-package',
       path: fixtures.goodPackage.package.directory,
       meta: fixtures.goodPackage.package.json,
@@ -32,8 +32,6 @@ describe('atom-ts-transpiler', () => {
     });
 
     it('omits the TS version number if the typescript package could not be resolved', () => {
-      const error = stub(console, 'error');
-
       const fixture = fixtures.noTranspilerPackage;
       const cacheKeyFiles = [
         'index.ts',
@@ -45,7 +43,7 @@ describe('atom-ts-transpiler', () => {
       expect(data).to.contain(JSON.stringify(fixture.config.json));
       expect(data).to.contain(fixture.index.contents);
 
-      error.restore();
+      expect(atom.notifications.addError).to.have.been.calledOnce;
     });
 
     // tslint:disable-next-line max-line-length
@@ -79,16 +77,17 @@ describe('atom-ts-transpiler', () => {
       expect(transpileModule).to.have.been.calledWith(fixtures.goodPackage.index.contents);
     });
 
-    it('writes any encountered errors to console.error() and does not return any code', () => {
-      const error = stub(console, 'error');
+    it('adds a notification and does not return any code if there are compiler errors', () => {
       transpileModule.throws(new Error('the message attached to the thrown error'));
 
       const output = transpile('', fixtures.goodPackage.index.path, {});
-      expect(error.getCall(0).args[0]).to.contain('the message attached to the thrown error');
       expect(output).to.be.an('object');
       expect(output.code).to.be.undefined;
 
-      error.restore();
+      expect(atom.notifications.addError).to.have.been.calledOnce;
+      expect((atom.notifications.addError as Stub).getCall(0).args[0]).to.contain(
+        'the message attached to the thrown error',
+      );
     });
 
     it('uses the compiler options specified in tsconfig.json', () => {
@@ -105,51 +104,38 @@ describe('atom-ts-transpiler', () => {
       expect(transpileModule.getCall(0).args[1].compilerOptions.removeComments).to.be.false;
     });
 
-    it('writes an error to console and returns no code if the file does not exist', () => {
-      const error = stub(console, 'error');
-
+    it('returns no code if the file does not exist', () => {
       const filePath = path.resolve(fixtures.goodPackage.index.directory, 'not-a-real-file.ts');
       const output = transpile('', filePath, {});
-      expect(error.getCall(0).args[0]).to.match(/ENOENT/);
       expect(output).to.deep.equal({ code: undefined });
 
-      error.restore();
+      expect(atom.notifications.addError).to.have.been.calledOnce;
     });
 
     it('returns no code if the typescript package could not be resolved', () => {
-      const error = stub(console, 'error');
-
       const output = transpile('', fixtures.noTranspilerPackage.index.path, {});
       expect(output).to.deep.equal({ code: undefined });
 
-      error.restore();
+      // error notification was already tested above
     });
 
     it('returns no code if the typescript package was resolved but could not be loaded', () => {
-      const error = stub(console, 'error');
-
       const output = transpile('', fixtures.badTranspilerPackage.index.path, {});
       expect(output).to.deep.equal({ code: undefined });
 
-      error.restore();
+      expect(atom.notifications.addError).to.have.been.calledOnce;
     });
 
-    it('writes debugging text to console if the verbose option is set to true', () => {
-      const log = stub(console, 'log');
-
+    it('adds an \'info\' notification if the verbose option is set to true', () => {
       transpile('', fixtures.goodPackage.index.path, { verbose: true });
-      expect(log).to.have.been.calledTwice;
-
-      log.restore();
+      expect(atom.notifications.addInfo).to.have.been.calledOnce;
+      expect(atom.notifications.addSuccess).to.have.been.calledOnce;
     });
 
     it('does not write to the console if the verbose option is not set', () => {
-      const log = stub(console, 'log');
-
       transpile('', fixtures.goodPackage.index.path, {});
-      expect(log).not.to.have.been.called;
-
-      log.restore();
+      expect(atom.notifications.addInfo).not.to.have.been.called;
+      expect(atom.notifications.addSuccess).not.to.have.been.called;
     });
   });
 });

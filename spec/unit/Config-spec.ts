@@ -7,14 +7,12 @@ describe('Config.ts', () => {
   describe('resolveConfig()', () => {
 
     it('returns {} if the resolved config file is invalid', () => {
-      const error = stub(console, 'error');
-
       const fixture = fixtures.badConfigPackage.config;
       const config = Config.load(fixture.path);
       expect(config).to.be.an('object');
       expect(config).to.deep.equal({});
 
-      error.restore();
+      expect(atom.notifications.addError).to.have.been.calledOnce;
     });
 
     it('allows comments in the config', () => {
@@ -47,15 +45,12 @@ describe('Config.ts', () => {
     });
 
     it('fails gracefully if there is a circular extension pattern', () => {
-      const warn = stub(console, 'warn');
-
       const fixture = fixtures.circularExtensionPackage.config;
       const config = Config.load(fixture.path);
-      expect(warn).to.have.been.called;
       // tslint:disable-next-line max-line-length
       expect(config).to.deep.equal(Object.assign({}, fixture.json, { extends: undefined }));
 
-      warn.restore();
+      expect(atom.notifications.addWarning).to.have.been.calledOnce;
     });
   });
 });

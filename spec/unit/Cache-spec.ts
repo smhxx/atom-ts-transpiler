@@ -1,7 +1,5 @@
 import '../helper';
 import fixtures from '../fixtures';
-// re-require Cache to reset static class state
-delete require.cache[require.resolve('../../src/Cache')];
 import { Cache } from '../../src/Cache';
 import { Transpiler } from '../../src/Transpiler';
 

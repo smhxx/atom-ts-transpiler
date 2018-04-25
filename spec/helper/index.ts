@@ -22,3 +22,19 @@ expect = chai.expect;
 mock = sinon.mock;
 spy = sinon.spy;
 stub = sinon.stub;
+
+(global as any)['atom'] = {
+  notifications: {
+    addSuccess: stub(),
+    addInfo: stub(),
+    addWarning: stub(),
+    addError: stub(),
+  },
+};
+
+afterEach(() => {
+  (atom.notifications.addSuccess as Stub).reset();
+  (atom.notifications.addInfo as Stub).reset();
+  (atom.notifications.addWarning as Stub).reset();
+  (atom.notifications.addError as Stub).reset();
+});

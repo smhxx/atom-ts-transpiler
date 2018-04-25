@@ -11,7 +11,7 @@ function tryReadFile(fileName: string): string | undefined {
     return fs.readFileSync(fileName).toString();
   } catch (err) {
     // tslint:disable-next-line max-line-length
-    console.error(`Encountered an error while attempting to read module from path ${fileName}:\n\n${err.message}`);
+    atom.notifications.addError(`Encountered an error while attempting to read module from path ${fileName}:\n\n${err.message}`);
   }
   return undefined;
 }
@@ -34,7 +34,8 @@ export function transpile(_: any, fileName: string, opts: Options): TranspiledMo
   const verbose = (opts.verbose === true);
 
   if (verbose) {
-    console.log(`Received call to transpile module ${moduleName} from path ${fileName}.`);
+    // tslint:disable-next-line max-line-length
+    atom.notifications.addInfo(`Received request to transpile TypeScript module ${moduleName} from path ${fileName}.`);
   }
 
   const fileSrc = tryReadFile(fileName);

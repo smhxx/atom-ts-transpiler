@@ -25,12 +25,12 @@ export class Transpiler {
       try {
         const output = ts.transpileModule(fileSrc, opts).outputText;
         if (verbose) {
-          console.log(`Successfully transpiled source file at ${opts.fileName}`);
+          atom.notifications.addSuccess(`Successfully transpiled source file at ${opts.fileName}`);
         }
         return output;
       } catch (err) {
         // tslint:disable-next-line max-line-length
-        console.error(`Encountered an error while attempting to transpile module ${opts.moduleName} from path ${opts.fileName}:\n\n${err.message}`);
+        atom.notifications.addError(`Encountered an error while attempting to transpile module ${opts.moduleName} from path ${opts.fileName}:\n\n${err.message}`);
       }
     }
     return undefined;
@@ -42,7 +42,7 @@ export class Transpiler {
         this.myModule = require(this.dir) as TranspilerModule;
       } catch (err) {
         // tslint:disable-next-line max-line-length
-        console.error(`Failed to load the typescript module from ${this.dir}.\nThis is unusual and probably means your package was not installed correctly. The error encountered was:\n${err.message}`);
+        atom.notifications.addError(`Failed to load the typescript module from ${this.dir}.\nThis is unusual and probably means your package was not installed correctly. The error encountered was:\n${err.message}`);
         this.myModule = null;
       }
     }
@@ -57,7 +57,7 @@ export class Transpiler {
         this.myVersion = packageData.version;
       } catch (err) {
         // tslint:disable-next-line max-line-length
-        console.error(`Failed to read the typescript package.json from ${this.dir}.\nThis is unusual and probably means your package was not installed correctly. The error encountered was:\n${err.message}`);
+        atom.notifications.addError(`Failed to read the typescript package.json from ${this.dir}.\nThis is unusual and probably means your package was not installed correctly. The error encountered was:\n${err.message}`);
         this.myVersion = null;
       }
     }

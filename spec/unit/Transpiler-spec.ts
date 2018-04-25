@@ -1,6 +1,8 @@
 import '../helper';
 import fixtures from '../fixtures';
 import * as path from 'path';
+// re-require Transpiler to reset static class state for isolated testing
+delete require.cache[require.resolve('../../src/Transpiler')];
 import { Transpiler } from '../../src/Transpiler';
 
 describe('Transpiler', () => {
@@ -26,14 +28,12 @@ describe('Transpiler', () => {
     });
 
     it('returns null if the module could not be loaded', () => {
-      const error = stub(console, 'error');
-
       const fixture = fixtures.badTranspilerPackage;
       const transpilerDir = path.join(fixture.index.directory, 'node_modules', 'typescript');
       const transpiler = Transpiler.get(transpilerDir);
       expect(transpiler.module).to.equal(null);
 
-      error.restore();
+      expect(atom.notifications.addError).to.have.been.calledOnce;
     });
 
   });
@@ -47,14 +47,12 @@ describe('Transpiler', () => {
     });
 
     it('returns null if the package.json could not be loaded', () => {
-      const error = stub(console, 'error');
-
       const fixture = fixtures.badTranspilerPackage;
       const transpilerDir = path.join(fixture.index.directory, 'node_modules', 'typescript');
       const transpiler = Transpiler.get(transpilerDir);
       expect(transpiler.version).to.equal(null);
 
-      error.restore();
+      expect(atom.notifications.addError).to.have.been.calledOnce;
     });
 
   });
