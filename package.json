@@ -88,10 +88,6 @@
           "release": "patch"
         },
         {
-          "type": "refactor",
-          "release": "patch"
-        },
-        {
           "type": "docs",
           "scope": "README",
           "release": "patch"
