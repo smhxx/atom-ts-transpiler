@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import * as path from 'path';
 import { PackageConfig, TranspileOptions, TranspilerModule } from './defs';
 
@@ -19,14 +20,22 @@ export class Transpiler {
     return new Transpiler(tsDir);
   }
 
-  public transpile(fileSrc: string, opts: TranspileOptions, verbose?: boolean): string | undefined {
+  // tslint:disable-next-line max-line-length
+  public transpile(filePath: string, opts: TranspileOptions, verbose?: boolean): string | undefined {
     const ts = this.module;
     if (ts !== null) {
-      const output = ts.transpileModule(fileSrc, opts).outputText;
-      if (verbose) {
-        atom.notifications.addSuccess(`Successfully transpiled source file at ${opts.fileName}`);
+      try {
+        const fileSrc = fs.readFileSync(filePath).toString();
+        const output = ts.transpileModule(fileSrc, opts).outputText;
+
+        if (verbose) {
+          atom.notifications.addSuccess(`Successfully transpiled source file at ${opts.fileName}`);
+        }
+
+        return output;
+      } catch (err) {
+        atom.notifications.addFatalError(`Failed to read TypeScript source file from ${filePath}`);
       }
-      return output;
     }
     return undefined;
   }

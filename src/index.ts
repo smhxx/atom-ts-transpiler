@@ -19,27 +19,21 @@ export function getCacheKeyData(_: any, fileName: string, opts: Options, pkg: Pa
 }
 
 export function transpile(_: any, fileName: string, opts: Options): TranspiledModule {
-  const fileExtension = /\.[^.]*$/;
-  const moduleName = path.basename(fileName).replace(fileExtension, '');
-
-  let code: string | undefined;
   const cache = Cache.get(fileName);
   const transpiler = cache.transpiler;
-  if (transpiler !== null) {
-    try {
-      const fileSrc = fs.readFileSync(fileName).toString();
-      const compilerOptions = Object.assign({}, cache.config.compilerOptions, opts.compilerOptions);
-      const finalOpts = {
-        fileName,
-        moduleName,
-        compilerOptions,
-      };
 
-      code = transpiler.transpile(fileSrc, finalOpts, opts.verbose);
-    } catch (err) {
-      // tslint:disable-next-line max-line-length
-      atom.notifications.addFatalError(`Failed to read TypeScript source file at ${fileName}. (ENOENT)`);
-    }
+  let code: string | undefined;
+  if (transpiler !== null) {
+    const fileExtension = /\.[^.]*$/;
+    const moduleName = path.basename(fileName).replace(fileExtension, '');
+    const compilerOptions = Object.assign({}, cache.config.compilerOptions, opts.compilerOptions);
+    const finalOpts = {
+      fileName,
+      moduleName,
+      compilerOptions,
+    };
+
+    code = transpiler.transpile(fileName, finalOpts, opts.verbose);
   }
 
   return { code };
