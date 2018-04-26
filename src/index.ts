@@ -3,8 +3,8 @@ import * as path from 'path';
 import { Cache } from './Cache';
 import { Options, PackageMeta, TranspiledModule } from './defs';
 
-const concatFiles = (pkg: PackageMeta) => (data: string, relPath: string) =>
-  `${data}${fs.readFileSync(path.join(pkg.path, relPath))}`;
+const concatFiles = (basePath: string) => (data: string, relPath: string) =>
+  `${data}${fs.readFileSync(path.join(basePath, relPath))}`;
 
 export function getCacheKeyData(_: any, fileName: string, opts: Options, pkg: PackageMeta): string {
   const cache = Cache.get(fileName);
@@ -13,7 +13,7 @@ export function getCacheKeyData(_: any, fileName: string, opts: Options, pkg: Pa
     data += cache.transpiler.version;
   }
   if (opts.cacheKeyFiles instanceof Array) {
-    data += opts.cacheKeyFiles.reduce(concatFiles(pkg), '');
+    data += opts.cacheKeyFiles.reduce(concatFiles(pkg.path), '');
   }
   return data;
 }
