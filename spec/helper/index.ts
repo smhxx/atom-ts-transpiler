@@ -29,6 +29,7 @@ stub = sinon.stub;
     addInfo: stub(),
     addWarning: stub(),
     addError: stub(),
+    addFatalError: stub(),
   },
 };
 
@@ -37,4 +38,5 @@ afterEach(() => {
   (atom.notifications.addInfo as Stub).reset();
   (atom.notifications.addWarning as Stub).reset();
   (atom.notifications.addError as Stub).reset();
+  (atom.notifications.addFatalError as Stub).reset();
 });

@@ -19,19 +19,14 @@ export class Transpiler {
     return new Transpiler(tsDir);
   }
 
-  public transpile(fileSrc: string, opts: TranspileOptions, verbose: boolean): string | undefined {
+  public transpile(fileSrc: string, opts: TranspileOptions, verbose?: boolean): string | undefined {
     const ts = this.module;
     if (ts !== null) {
-      try {
-        const output = ts.transpileModule(fileSrc, opts).outputText;
-        if (verbose) {
-          atom.notifications.addSuccess(`Successfully transpiled source file at ${opts.fileName}`);
-        }
-        return output;
-      } catch (err) {
-        // tslint:disable-next-line max-line-length
-        atom.notifications.addError(`Encountered an error while attempting to transpile module ${opts.moduleName} from path ${opts.fileName}:\n\n${err.message}`);
+      const output = ts.transpileModule(fileSrc, opts).outputText;
+      if (verbose) {
+        atom.notifications.addSuccess(`Successfully transpiled source file at ${opts.fileName}`);
       }
+      return output;
     }
     return undefined;
   }
@@ -42,7 +37,7 @@ export class Transpiler {
         this.myModule = require(this.dir) as TranspilerModule;
       } catch (err) {
         // tslint:disable-next-line max-line-length
-        atom.notifications.addError(`Failed to load the typescript module from ${this.dir}.\nThis is unusual and probably means your package was not installed correctly. The error encountered was:\n${err.message}`);
+        atom.notifications.addFatalError(`Failed to load the typescript module from ${this.dir}.\nThis is unusual and probably means your package was not installed correctly. The error encountered was:\n${err.message}`);
         this.myModule = null;
       }
     }
@@ -57,7 +52,7 @@ export class Transpiler {
         this.myVersion = packageData.version;
       } catch (err) {
         // tslint:disable-next-line max-line-length
-        atom.notifications.addError(`Failed to read the typescript package.json from ${this.dir}.\nThis is unusual and probably means your package was not installed correctly. The error encountered was:\n${err.message}`);
+        atom.notifications.addFatalError(`Failed to read the typescript package.json from ${this.dir}.\nThis is unusual and probably means your package was not installed correctly. The error encountered was:\n${err.message}`);
         this.myVersion = null;
       }
     }

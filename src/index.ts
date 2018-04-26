@@ -1,20 +1,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { Cache } from './Cache';
-import { Options, PackageMeta, TranspiledModule, TranspileOptions } from './defs';
+import { Options, PackageMeta, TranspiledModule } from './defs';
 
 const concatFiles = (pkg: PackageMeta) => (data: string, relPath: string) =>
   `${data}${fs.readFileSync(path.join(pkg.path, relPath))}`;
-
-function tryReadFile(fileName: string): string | undefined {
-  try {
-    return fs.readFileSync(fileName).toString();
-  } catch (err) {
-    // tslint:disable-next-line max-line-length
-    atom.notifications.addError(`Encountered an error while attempting to read module from path ${fileName}:\n\n${err.message}`);
-  }
-  return undefined;
-}
 
 export function getCacheKeyData(_: any, fileName: string, opts: Options, pkg: PackageMeta): string {
   const cache = Cache.get(fileName);
@@ -31,28 +21,26 @@ export function getCacheKeyData(_: any, fileName: string, opts: Options, pkg: Pa
 export function transpile(_: any, fileName: string, opts: Options): TranspiledModule {
   const fileExtension = /\.[^.]*$/;
   const moduleName = path.basename(fileName).replace(fileExtension, '');
-  const verbose = (opts.verbose === true);
 
-  if (verbose) {
-    // tslint:disable-next-line max-line-length
-    atom.notifications.addInfo(`Received request to transpile TypeScript module ${moduleName} from path ${fileName}.`);
-  }
-
-  const fileSrc = tryReadFile(fileName);
   let code: string | undefined;
-  if (fileSrc !== undefined) {
-    const cache = Cache.get(fileName);
-    const transpiler = cache.transpiler;
-    if (transpiler !== null) {
+  const cache = Cache.get(fileName);
+  const transpiler = cache.transpiler;
+  if (transpiler !== null) {
+    try {
+      const fileSrc = fs.readFileSync(fileName).toString();
       const compilerOptions = Object.assign({}, cache.config.compilerOptions, opts.compilerOptions);
       const finalOpts = {
         fileName,
         moduleName,
         compilerOptions,
-      } as TranspileOptions;
+      };
 
-      code = transpiler.transpile(fileSrc, finalOpts, verbose);
+      code = transpiler.transpile(fileSrc, finalOpts, opts.verbose);
+    } catch (err) {
+      // tslint:disable-next-line max-line-length
+      atom.notifications.addFatalError(`Failed to read TypeScript source file at ${fileName}. (ENOENT)`);
     }
   }
+
   return { code };
 }

@@ -43,7 +43,7 @@ describe('atom-ts-transpiler', () => {
       expect(data).to.contain(JSON.stringify(fixture.config.json));
       expect(data).to.contain(fixture.index.contents);
 
-      expect(atom.notifications.addError).to.have.been.calledOnce;
+      expect(atom.notifications.addFatalError).to.have.been.calledOnce;
     });
 
     // tslint:disable-next-line max-line-length
@@ -77,19 +77,6 @@ describe('atom-ts-transpiler', () => {
       expect(transpileModule).to.have.been.calledWith(fixtures.goodPackage.index.contents);
     });
 
-    it('adds a notification and does not return any code if there are compiler errors', () => {
-      transpileModule.throws(new Error('the message attached to the thrown error'));
-
-      const output = transpile('', fixtures.goodPackage.index.path, {});
-      expect(output).to.be.an('object');
-      expect(output.code).to.be.undefined;
-
-      expect(atom.notifications.addError).to.have.been.calledOnce;
-      expect((atom.notifications.addError as Stub).getCall(0).args[0]).to.contain(
-        'the message attached to the thrown error',
-      );
-    });
-
     it('uses the compiler options specified in tsconfig.json', () => {
       transpile('', fixtures.goodPackage.index.path, {});
       expect(transpileModule).to.have.been.calledOnce;
@@ -109,7 +96,7 @@ describe('atom-ts-transpiler', () => {
       const output = transpile('', filePath, {});
       expect(output).to.deep.equal({ code: undefined });
 
-      expect(atom.notifications.addError).to.have.been.calledOnce;
+      expect(atom.notifications.addFatalError).to.have.been.calledOnce;
     });
 
     it('returns no code if the typescript package could not be resolved', () => {
@@ -123,12 +110,11 @@ describe('atom-ts-transpiler', () => {
       const output = transpile('', fixtures.badTranspilerPackage.index.path, {});
       expect(output).to.deep.equal({ code: undefined });
 
-      expect(atom.notifications.addError).to.have.been.calledOnce;
+      expect(atom.notifications.addFatalError).to.have.been.calledOnce;
     });
 
-    it('adds an \'info\' notification if the verbose option is set to true', () => {
+    it('adds a \'success\' notification when done if the verbose option is set to true', () => {
       transpile('', fixtures.goodPackage.index.path, { verbose: true });
-      expect(atom.notifications.addInfo).to.have.been.calledOnce;
       expect(atom.notifications.addSuccess).to.have.been.calledOnce;
     });
 

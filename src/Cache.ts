@@ -61,7 +61,7 @@ export class Cache {
         this.myTranspiler = Transpiler.get(typescriptDir);
       } else {
         // tslint:disable-next-line max-line-length
-        atom.notifications.addError(`Could not resolve the TypeScript module associated with ${this.dir}\nIs it listed as a dependency of your package?`);
+        atom.notifications.addFatalError(`Could not resolve the TypeScript module associated with ${this.dir}\n\nIs it listed as a dependency of your package?`);
         this.myTranspiler = null;
       }
     }

@@ -33,7 +33,7 @@ describe('Transpiler', () => {
       const transpiler = Transpiler.get(transpilerDir);
       expect(transpiler.module).to.equal(null);
 
-      expect(atom.notifications.addError).to.have.been.calledOnce;
+      expect(atom.notifications.addFatalError).to.have.been.calledOnce;
     });
 
   });
@@ -52,7 +52,7 @@ describe('Transpiler', () => {
       const transpiler = Transpiler.get(transpilerDir);
       expect(transpiler.version).to.equal(null);
 
-      expect(atom.notifications.addError).to.have.been.calledOnce;
+      expect(atom.notifications.addFatalError).to.have.been.calledOnce;
     });
 
   });
