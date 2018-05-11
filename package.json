@@ -35,7 +35,7 @@
     "@types/mocha": "5.2.0",
     "@types/node": "9.6.15",
     "@types/sinon": "4.3.3",
-    "@types/sinon-chai": "2.7.30",
+    "@types/sinon-chai": "2.7.31",
     "atom-mocha-test-runner": "1.2.0",
     "chai": "4.1.2",
     "chai-as-promised": "7.1.1",
