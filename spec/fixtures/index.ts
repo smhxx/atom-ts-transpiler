@@ -34,7 +34,7 @@ class FixtureFile {
 
 type FixturePackage = Readonly<Record<string, FixtureFile>>;
 
-function getFixtureFiles(dir: string, files: Readonly<Record<string,string>>): FixturePackage {
+function getFixtureFiles(dir: string, files: Readonly<Record<string, string>>): FixturePackage {
   const newFiles = {} as Record<string, FixtureFile>;
   const fullDir = path.resolve(baseDir, dir);
   newFiles.package = new FixtureFile(fullDir, 'package.json');
