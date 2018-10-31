@@ -7,7 +7,7 @@ workspace(name="integration_tests")
 git_repository(
   name = "atom-stable",
   remote = "https://github.com/atom/atom.git",
-  tag = "v1.32.0",
+  tag = "v1.32.1",
 )
 
 git_repository(
