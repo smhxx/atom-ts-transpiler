@@ -39,7 +39,7 @@
     "atom-mocha-test-runner": "1.2.0",
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
-    "mocha": "6.2.1",
+    "mocha": "6.2.2",
     "nyc": "14.1.1",
     "semantic-release": "15.13.24",
     "sinon": "7.5.0",
