@@ -6,7 +6,7 @@
   "author": "smhxx <captaintrek@gmail.com>",
   "main": "src/index.ts",
   "dependencies": {
-    "@types/atom": "1.36.2",
+    "@types/atom": "1.40.0",
     "atom-ts-transpiler": "file:../..",
     "typescript": "3.8.2"
   },
