@@ -1,4 +1,0 @@
---require ./spec/helper/setup.ts
---reporter spec
---recursive
-spec/unit/**/*-spec.ts
