@@ -17,13 +17,13 @@
   },
   "scripts": {
     "build": "tsc -p src/tsconfig.json",
-    "coverage": "nyc mocha --opts spec/mocha.opts",
+    "coverage": "nyc mocha",
     "deploy": "semantic-release",
     "examples": "node examples/verify.js",
     "lint": "tslint -p src",
     "lintspec": "tslint -p spec",
     "prepublishOnly": "npm run build",
-    "test": "mocha --opts spec/mocha.opts"
+    "test": "mocha"
   },
   "peerDependencies": {
     "typescript": "^1.6.0 || ^2.0.0 || ^3.0.0 || ^4.0.0"
