@@ -30,5 +30,10 @@
         "ignoreUnstable": false
       }
     ]
+  },
+  "packageRules": {
+    "packageNames": [ "typescript" ],
+    "updateTypes": [ "major" ],
+    "commitMessage": "fix(package): update peerDependency to accept typescript ^{{newVersion}}"
   }
 }
