@@ -8,7 +8,7 @@
   "dependencies": {
     "@types/atom": "1.40.10",
     "atom-ts-transpiler": "file:../..",
-    "typescript": "4.2.4"
+    "typescript": "4.3.2"
   },
   "atomTranspilers": [
     {
